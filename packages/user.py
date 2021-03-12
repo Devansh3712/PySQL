@@ -1,5 +1,6 @@
 '''
-module for user authentication
+module for user and data
+authentication
 '''
 
 import mysql.connector as mc
@@ -28,3 +29,37 @@ class Database:
 
         except:
             return False
+
+    #authentication of existing databases
+    def auth_db(self, database: str) -> bool:
+
+        self.cursor.execute("show databases")
+        #list of all databases of user
+        result = self.cursor.fetchall()
+
+        for db in result:
+
+            if (db[0] == database):
+                self.cursor.execute(f"use {database}")
+                return True
+
+        return False
+
+    #authentication of existing tables
+    def auth_table(self, table: str) -> bool:
+
+        self.cursor.execute("show tables")
+        #list of all tables in selected databse
+        result = self.cursor.fetchall()
+
+        for data in result:
+
+            if (data[0] = table):
+                return True
+
+        return False
+
+'''
+PySQL
+Devansh Singh, 2021
+'''
