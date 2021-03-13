@@ -2,30 +2,36 @@
 module for user and data
 authentication
 '''
+
 try:
     import mysql.connector as mc
 
 except:
-    print("'auth.py' module not setup")
-    exit()
+    raise Exception("'auth' module not setup")
 
 class Database:
 
     '''
-    class for maintaining and authencating user,
+    class for maintaining and authenticating user,
     database and table credentials
 
-    :authenticate:  ->  authenticate the username and password
-                        of MySQL user
+    :authenticate:  ->  authenticate the username, password
+                        and selected database of MySQL user
+                        [returns boolean value]
+
     :auth_db:       ->  authenticate whether the input database
                         exists or in MySQL server
+                        [returns boolean value]
+
     :auth_table:    ->  authenticate whether the input table
                         exists in the selected database
+                        [returns boolean value]
     '''
     
-    def __init__(self, username: str, password: str):
+    def __init__(self, username: str, password: str, database: str):
         self.uname = username
         self.passw = password
+        self.db = database
 
     def authenticate(self) -> bool:
 
@@ -42,10 +48,16 @@ class Database:
 
         try:
             #initialize connection with MySQL
-            self.connection = mc.connect(host = "localhost", user = f"{self.uname}", password = f"{self.passw}")
+            self.connection = mc.connect(
+                host = "localhost",
+                user = f"{self.uname}",
+                password = f"{self.passw}",
+                database = f"{self.db}",
+                autocommit = True
+            )
 
             if (self.connection.is_connected()):
-                #initialize cursor object for execution
+                #initialize cursor object for execution of commands
                 self.cursor = self.connection.cursor(buffered = True)
                 return True
 
@@ -73,7 +85,6 @@ class Database:
         for db in result:
 
             if (db[0] == database):
-                self.cursor.execute(f"use {database}")
                 return True
 
         return False
@@ -90,12 +101,12 @@ class Database:
         '''
 
         self.cursor.execute("show tables")
-        #list of all tables in selected databse
+        #list of all tables in selected database
         result = self.cursor.fetchall()
 
         for data in result:
 
-            if (data[0] = table):
+            if (data[0] == table):
                 return True
 
         return False
