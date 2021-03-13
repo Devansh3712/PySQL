@@ -61,8 +61,10 @@ class DDL:
         self.uname = username
         self.passw = password
         self.db = database
+        #create a `Database` class instance
+        self.const = auth.Database(self.uname, self.passw, self.db)
         #authenticate data using auth module
-        authenticate = auth.Database(self.uname, self.passw, self.db).authenticate()
+        authenticate = self.const.authenticate()
         
         if (authenticate == True):
             #initialize connection with MySQL server and cursor object for execution of commands
@@ -108,7 +110,7 @@ class DDL:
         '''
 
         #authenticate whether database exists or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_db(database)
+        authenticate = self.const.auth_db(database)
         if (authenticate == True):
 
             #close the current cursor object and MySQL connection
@@ -139,7 +141,7 @@ class DDL:
         '''
 
         #authenticate whether database exists or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_db(database)
+        authenticate = self.const.auth_db(database)
         if (authenticate == True):
 
             query = f"drop database {database}"
@@ -184,7 +186,7 @@ class DDL:
         '''
 
         #authenticate whether table name exists or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
+        authenticate = self.const.auth_table(table)
         if (authenticate == True):
 
             query = f"drop table {table}"
@@ -203,7 +205,7 @@ class DDL:
         '''
 
         #authenticate whether table name exists or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
+        authenticate = self.const.auth_table(table)
         if (authenticate == True):
 
             query = f"truncate table {table}"
@@ -224,7 +226,7 @@ class DDL:
         '''
 
         #authenticate whether table name exists or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
+        authenticate = self.const.auth_table(table)
         if (authenticate == True):
 
             query = f"desc {table}"
@@ -260,7 +262,7 @@ class DDL:
         '''
 
         #authenticate whether table name exists or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
+        authenticate = self.const.auth_table(table)
         if (authenticate == True):
 
             #create `Alter` class instance
@@ -317,6 +319,8 @@ class Alter:
         self.passw = password
         self.db = database
         self.table = table
+        #create a `Database` class instance
+        self.const = auth.Database(self.uname, self.passw, self.db)
 
         self.connection = mc.connect(
             host = "localhost",
@@ -352,7 +356,7 @@ class Alter:
         '''
 
         #authenticate whether column details exist in table or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table_columns(self.table, column)
+        authenticate = self.const.auth_table_columns(self.table, column)
         if (authenticate == True):
 
             query = f"alter table {self.table} drop column {column}"
@@ -372,7 +376,7 @@ class Alter:
 
         auth_column = column.split(' ')
         #authenticate whether column details exist in table or not
-        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table_columns(self.table, auth_column[0])
+        authenticate = self.const.auth_table_columns(self.table, auth_column[0])
         if (authenticate == True):
 
             query = f"alter table {self.table} modify column {column}"
