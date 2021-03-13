@@ -15,7 +15,7 @@ class DDL:
 
     '''
     class for implementation of Data Definition Language
-    based commands (create, drop, alter, desc)
+    based commands (create, drop, alter)
 
     :create_database:   ->  create a new database in the
                             MySQL server by executing the
@@ -54,20 +54,15 @@ class DDL:
         authenticate = auth.Database(self.uname, self.passw, self.db).authenticate()
         
         if (authenticate == True):
-
-            if (authenticate_db == True):
-                #initialize connection with MySQL server and cursor object for execution of commands
-                self.connection = mc.connect(
-                    host = "localhost",
-                    user = f"{self.uname}",
-                    password = f"{self.passw}",
-                    database = f"{self.db}",
-                    autocommit = True
-                )
-                self.cursor = self.connection.cursor(buffered = True)
-
-            else:
-                raise Exception("Database not found")
+            #initialize connection with MySQL server and cursor object for execution of commands
+            self.connection = mc.connect(
+                host = "localhost",
+                user = f"{self.uname}",
+                password = f"{self.passw}",
+                database = f"{self.db}",
+                autocommit = True
+            )
+            self.cursor = self.connection.cursor(buffered = True)
 
         else:
             raise Exception("User could not be authenticated")
