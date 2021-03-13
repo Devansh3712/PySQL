@@ -158,6 +158,7 @@ class DDL:
             self.cursor.execute(query)
             desc_result = self.cursor.fetchall()
 
+            #tabulate the table structure
             result = tabulate.tabulate(
                 desc_result,
                 headers = [
@@ -174,6 +175,14 @@ class DDL:
 
         else:
             return False
+
+    def alter_table(self, table: str, query: str) -> bool:
+
+        #authenticate whether table name exists or not
+        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
+        if (authenticate == True):
+
+            auth_column = auth.Database(self.uname, self.passw, self.db).auth_table_columns(table)
 
 '''
 PySQL
