@@ -20,29 +20,39 @@ class DDL:
     :create_database:   ->  create a new database in the
                             MySQL server by executing the
                             SQL query `create database <db_name>`
+                            [returns boolean value]
 
     :drop_database:     ->  if the `database` name is valid,
                             executes the SQL query `drop database <db_name>`
                             deleting the database from server
+                            [returns boolean value]
 
     :use_database:      ->  change the current database with a new
                             database by closing the current cursor
                             object and MySQL connection and initializing
                             new `self.connection`, `self.cursor` and
                             `self.db`
+                            [returns False if database isn't authenticated]
 
     :create_table:      ->  takes comma separated string arguments
                             and executes the SQL query `create table <table_name>`
                             creating a table in the chosen database
+                            [returns boolean value]
 
     :drop_table:        ->  if the `table` name is valid, executes
                             the SQL query `drop table <table_name>` 
                             deleting the table from chosen database
+                            [returns boolean value]
+
+    :truncate_table:    ->  delete all the data in the provided table,
+                            executing the SQL query `truncate table <table_name>`
+                            [returns boolean value]
 
     :desc_table:        ->  if the `table` name is valid, executes
                             the SQL query `desc <table_name>` returning
                             the structure of the provided table,
                             formatted using tabulate
+                            [returns formatted table else returns False]
     '''
 
     def __init__(self, username: str, password: str, database: str):
@@ -69,6 +79,12 @@ class DDL:
 
     def create_database(self, database: str) -> bool:
 
+        '''
+        creates a new database in the MySQL server of the
+        local machine, executing the SQL query
+        `create database <db_name>`
+        '''
+
         try:
             query = f"create database {database}"
             self.cursor.execute(query)
@@ -78,6 +94,17 @@ class DDL:
             return False
 
     def use_database(self, database: str):
+
+        '''
+        change the current database, if the input database
+        exists and is valid else returns False
+
+        it authenticates the input database, if authentication
+        returns True, current MySQL connection and cursor object
+        are closed, value of `self.db` is changed and a new
+        MySQL connection `self.connection` & cursor object
+        `self.cursor` are initialized with `self.db`
+        '''
 
         #authenticate whether database exists or not
         authenticate = auth.Database(self.uname, self.passw, self.db).auth_db(database)
@@ -100,9 +127,15 @@ class DDL:
             self.cursor = self.connection.cursor(buffered = True)
 
         else:
-            raise Exception("Unable to change database")
+            return False
 
     def drop_database(self, database: str) -> bool:
+
+        '''
+        drops/deletes the input database in the MySQL Server,
+        if it exists and is valid, executing the SQL query 
+        `drop database <db_name>`
+        '''
 
         #authenticate whether database exists or not
         authenticate = auth.Database(self.uname, self.passw, self.db).auth_db(database)
@@ -116,6 +149,12 @@ class DDL:
             return False
 
     def create_table(self, *args) -> bool:
+
+        '''
+        creates a table in the current database with 
+        provided arguments in the form of SQL statement,
+        executing the SQL query `create table <table_name> (data)`
+        '''
 
         try:
             #statement with column parameters for MySQL table
@@ -137,6 +176,12 @@ class DDL:
 
     def drop_table(self, table: str) -> bool:
 
+        '''
+        drops/deletes the input table in the current
+        database if table exists and is valid,
+        executing the SQL query `drop table <table_name>`
+        '''
+
         #authenticate whether table name exists or not
         authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
         if (authenticate == True):
@@ -148,7 +193,34 @@ class DDL:
         else:
             return False
 
+    def truncate_table(self, table: str) -> bool:
+
+        '''
+        deletes the data of the input table, if the
+        table exists and is valid, executing the
+        SQL query `truncate table <table_name>`
+        '''
+
+        #authenticate whether table name exists or not
+        authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
+        if (authenticate == True):
+
+            query = f"truncate table {table}"
+            self.cursor.execute(query)
+            return True
+
+        else:
+            return False
+
     def desc_table(self, table: str):
+
+        '''
+        returns the structure of the input table,
+        formatted using `tabulate` module if the
+        table exists and is valid
+
+        representation of the SQL query `desc <table_name>`
+        '''
 
         #authenticate whether table name exists or not
         authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
@@ -176,13 +248,32 @@ class DDL:
         else:
             return False
 
-    def alter_table(self, table: str, query: str) -> bool:
+    def alter_table(self, table: str, *args) -> bool:
 
         #authenticate whether table name exists or not
         authenticate = auth.Database(self.uname, self.passw, self.db).auth_table(table)
         if (authenticate == True):
 
             auth_column = auth.Database(self.uname, self.passw, self.db).auth_table_columns(table)
+
+
+class Alter:
+
+    def __init__(self, username: str, password: str, database: str, table: str):
+
+        self.uname = username
+        self.passw = password
+        self.db = database
+        self.table = table
+
+        self.connection = mc.connect(
+            host = "localhost",
+            user = f"{self.uname}",
+            password = f"{self.passw}",
+            database = f"{self.db}",
+            autocommit = True
+        )
+        self.cursor = self.connection.cursor(buffered = True)
 
 '''
 PySQL

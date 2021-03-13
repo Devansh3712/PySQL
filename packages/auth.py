@@ -198,6 +198,7 @@ class Database:
                     except:
                         pass
 
+                    #compare column types
                     if (type_dict[column[1]].lower() == query[1].lower()):
                         return True
             
