@@ -92,7 +92,7 @@ class Database:
         '''
 
         authenticate = Database(self.uname, self.passw, self.db).authenticate()
-        if (authenticate == True):
+        if (authenticate is True):
 
             Database.cursor.execute("show databases")
             #list of all databases of user
@@ -120,7 +120,7 @@ class Database:
         '''
 
         authenticate = Database(self.uname, self.passw, self.db).authenticate()
-        if (authenticate == True):
+        if (authenticate is True):
 
             Database.cursor.execute("show tables")
             #list of all tables in selected database
@@ -149,7 +149,7 @@ class Database:
         '''
 
         authenticate = Database(self.uname, self.passw, self.db).authenticate()
-        if (authenticate == True):
+        if (authenticate is True):
 
             #split column name and type of column
             query = query.split(' ')
