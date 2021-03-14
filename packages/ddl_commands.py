@@ -1,7 +1,7 @@
-'''
+"""
 module for data-definition
 language based commands
-'''
+"""
 
 try:
     import mysql.connector as mc
@@ -9,11 +9,11 @@ try:
     import auth
 
 except:
-    raise Exception("'ddl_commands' modules not setup")
+    raise Exception("'ddl_commands' module not setup")
+
 
 class DDL:
-
-    '''
+    """
     class for implementation of Data Definition Language
     based commands (create, drop, alter)
 
@@ -54,20 +54,20 @@ class DDL:
                             name is authenticated, alters the structure
                             of the input table in the current database
                             [returns boolean value]
-    '''
+    """
 
     def __init__(self, username: str, password: str, database: str):
-        
+
         self.uname = username
         self.passw = password
         self.db = database
-        #create a `Database` class instance
+        # create a `Database` class instance
         self.const = auth.Database(self.uname, self.passw, self.db)
-        #authenticate data using auth module
+        # authenticate data using auth module
         authenticate = self.const.authenticate()
-        
+
         if (authenticate is True):
-            #initialize connection with MySQL server and cursor object for execution of commands
+            # initialize connection with MySQL server and cursor object for execution of commands
             self.connection = mc.connect(
                 host = "localhost",
                 user = f"{self.uname}",
@@ -81,13 +81,11 @@ class DDL:
             raise Exception("User could not be authenticated")
 
     def create_database(self, database: str) -> bool:
-
-        '''
-        creates a new database in the MySQL server of the
+        """
+        Creates a new database in the MySQL server of the
         local machine, executing the SQL query
         `create database <db_name>`
-        '''
-
+        """
         try:
             query = f"create database {database}"
             self.cursor.execute(query)
@@ -96,10 +94,9 @@ class DDL:
         except:
             return False
 
-    def use_database(self, database: str):
-
-        '''
-        change the current database, if the input database
+    def use_database(self, database: str) -> bool:
+        """
+        Change the current database, if the input database
         exists and is valid else returns False
 
         it authenticates the input database, if authentication
@@ -107,19 +104,18 @@ class DDL:
         are closed, value of `self.db` is changed and a new
         MySQL connection `self.connection` & cursor object
         `self.cursor` are initialized with `self.db`
-        '''
-
-        #authenticate whether database exists or not
+        """
+        # authenticate whether database exists or not
         authenticate = self.const.auth_db(database)
         if (authenticate is True):
 
-            #close the current cursor object and MySQL connection
+            # close the current cursor object and MySQL connection
             self.cursor.close()
             self.connection.close()
-            #change the value of `self.db`
+            # change the value of `self.db`
             self.db = database
 
-            #create new connection with MySQL server and cursor object
+            # create new connection with MySQL server and cursor object
             self.connection = mc.connect(
                 host = "localhost",
                 user = f"{self.uname}",
@@ -129,18 +125,18 @@ class DDL:
             )
             self.cursor = self.connection.cursor(buffered = True)
 
+            return True
+
         else:
             return False
 
     def drop_database(self, database: str) -> bool:
-
-        '''
-        drops/deletes the input database in the MySQL Server,
+        """
+        Drops/deletes the input database in the MySQL Server,
         if it exists and is valid, executing the SQL query 
         `drop database <db_name>`
-        '''
-
-        #authenticate whether database exists or not
+        """
+        # authenticate whether database exists or not
         authenticate = self.const.auth_db(database)
         if (authenticate is True):
 
@@ -152,21 +148,19 @@ class DDL:
             return False
 
     def create_table(self, *args) -> bool:
-
-        '''
-        creates a table in the current database with 
+        """
+        Creates a table in the current database with 
         provided arguments in the form of SQL statement,
         executing the SQL query `create table <table_name> (data)`
-        '''
-
+        """
         try:
-            #statement with column parameters for MySQL table
+            # statement with column parameters for MySQL table
             statement = '('
             for num in range (1, len(args)):
 
                 if (num == len(args) - 1):
                     statement += args[num] + ')'
-                
+
                 else:
                     statement += args[num] + ', '
 
@@ -178,14 +172,12 @@ class DDL:
             return False
 
     def drop_table(self, table: str) -> bool:
-
-        '''
-        drops/deletes the input table in the current
+        """
+        Drops/deletes the input table in the current
         database if table exists and is valid,
         executing the SQL query `drop table <table_name>`
-        '''
-
-        #authenticate whether table name exists or not
+        """
+        # authenticate whether table name exists or not
         authenticate = self.const.auth_table(table)
         if (authenticate is True):
 
@@ -197,14 +189,12 @@ class DDL:
             return False
 
     def truncate_table(self, table: str) -> bool:
-
-        '''
-        deletes the data of the input table, if the
+        """
+        Deletes the data of the input table, if the
         table exists and is valid, executing the
         SQL query `truncate table <table_name>`
-        '''
-
-        #authenticate whether table name exists or not
+        """
+        # authenticate whether table name exists or not
         authenticate = self.const.auth_table(table)
         if (authenticate is True):
 
@@ -216,16 +206,14 @@ class DDL:
             return False
 
     def desc_table(self, table: str):
-
-        '''
-        returns the structure of the input table,
+        """
+        Returns the structure of the input table,
         formatted using `tabulate` module if the
         table exists and is valid
 
         representation of the SQL query `desc <table_name>`
-        '''
-
-        #authenticate whether table name exists or not
+        """
+        # authenticate whether table name exists or not
         authenticate = self.const.auth_table(table)
         if (authenticate is True):
 
@@ -233,7 +221,7 @@ class DDL:
             self.cursor.execute(query)
             desc_result = self.cursor.fetchall()
 
-            #tabulate the table structure
+            # tabulate the table structure
             result = tabulate.tabulate(
                 desc_result,
                 headers = [
@@ -252,50 +240,50 @@ class DDL:
             return False
 
     def alter_table(self, table: str, *args) -> bool:
-
-        '''
-        alters the content of the input table, if
+        """
+        Alters the content of the input table, if
         the table exists and the column name is valid
 
         option for alter table are `add`, `modify column`
         and `drop_column`, using the `Alter` class
-        '''
-
-        #authenticate whether table name exists or not
+        """
+        # authenticate whether table name exists or not
         authenticate = self.const.auth_table(table)
         if (authenticate is True):
 
-            #create `Alter` class instance
+            # create `Alter` class instance
             const = Alter(self.uname, self.passw, self.db, table)
-            
+
             if (args[0] == "add"):
-                if (const.add_column(args[1]) is True):
+                if (const.add_column(args[1]) == True):
                     return True
-                
+
                 else:
                     return False
 
             elif (args[0] == "modify"):
-                if (const.modify_column(args[1]) is True):
+                if (const.modify_column(args[1]) == True):
                     return True
                 
                 else:
                     return False
 
             elif (args[0] == "drop"):
-                if (const.drop_column(args[1]) is True):
+                if (const.drop_column(args[1]) == True):
                     return True
-                
+
                 else:
                     return False
 
             else:
                 return False
 
+        else:
+            return False
+
 
 class Alter:
-
-    '''
+    """
     class for implementation of variations of `DDL.alter_table`
     command (add, modify column, drop column)
 
@@ -311,7 +299,7 @@ class Alter:
                         table if the name and the type of the
                         column are valid
                         [returns boolean value]
-    '''
+    """
 
     def __init__(self, username: str, password: str, database: str, table: str):
 
@@ -319,7 +307,7 @@ class Alter:
         self.passw = password
         self.db = database
         self.table = table
-        #create a `Database` class instance
+        # create a `Database` class instance
         self.const = auth.Database(self.uname, self.passw, self.db)
 
         self.connection = mc.connect(
@@ -332,13 +320,11 @@ class Alter:
         self.cursor = self.connection.cursor(buffered = True)
 
     def add_column(self, column: str) -> bool:
-
-        '''
-        adds the input column into the current
+        """
+        Adds the input column into the current
         table if the column name is valid, using
         the SQL query `alter table <table_name> add <column_name>`
-        '''
-
+        """
         try:
             query = f"alter table {self.table} add {column}"
             self.cursor.execute(query)
@@ -348,14 +334,12 @@ class Alter:
             return False
 
     def drop_column(self, column: str) -> bool:
-
-        '''
-        drops/deletes the input column from the current
+        """
+        Drops/deletes the input column from the current
         table if the column name is valid, using the
         SQL query `alter table <table_name> drop column <column_name>` 
-        '''
-
-        #authenticate whether column details exist in table or not
+        """
+        # authenticate whether column details exist in table or not
         authenticate = self.const.auth_table_columns(self.table, column)
         if (authenticate is True):
 
@@ -367,15 +351,13 @@ class Alter:
             return False
 
     def modify_column(self, column: str) -> bool:
-
-        '''
-        modifies the input column name along with input
+        """
+        Modifies the input column name along with input
         column value type if column name is valid, using
         the SQL query `alter table <table_name> modify column <column_name> <value>`
-        '''
-
+        """
         auth_column = column.split(' ')
-        #authenticate whether column details exist in table or not
+        # authenticate whether column details exist in table or not
         authenticate = self.const.auth_table_columns(self.table, auth_column[0])
         if (authenticate is True):
 
@@ -386,7 +368,8 @@ class Alter:
         else:
             return False
 
-'''
+
+"""
 PySQL
 Devansh Singh, 2021
-'''
+"""

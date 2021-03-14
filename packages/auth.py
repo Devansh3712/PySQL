@@ -1,7 +1,7 @@
-'''
+"""
 module for user and data
 authentication
-'''
+"""
 
 try:
     import mysql.connector as mc
@@ -9,9 +9,9 @@ try:
 except:
     raise Exception("'auth' module not setup")
 
-class Database:
 
-    '''
+class Database:
+    """
     class for maintaining and authenticating user,
     database and table credentials
 
@@ -31,15 +31,13 @@ class Database:
                             and datatype exist in the selected
                             table
                             [returns boolean value]
-    '''
+    """
 
     def __init__(self, username: str, password: str, database: str):
-
-        '''
-        initialize connection and cursor object as `NoneType`
+        """
+        Initialize connection and cursor object as `NoneType`
         so that its value can change when authenticate() is called
-        '''
-
+        """
         self.uname = username
         self.passw = password
         self.db = database
@@ -47,9 +45,8 @@ class Database:
         Database.cursor = None
 
     def authenticate(self) -> bool:
-
-        '''
-        connect to the MySQL server on the local machine
+        """
+        Connect to the MySQL server on the local machine
         with the initialized `self.uname` and `self.passw`
 
         if username or password is wrong/invalid or it
@@ -57,10 +54,9 @@ class Database:
 
         else if connection is made, a cursor object is
         initialized which is used to execute SQL commands
-        '''
-
+        """
         try:
-            #initialize connection with MySQL
+            # initialize connection with MySQL
             Database.connection = mc.connect(
                 host = "localhost",
                 user = f"{self.uname}",
@@ -70,7 +66,7 @@ class Database:
             )
 
             if (Database.connection.is_connected()):
-                #initialize cursor object for execution of commands
+                # initialize cursor object for execution of commands
                 Database.cursor = Database.connection.cursor(buffered = True)
                 return True
 
@@ -81,21 +77,19 @@ class Database:
             return False
 
     def auth_db(self, database: str) -> bool:
-
-        '''
-        check whether the provided database exists
+        """
+        Check whether the provided database exists
         or not in the MySQL server
 
         it generates a list of tuples containing all
         databases in MySQL server, and if input
         database is in the list, returns True
-        '''
-
+        """
         authenticate = Database(self.uname, self.passw, self.db).authenticate()
         if (authenticate is True):
 
             Database.cursor.execute("show databases")
-            #list of all databases of user
+            # list of all databases of user
             result = Database.cursor.fetchall()
 
             for db in result:
@@ -109,21 +103,19 @@ class Database:
             return False
 
     def auth_table(self, table: str) -> bool:
-
-        '''
-        check whether the provided table exists
+        """
+        Check whether the provided table exists
         or not in the selected database
 
         it generates a list of tuples containing all
         tables in the selected database, and if input
         table is in the list, returns True
-        '''
-
+        """
         authenticate = Database(self.uname, self.passw, self.db).authenticate()
         if (authenticate is True):
 
             Database.cursor.execute("show tables")
-            #list of all tables in selected database
+            # list of all tables in selected database
             result = Database.cursor.fetchall()
 
             for data in result:
@@ -137,37 +129,36 @@ class Database:
             return False
 
     def auth_table_columns(self, table: str, query: str) -> bool:
-
-        '''
-        check whether the provided table has the
+        """
+        Check whether the provided table has the
         given column as a parameter and its
         description matches
 
         it generates a list of tuples containing
         structure of the table, and if the column name
         and type match, returns True
-        '''
-
+        """
         authenticate = Database(self.uname, self.passw, self.db).authenticate()
         if (authenticate is True):
 
-            #split column name and type of column
+            # split column name and type of column
             query = query.split(' ')
             Database.cursor.execute(f"select * from {table}")
-            #contains description of all columns in the table
+            # contains description of all columns in the table
             result = Database.cursor.description
 
             for column in result:
-                
+
                 if (column[0].lower() == query[0].lower()):
                     return True
-            
+
             return False
-        
+
         else:
             return False
 
-'''
+
+"""
 PySQL
 Devansh Singh, 2021
-'''
+"""
