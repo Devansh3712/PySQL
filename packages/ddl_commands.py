@@ -255,21 +255,21 @@ class DDL:
             const = Alter(self.uname, self.passw, self.db, table)
 
             if (args[0] == "add"):
-                if (const.add_column(args[1]) == True):
+                if (const.add_column(args[1]) is True):
                     return True
 
                 else:
                     return False
 
             elif (args[0] == "modify"):
-                if (const.modify_column(args[1]) == True):
+                if (const.modify_column(args[1]) is True):
                     return True
                 
                 else:
                     return False
 
             elif (args[0] == "drop"):
-                if (const.drop_column(args[1]) == True):
+                if (const.drop_column(args[1]) is True):
                     return True
 
                 else:
