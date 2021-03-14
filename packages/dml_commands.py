@@ -1,7 +1,7 @@
-'''
+"""
 module for data-manipulation
 language based commands
-'''
+"""
 
 try:
     import mysql.connector as mc
