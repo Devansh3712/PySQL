@@ -153,7 +153,7 @@ class Database:
 
             #split column name and type of column
             query = query.split(' ')
-            Database.cursor.execute("select * from {table}")
+            Database.cursor.execute(f"select * from {table}")
             #contains description of all columns in the table
             result = Database.cursor.description
 
