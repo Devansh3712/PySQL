@@ -30,7 +30,7 @@ class DDL:
                             object and MySQL connection and initializing
                             new `self.connection`, `self.cursor` and
                             `self.db`
-                            [returns False if database isn't authenticated]
+                            [returns boolean value]
 
     :create_table:      ->  takes comma separated string arguments,
                             converting them into SQL statements and
