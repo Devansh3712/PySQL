@@ -74,15 +74,13 @@ class DML:
 
                 result = tabulate.tabulate(
                     select_result,
-                    headers = [
-                        data for data in table_columns
-                    ],
+                    headers = [data for data in table_columns],
                     tablefmt = "psql"
                 )
                 return result
 
             else:
-                
+
                 query = f"select {columns} from {self.table} where {args}"
                 self.cursor.execute(query)
                 select_result = self.cursor.fetchall()
@@ -91,9 +89,7 @@ class DML:
 
                 result = tabulate.tabulate(
                     select_result,
-                    headers = [
-                        data for data in table_columns
-                    ],
+                    headers = [data for data in table_columns],
                     tablefmt = "psql"
                 )
                 return result
