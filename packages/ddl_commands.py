@@ -152,6 +152,8 @@ class DDL:
         Creates a table in the current database with 
         provided arguments in the form of SQL statement,
         executing the SQL query `create table <table_name> (data)`
+
+        args    ->  provide column names and datatypes
         """
         try:
             # statement with column parameters for MySQL table
