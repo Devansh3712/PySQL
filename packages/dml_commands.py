@@ -74,7 +74,7 @@ class DML:
 
                 result = tabulate.tabulate(
                     select_result,
-                    headers = [data for data in table_columns],
+                    headers = list(table_columns),
                     tablefmt = "psql"
                 )
                 return result
@@ -89,7 +89,7 @@ class DML:
 
                 result = tabulate.tabulate(
                     select_result,
-                    headers = [data for data in table_columns],
+                    headers = list(table_columns),
                     tablefmt = "psql"
                 )
                 return result
