@@ -6,7 +6,7 @@ language based commands
 try:
     import mysql.connector as mc
     import tabulate
-    import auth
+    import packages.auth as auth
 
 except:
     raise Exception("'ddl_commands' module not setup")
@@ -147,7 +147,7 @@ class DDL:
         else:
             return False
 
-    def create_table(self, *args) -> bool:
+    def create_table(self, args: list) -> bool:
         """
         Creates a table in the current database with 
         provided arguments in the form of SQL statement,
@@ -157,16 +157,16 @@ class DDL:
         """
         try:
             # statement with column parameters for MySQL table
-            statement = '('
+            statement = ""
             for num in range (1, len(args)):
 
                 if (num == len(args) - 1):
-                    statement += args[num] + ')'
+                    statement += args[num]
 
                 else:
-                    statement += args[num] + ', '
+                    statement += args[num] + ", "
 
-            query = f"create table {args[0]} {statement}"
+            query = f"create table {args[0]} ({statement})"
             self.cursor.execute(query)
             return True
 
@@ -241,7 +241,7 @@ class DDL:
         else:
             return False
 
-    def alter_table(self, table: str, *args) -> bool:
+    def alter_table(self, table: str, args: list) -> bool:
         """
         Alters the content of the input table, if
         the table exists and the column name is valid

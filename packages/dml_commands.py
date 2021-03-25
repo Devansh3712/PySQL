@@ -5,7 +5,7 @@ language based commands
 
 try:
     import mysql.connector as mc
-    import auth
+    import packages.auth as auth
     import tabulate
 
 except:
