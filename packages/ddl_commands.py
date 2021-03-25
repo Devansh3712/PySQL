@@ -17,11 +17,19 @@ class DDL:
     class for implementation of Data Definition Language
     based commands (create, drop, alter)
 
+    :show_databases:    ->  returns all available databases
+                            in the local MySQL server
+                            [returns formatted result else False]
+
+    :show_tables:       ->  returns all available tables in the
+                            current database
+                            [returns formatted result else False]
+
     :create_database:   ->  create a new database in the
                             MySQL server
                             [returns boolean value]
 
-    :drop_database:     ->  if the `database` name is valid,
+    :drop_database:     ->  if the database name is valid,
                             deleting the database from server
                             [returns boolean value]
 
@@ -37,7 +45,7 @@ class DDL:
                             creating a table in the chosen database
                             [returns boolean value]
 
-    :drop_table:        ->  if the `table` name is valid,
+    :drop_table:        ->  if the table name is valid,
                             deletes the table from chosen database
                             [returns boolean value]
 
@@ -45,12 +53,12 @@ class DDL:
                             without deleting the table
                             [returns boolean value]
 
-    :desc_table:        ->  if the `table` name is valid, returns
+    :desc_table:        ->  if the table name is valid, returns
                             the structure of the provided table,
                             formatted using tabulate
                             [returns formatted table else returns False]
 
-    :alter_table:       ->  if the `table` name is valid, and the column
+    :alter_table:       ->  if the table name is valid, and the column
                             name is authenticated, alters the structure
                             of the input table in the current database
                             [returns boolean value]
@@ -79,6 +87,29 @@ class DDL:
 
         else:
             raise Exception("User could not be authenticated")
+
+    def show_databases(self):
+        """
+        Returns all the databases in the
+        local MySQL server, formatted using
+        tabulate
+
+        executes the SQL query `show databases`
+        """
+        try:
+            query = "show databases"
+            self.cursor.execute(query)
+            db_result = self.cursor.fetchall()
+
+            result = tabulate.tabulate(
+                db_result,
+                headers = ["Databases"],
+                tablefmt = "psql"
+            )
+            return result
+
+        except:
+            return False
 
     def create_database(self, database: str) -> bool:
         """
@@ -145,6 +176,29 @@ class DDL:
             return True
 
         else:
+            return False
+
+    def show_tables(self):
+        """
+        Returns all the tables in the
+        current database, formatted using
+        tabulate
+
+        executes the SQL query `show tables`
+        """
+        try:
+            query = "show tables"
+            self.cursor.execute(query)
+            db_result = self.cursor.fetchall()
+
+            result = tabulate.tabulate(
+                db_result,
+                headers = [f"Tables_in_{self.db}"],
+                tablefmt = "psql"
+            )
+            return result
+
+        except:
             return False
 
     def create_table(self, args: list) -> bool:
@@ -255,6 +309,7 @@ class DDL:
 
             # create `Alter` class instance
             const = Alter(self.uname, self.passw, self.db, table)
+            args[1] = args[1].strip(" ")
 
             if (args[0] == "add"):
                 if (const.add_column(args[1]) is True):

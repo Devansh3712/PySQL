@@ -43,14 +43,16 @@ COMMANDS
 
 data_definition_language = """
 DDL COMMANDS
-    createdb   DB_NAME          Create a new database
-    dropdb     DB_NAME          Delete a database
-    usedb      DB_NAME          Use a database
-    createtb   TB_NAME          Create a new table in current db
-    droptb     TB_NAME          Delete a table in current db
-    trunctb    TB_NAME          Truncate a table in current db
-    desctb     TB_NAME          Display structure of a table in current db
-    altertb    TB_NAME, ARGS    Alter contents of table in current db
+    showdb                       Display all databases in MySQL server
+    createdb    DB_NAME          Create a new database
+    dropdb      DB_NAME          Delete a database
+    usedb       DB_NAME          Use a database
+    showtb                       Display all tables in current db
+    createtb    TB_NAME          Create a new table in current db
+    droptb      TB_NAME          Delete a table in current db
+    trunctb     TB_NAME          Truncate a table in current db
+    desctb      TB_NAME          Display structure of a table in current db
+    altertb     TB_NAME, ARGS    Alter contents of table in current db
 """
 
 data_manipulation_language = """
