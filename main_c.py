@@ -6,6 +6,9 @@ PySQL Python Wrapper CLI
 try:
     import stdiomask
     import time
+    import platform
+    import sys
+    from colorama import init, Fore, Style
     import packages.auth as auth
     import packages.ddl_commands as ddl
     import packages.dml_commands as dml
@@ -21,19 +24,24 @@ __email__ = "devanshamity@gmail.com"
 __license__ = "MIT"
 
 
-print(info.ascii_art)
+if platform.system() == "Windows":
+    init(convert = True)
+
+print(f"{Fore.LIGHTRED_EX}{info.ascii_art}{Style.RESET_ALL}")
 time.sleep(1)
 
-uname = input("Username: ")
-passwd = stdiomask.getpass(prompt = "Password: ")
-dbname = input("Database: ")
+sys.stdout.write(f"{Fore.CYAN}Username: {Style.RESET_ALL}")
+uname = input()
+passwd = stdiomask.getpass(prompt = f"{Fore.CYAN}Password: {Style.RESET_ALL}")
+sys.stdout.write(f"{Fore.CYAN}Database: {Style.RESET_ALL}")
+dbname = input()
 
 authenticate = auth.Database(uname, passwd, dbname).authenticate()
 if authenticate is False:
-    print("[-]Credentials could not be authenticated")
+    print(f"{Fore.RED}[-]Credentials could not be authenticated{Style.RESET_ALL}")
     exit()
 
-print(f"[+]Connected to database {dbname}")
+print(f"{Fore.GREEN}[+]Connected to database {Style.RESET_ALL}{dbname}")
 time.sleep(1)
 
 print(info.menu)
@@ -68,32 +76,32 @@ while (True):
             print(result + "\n")
         
         else:
-            print("[-]Unable to show databases\n")
+            print(f"{Fore.RED}[-]Unable to show databases{Style.RESET_ALL}\n")
 
     elif user_input.lower() == "createdb":
         db_name = input("pysql> Enter database name: ")
         result = ddl_obj.create_database(db_name)
 
         if result is True:
-            print(f"[+]Created database {db_name}\n")
+            print(f"{Fore.GREEN}[+]Created database {Style.RESET_ALL}{db_name}\n")
 
         else:
-            print(f"[-]Unable to create database {db_name}\n")
+            print(f"{Fore.RED}[-]Unable to create database {Style.RESET_ALL}{db_name}\n")
 
     elif user_input.lower() == "dropdb":
         db_name = input("pysql> Enter database name: ")
 
-        if db_name == dbname:
-            print("[-]Cannot delete database in use\n")
-
-        else:
+        if db_name != dbname:
             result = ddl_obj.drop_database(db_name)
 
             if result is True:
-                print(f"[+]Deleted database {db_name}\n")
+                print(f"{Fore.GREEN}[+]Deleted database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"[-]Unable to delete database {db_name}\n")
+                print(f"{Fore.RED}[-]Unable to delete database {Style.RESET_ALL}{db_name}\n")
+
+        else:
+            print(f"{Fore.RED}[-]Cannot delete database in use{Style.RESET_ALL}\n")
 
     elif user_input.lower() == "showtb":
         result = ddl_obj.show_tables()
@@ -102,7 +110,7 @@ while (True):
             print(result + "\n")
 
         else:
-            print("[-]Unable to show tables\n")
+            print("{Fore.RED}[-]Unable to show tables{Style.RESET_ALL}\n")
 
     elif user_input.lower() == "createtb":
         tb_name = input("pysql> Enter table name: ")
@@ -111,30 +119,30 @@ while (True):
         result = ddl_obj.create_table(tb_name, args)
 
         if result is True:
-            print(f"[+]Created table {tb_name}\n")
+            print(f"{Fore.GREEN}[+]Created table {Style.RESET_ALL}{tb_name}\n")
 
         else:
-            print(f"[-]Unable to create table {tb_name}\n")
+            print(f"{Fore.RED}[-]Unable to create table {Style.RESET_ALL}{tb_name}\n")
 
     elif user_input.lower() == "droptb":
         tb_name = input("pysql> Enter table name: ")
         result = ddl_obj.drop_table(tb_name)
 
         if result is True:
-            print(f"[+]Deleted table {tb_name}\n")
+            print(f"{Fore.GREEN}[+]Deleted table {Style.RESET_ALL}{tb_name}\n")
 
         else:
-            print(f"[-]Unable to delete table {tb_name}\n")
+            print(f"{Fore.RED}[-]Unable to delete table {Style.RESET_ALL}{tb_name}\n")
 
     elif user_input.lower() == "trunctb":
         tb_name = input("pysql> Enter table name: ")
         result = ddl_obj.truncate_table(tb_name)
 
         if result is True:
-            print(f"[+]Truncated table {tb_name}\n")
+            print(f"{Fore.GREEN}[+]Truncated table {Style.RESET_ALL}{tb_name}\n")
 
         else:
-            print(f"[-]Unable to truncate table {tb_name}\n")
+            print(f"{Fore.RED}[-]Unable to truncate table {Style.RESET_ALL}{tb_name}\n")
 
     elif user_input.lower() == "desctb":
         tb_name = input("pysql> Enter table name: ")
@@ -144,7 +152,7 @@ while (True):
             print(result + "\n")
 
         else:
-            print(f"[-]Unable to display table {tb_name}\n")
+            print(f"{Fore.RED}[-]Unable to display table {Style.RESET_ALL}{tb_name}\n")
 
     elif user_input.lower() == "altertb":
         tb_name = input("pysql> Enter table name: ")
@@ -153,10 +161,10 @@ while (True):
         result = ddl_obj.alter_table(tb_name, args)
 
         if result is True:
-            print(f"[+]Altered table {tb_name}\n")
+            print(f"{Fore.GREEN}[+]Altered table {Style.RESET_ALL}{tb_name}\n")
 
         else:
-            print(f"[-]Unable to alter table {tb_name}\n")
+            print(f"{Fore.RED}[-]Unable to alter table {Style.RESET_ALL}{tb_name}\n")
 
     elif user_input.lower() == "dml":
         print(info.data_manipulation_language)

@@ -46,7 +46,6 @@ DDL COMMANDS
     showdb                       Display all databases in MySQL server
     createdb    DB_NAME          Create a new database
     dropdb      DB_NAME          Delete a database
-    usedb       DB_NAME          Use a database
     showtb                       Display all tables in current db
     createtb    TB_NAME          Create a new table in current db
     droptb      TB_NAME          Delete a table in current db

@@ -33,13 +33,6 @@ class DDL:
                             deleting the database from server
                             [returns boolean value]
 
-    :use_database:      ->  change the current database with a new
-                            database by closing the current cursor
-                            object and MySQL connection and initializing
-                            new `self.connection`, `self.cursor` and
-                            `self.db`
-                            [returns boolean value]
-
     :create_table:      ->  takes comma separated string arguments,
                             converting them into SQL statements and
                             creating a table in the chosen database
@@ -125,42 +118,6 @@ class DDL:
         except:
             return False
 
-    def use_database(self, database: str) -> bool:
-        """
-        Change the current database, if the input database
-        exists and is valid else returns False
-
-        it authenticates the input database, if authentication
-        returns True, current MySQL connection and cursor object
-        are closed, value of `self.db` is changed and a new
-        MySQL connection `self.connection` & cursor object
-        `self.cursor` are initialized with `self.db`
-        """
-        # authenticate whether database exists or not
-        authenticate = self.const.auth_db(database)
-        if (authenticate is True):
-
-            # close the current cursor object and MySQL connection
-            self.cursor.close()
-            self.connection.close()
-            # change the value of `self.db`
-            self.db = database
-
-            # create new connection with MySQL server and cursor object
-            self.connection = mc.connect(
-                host = "localhost",
-                user = f"{self.uname}",
-                password = f"{self.passw}",
-                database = f"{self.db}",
-                autocommit = True
-            )
-            self.cursor = self.connection.cursor(buffered = True)
-
-            return True
-
-        else:
-            return False
-
     def drop_database(self, database: str) -> bool:
         """
         Drops/deletes the input database in the MySQL Server,
@@ -201,18 +158,19 @@ class DDL:
         except:
             return False
 
-    def create_table(self, args: list) -> bool:
+    def create_table(self, table: str, args: list) -> bool:
         """
         Creates a table in the current database with 
         provided arguments in the form of SQL statement,
         executing the SQL query `create table <table_name> (data)`
 
+        table   ->  name of table to be created
         args    ->  provide column names and datatypes
         """
         try:
             # statement with column parameters for MySQL table
             statement = ""
-            for num in range (1, len(args)):
+            for num in range (len(args)):
 
                 if (num == len(args) - 1):
                     statement += args[num]
@@ -220,7 +178,7 @@ class DDL:
                 else:
                     statement += args[num] + ", "
 
-            query = f"create table {args[0]} ({statement})"
+            query = f"create table {table} ({statement})"
             self.cursor.execute(query)
             return True
 
@@ -309,7 +267,7 @@ class DDL:
 
             # create `Alter` class instance
             const = Alter(self.uname, self.passw, self.db, table)
-            args[1] = args[1].strip(" ")
+            args[1] = args[1].lstrip(" ")
 
             if (args[0] == "add"):
                 if (const.add_column(args[1]) is True):
@@ -336,6 +294,19 @@ class DDL:
                 return False
 
         else:
+            return False
+
+    def close_connection(self):
+        """
+        Closes the current connection and cursor object
+        of the local MySQL server
+        """
+
+        try:
+            self.connection.close()
+            return True
+        
+        except:
             return False
 
 
