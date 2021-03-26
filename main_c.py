@@ -74,7 +74,7 @@ while (True):
 
         if result:
             print(result + "\n")
-        
+
         else:
             print(f"{Fore.RED}[-]Unable to show databases{Style.RESET_ALL}\n")
 

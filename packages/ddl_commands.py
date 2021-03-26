@@ -296,19 +296,6 @@ class DDL:
         else:
             return False
 
-    def close_connection(self):
-        """
-        Closes the current connection and cursor object
-        of the local MySQL server
-        """
-
-        try:
-            self.connection.close()
-            return True
-        
-        except:
-            return False
-
 
 class Alter:
     """
