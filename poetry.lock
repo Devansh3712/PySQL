@@ -1,4 +1,12 @@
 [[package]]
+name = "colorama"
+version = "0.4.4"
+description = "Cross-platform colored terminal text."
+category = "main"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
 name = "mysql-connector-python"
 version = "8.0.23"
 description = "MySQL driver written in Python"
@@ -47,9 +55,13 @@ widechars = ["wcwidth"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "3db2f81f79426e3c5eae097e39961fd3c2be35f1b44a764681350e981090ff2c"
+content-hash = "4a199d1a94a3760ba027c2d4488a6eb4068ff8642d7d6b40ff605d506acead0f"
 
 [metadata.files]
+colorama = [
+    {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
+    {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
+]
 mysql-connector-python = [
     {file = "mysql-connector-python-8.0.23.tar.gz", hash = "sha256:5e84dcc25d4b505118e0c28f07de496a41bc0ab121232a2aba83d0248cd49257"},
     {file = "mysql_connector_python-8.0.23-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:f42516ef6b80ce70322f1fda63a8762f898df60df8ba621b2308d933216a8598"},

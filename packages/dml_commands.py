@@ -23,12 +23,11 @@ class DML:
                     [returns formatted table else False]
     """
 
-    def __init__(self, username: str, password: str, database: str, table: str):
+    def __init__(self, username: str, password: str, database: str):
 
         self.uname = username
         self.passw = password
         self.db = database
-        self.table = table
         # create a `Database` class instance
         self.const = auth.Database(self.uname, self.passw, self.db)
         # authenticate data using auth module
@@ -48,7 +47,7 @@ class DML:
         else:
             raise Exception("User could not be authenticated")
 
-    def select(self, columns: str = "*", args: str = None):
+    def select(self, table: str, columns: str, args: str):
         """
         Shows the selected components of the current
         table, executing the SQL query
@@ -57,16 +56,19 @@ class DML:
         columns ->  columns to be chosen, default is `*` 
                     (all columns)
         args    ->  arguments for the select query, default
-                    is `None`
+                    is "" <NULL>
         """
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(self.table)
+        authenticate = self.const.auth_table(table)
 
         if (authenticate is True):
             # if no arguments are provided for selection
-            if (args is None):
+            if (args == ""):
 
-                query = f"select {columns} from {self.table}"
+                if (columns == ""):
+                    columns = "*"
+ 
+                query = f"select {columns} from {table}"
                 self.cursor.execute(query)
                 select_result = self.cursor.fetchall()
                 # provides column names in the input table
@@ -81,7 +83,16 @@ class DML:
 
             else:
 
-                query = f"select {columns} from {self.table} where {args}"
+                query =""
+                if "sum" in args or "min" in args or "max" in args or "avg" in args or "count" in args:
+                    query = f"select {columns} from {table} having {args}"
+
+                elif args.startswith("group by") or args.startswith("order by"):
+                    query = f"select {columns} from {table} {args}"
+
+                else:
+                    query = f"select {columns} from {table} where {args}"
+
                 self.cursor.execute(query)
                 select_result = self.cursor.fetchall()
                 # provides column names in the input table

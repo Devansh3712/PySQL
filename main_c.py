@@ -50,6 +50,7 @@ while (True):
 
     user_input = input("pysql> ")
     ddl_obj = ddl.DDL(uname, passwd, dbname)
+    dml_obj = dml.DML(uname, passwd, dbname)
 
     if user_input.lower() in ["-a", "about"]:
         print(info.about)
@@ -58,13 +59,14 @@ while (True):
         print(info.menu)
 
     elif user_input.lower() in ["-q", "quit"]:
+        print(f"{Fore.LIGHTMAGENTA_EX}Goodbye{Style.RESET_ALL}")
         exit()
 
     elif user_input.lower() in ["-c", "commands"]:
         print(info.commands)
 
     elif user_input.lower() in ["-v", "version"]:
-        print(__version__)
+        print(__version__ + "\n")
 
     elif user_input.lower() == "ddl":
         print(info.data_definition_language)
@@ -168,6 +170,18 @@ while (True):
 
     elif user_input.lower() == "dml":
         print(info.data_manipulation_language)
+
+    elif user_input.lower() == "select":
+        tb_name = input("pysql> Enter table name: ")
+        columns = input("pysql> Enter selection columns: ")
+        args = input("pysql> Enter arguments: ")
+        result = dml_obj.select(tb_name, columns, args)
+
+        if result:
+            print(result + "\n")
+
+        else:
+            print(f"{Fore.RED}[-]Unable to show selected values{Style.RESET_ALL}\n")
 
     else:
         print("Choose a valid option")

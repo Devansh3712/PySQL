@@ -47,7 +47,7 @@ DDL COMMANDS
     createdb    DB_NAME          Create a new database
     dropdb      DB_NAME          Delete a database
     showtb                       Display all tables in current db
-    createtb    TB_NAME          Create a new table in current db
+    createtb    TB_NAME, ARGS    Create a new table in current db
     droptb      TB_NAME          Delete a table in current db
     trunctb     TB_NAME          Truncate a table in current db
     desctb      TB_NAME          Display structure of a table in current db
@@ -56,7 +56,7 @@ DDL COMMANDS
 
 data_manipulation_language = """
 DML COMMANDS
-    select  COLUMNS, ARGS   Displays selected columns of current table
+    select  TB_NAME, COLUMNS, ARGS   Displays selected columns of current table
 """
 
 
