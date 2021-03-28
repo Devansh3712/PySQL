@@ -175,6 +175,17 @@ while (True):
         else:
             print("[-]Unable to show selected values\n")
 
+    elif user_input.lower() == "insert -s":
+        tb_name = input("pysql> Enter table name: ")
+        args = input("pysql> Enter values: ")
+        result = dml_obj.insert_single(tb_name, args)
+
+        if result is True:
+            print(f"[+]Inserted values in table {tb_name}\n")
+
+        else:
+            print(f"[-]Unable to insert value in table {tb_name}\n")
+
     else:
         print("Choose a valid option")
 
