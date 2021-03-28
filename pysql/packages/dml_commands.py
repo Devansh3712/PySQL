@@ -120,7 +120,7 @@ class DML:
 
     def insert_single(self, table: str, args: str):
         """
-        inserts a single row into the selected
+        Inserts a single row into the selected
         table, executing the SQL query
         `insert into <tb_name> values (<args>)`
 
@@ -166,7 +166,7 @@ class DML:
                     return True
             else:
                 return False
-        
+
         except:
             return False
 

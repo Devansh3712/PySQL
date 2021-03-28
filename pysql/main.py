@@ -68,7 +68,7 @@ while (True):
 
         if result:
             print(result + "\n")
-        
+
         else:
             print("[-]Unable to show databases\n")
 
