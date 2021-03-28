@@ -175,10 +175,35 @@ while (True):
         else:
             print("[-]Unable to show selected values\n")
 
-    elif user_input.lower() == "insert -s":
+    elif user_input.lower() in ["insert -s", "insert"]:
         tb_name = input("pysql> Enter table name: ")
         args = input("pysql> Enter values: ")
-        result = dml_obj.insert_single(tb_name, args)
+        result = dml_obj.insert(tb_name, args)
+
+        if result is True:
+            print(f"[+]Inserted values in table {tb_name}\n")
+
+        else:
+            print(f"[-]Unable to insert value in table {tb_name}\n")
+
+    elif user_input.lower() == "insert -m":
+        tb_name = input("pysql> Enter table name: ")
+        num = int(input("pysql> Enter number of records: "))
+
+        for records in range (num):
+            args = input("pysql> Enter values: ")
+            result = dml_obj.insert(tb_name, args)
+
+            if result is False:
+                print(f"[-]Unable to insert value in table {tb_name}\n")
+                break
+
+        print(f"[+]Inserted values in table {tb_name}\n")
+
+    elif user_input.lower() == "insert -f":
+        tb_name = input("pysql> Enter table name: ")
+        path = input("pysql> Enter path to CSV file: ")
+        result = dml_obj.insert_file(tb_name, path)
 
         if result is True:
             print(f"[+]Inserted values in table {tb_name}\n")

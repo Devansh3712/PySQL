@@ -183,10 +183,35 @@ while (True):
         else:
             print(f"{Fore.RED}[-]Unable to show selected values{Style.RESET_ALL}\n")
 
-    elif user_input.lower() == "insert -s":
+    elif user_input.lower() in ["insert -s", "insert"]:
         tb_name = input("pysql> Enter table name: ")
         args = input("pysql> Enter values: ")
-        result = dml_obj.insert_single(tb_name, args)
+        result = dml_obj.insert(tb_name, args)
+
+        if result is True:
+            print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
+
+        else:
+            print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+
+    elif user_input.lower() == "insert -m":
+        tb_name = input("pysql> Enter table name: ")
+        num = int(input("pysql> Enter number of records: "))
+
+        for records in range (num):
+            args = input("pysql> Enter values: ")
+            result = dml_obj.insert(tb_name, args)
+
+            if result is False:
+                print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+                break
+
+        print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
+
+    elif user_input.lower() == "insert -f":
+        tb_name = input("pysql> Enter table name: ")
+        path = input("pysql> Enter path to CSV file: ")
+        result = dml_obj.insert_file(tb_name, path)
 
         if result is True:
             print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")

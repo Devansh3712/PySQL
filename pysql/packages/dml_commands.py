@@ -5,8 +5,10 @@ language based commands
 
 try:
     import mysql.connector as mc
-    import packages.auth as auth
     import tabulate
+    import csv
+    import os
+    import packages.auth as auth
 
 except:
     raise Exception("'dml_commands' module not setup")
@@ -22,8 +24,12 @@ class DML:
                         with given arguments, formatted with tabulate
                         [returns formatted table else False]
 
-    :insert_single: ->  if the `table` name is valid, inserts the
-                        input value (single row) into the
+    :insert:        ->  if the `table` name is valid, inserts the
+                        input value (single row) into the table
+                        [returns boolean value]
+
+    :insert_file:   ->  if the `table` name is valid, inserts
+                        the values in the CSV file into the
                         table
                         [returns boolean value]
     """
@@ -118,7 +124,7 @@ class DML:
         except:
             return False
 
-    def insert_single(self, table: str, args: str):
+    def insert(self, table: str, args: str) -> bool:
         """
         Inserts a single row into the selected
         table, executing the SQL query
@@ -167,6 +173,46 @@ class DML:
             else:
                 return False
 
+        except:
+            return False
+
+    def insert_file(self, table: str, file_name: str) -> bool:
+        """
+        Inserts values into the input table from
+        a comma separated value (CSV) file, uses the
+        :insert: function of `DML` class
+        """
+        # authenticate whether the table exists or not
+        authenticate = self.const.auth_table(table)
+
+        try:
+            if (authenticate is True):
+                # check if CSV file exists
+                if os.path.exists(file_name):
+
+                    file = open(file_name, "r")
+                    # create reader object for CSV file
+                    reader_obj = csv.reader(file)
+                    # read contents as a list of lists
+                    content = list(reader_obj)
+                    file.close()
+
+                    for record in content:
+                        row = ",".join(map(str, record))
+                        # call the :insert: function
+                        result = DML(self.uname, self.passw, self.db).insert(table, row)
+
+                        if result is False:
+                            return False
+                    
+                    return True
+                
+                else:
+                    return False
+
+            else:
+                return False
+        
         except:
             return False
 

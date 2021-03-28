@@ -56,7 +56,10 @@ DDL COMMANDS
 
 data_manipulation_language = """
 DML COMMANDS
-    select  TB_NAME, COLUMNS, ARGS   Displays selected columns of current table
+    select  TB_NAME, COLUMNS, ARGS      Displays selected columns of a table
+    insert  -s  TB_NAME, ARGS           Insert a single row in a table
+            -m  TB_NAME, NUM, ARGS      Insert `NUM` rows in a table
+            -f  TB_NAME, FILE_NAME      Insert values in a table from CSV file
 """
 
 
