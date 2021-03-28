@@ -204,15 +204,15 @@ class DML:
 
                         if result is False:
                             return False
-                    
+
                     return True
-                
+
                 else:
                     return False
 
             else:
                 return False
-        
+
         except:
             return False
 
