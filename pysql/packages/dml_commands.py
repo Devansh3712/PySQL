@@ -243,7 +243,7 @@ class DML:
                     self.cursor.execute(query)
 
                     return True
-            
+
             else:
                 return False
 
@@ -280,7 +280,7 @@ class DML:
                     self.cursor.execute(query)
 
                     return True
-            
+
             else:
                 return False
 
