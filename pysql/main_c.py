@@ -219,6 +219,29 @@ while (True):
         else:
             print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
 
+    elif user_input.lower() == "update":
+        tb_name = input("pysql> Enter table name: ")
+        columns = input("pysql> Enter columns to update: ")
+        args = input("pysql> Enter arguments: ")
+        result = dml_obj.update(tb_name, columns, args)
+
+        if result is True:
+            print(f"{Fore.GREEN}[+]Updated values in table {Style.RESET_ALL}{tb_name}\n")
+
+        else:
+            print(f"{Fore.RED}[-]Unable to update values in table {Style.RESET_ALL}{tb_name}\n")
+
+    elif user_input.lower() == "delete":
+        tb_name = input("pysql> Enter table name: ")
+        columns = input("pysql> Enter columns to delete: ")
+        result = dml_obj.delete(tb_name, columns)
+
+        if result is True:
+            print(f"{Fore.GREEN}[+]Deleted values from table {Style.RESET_ALL}{tb_name}\n")
+
+        else:
+            print(f"{Fore.RED}[-]Unable to delete values from table {Style.RESET_ALL}{tb_name}\n")
+
     else:
         print("Choose a valid option")
 

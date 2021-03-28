@@ -60,6 +60,8 @@ DML COMMANDS
     insert  -s  TB_NAME, ARGS           Insert a single row in a table
             -m  TB_NAME, NUM, ARGS      Insert `NUM` rows in a table
             -f  TB_NAME, FILE_NAME      Insert values in a table from CSV file
+    update  TB_NAME, COLUMNS, ARGS      Updates values of columns in a table
+    delete  TB_NAME, COLUMN             Deletes values of row in a table
 """
 
 

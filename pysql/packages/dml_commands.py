@@ -29,8 +29,16 @@ class DML:
                         [returns boolean value]
 
     :insert_file:   ->  if the `table` name is valid, inserts
-                        the values in the CSV file into the
-                        table
+                        the values in the CSV file into the table
+                        [returns boolean value]
+
+    :update:        ->  if the `table` name is valid, updates
+                        the input columns for the given
+                        arguments
+                        [returns boolean value]
+
+    :delete:        ->  if the `table` name is valid, deletes
+                        the input columns
                         [returns boolean value]
     """
 
@@ -151,21 +159,7 @@ class DML:
 
                 else:
 
-                    # get table description
-                    table_desc = self.cursor.description
-                    # filter out column types
-                    table_desc = [mc.FieldType.get_info(table_desc[i][1]) for i in range (len(table_desc))]
                     args = [x.strip(" ") for x in args]
-
-                    # designate proper datatypes to values
-                    for v, t in zip(args, table_desc):
-
-                        if t in ["DECIMAL", "FLOAT"]:
-                            v = float(v)
-
-                        elif t in ["TINY", "SHORT", "LONG", "LONGLONG", "INT", "INT24", "TINYINT"]:
-                            v = int(v)
-
                     query = f"insert into {table} values {tuple(args)}"
                     self.cursor.execute(query)
 
@@ -210,6 +204,83 @@ class DML:
                 else:
                     return False
 
+            else:
+                return False
+
+        except:
+            return False
+
+    def update(self, table: str, columns: str, args: str) -> bool:
+        """
+        Update values in the input table of
+        selected columns, executing the SQL query
+        `update <tb_name> set <columns> where <args>`
+
+        columns ->  columns whose value has to be
+                    updated
+        args    ->  rows of which values has to be
+                    updated
+        """
+        # authenticate whether the table exists or not
+        authenticate = self.const.auth_table(table)
+
+        try:
+            if (authenticate is True):
+                # if no arguments are given
+                if args == "":
+
+                    columns = columns.strip(" ")
+                    query = f"update {table} set {columns}"
+                    self.cursor.execute(query)
+
+                    return True
+
+                else:
+
+                    args = args.strip(" ")
+                    columns = columns.strip(" ")
+                    query = f"update {table} set {columns} where {args}"
+                    self.cursor.execute(query)
+
+                    return True
+            
+            else:
+                return False
+
+        except:
+            return False
+
+    def delete(self, table: str, column: str) -> bool:
+        """
+        Delete values in the input table of
+        selected columns, executing the SQL query
+        `delete from <tb_name> where <columns>`
+
+        column  ->  column whose value has to be
+                    deleted
+        """        
+        # authenticate whether the table exists or not
+        authenticate = self.const.auth_table(table)
+
+        try:
+            if (authenticate is True):
+                # if no arguments are given
+                if column == "":
+
+                    # deletes all records in table
+                    query = f"delete from {table}"
+                    self.cursor.execute(query)
+
+                    return True
+
+                else:
+
+                    column = column.strip(" ")
+                    query = f"delete from {table} where {column}"
+                    self.cursor.execute(query)
+
+                    return True
+            
             else:
                 return False
 
