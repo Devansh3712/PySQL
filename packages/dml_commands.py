@@ -67,7 +67,7 @@ class DML:
 
                 if (columns == ""):
                     columns = "*"
- 
+
                 query = f"select {columns} from {table}"
                 self.cursor.execute(query)
                 select_result = self.cursor.fetchall()
@@ -83,7 +83,7 @@ class DML:
 
             else:
 
-                query =""
+                query = ""
                 if "sum" in args or "min" in args or "max" in args or "avg" in args or "count" in args:
                     query = f"select {columns} from {table} having {args}"
 
