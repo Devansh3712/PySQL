@@ -3,6 +3,11 @@ module for data-definition
 language based commands
 """
 
+import os
+import sys
+# create relative path for importing modules
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
 try:
     import mysql.connector as mc
     import tabulate

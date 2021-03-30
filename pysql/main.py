@@ -10,6 +10,8 @@ try:
     import packages.ddl_commands as ddl
     import packages.dml_commands as dml
     import data.info as info
+    import data.export as export
+    import data.imports as imports
 
 except:
     raise Exception("Package Error: modules not setup")
@@ -30,10 +32,10 @@ dbname = input("Database: ")
 
 authenticate = auth.Database(uname, passwd, dbname).authenticate()
 if authenticate is False:
-    print("[-]Credentials could not be authenticated")
+    print("\n[-]Credentials could not be authenticated")
     exit()
 
-print(f"[+]Connected to database {dbname}")
+print(f"\n[+]Connected to database {dbname}")
 time.sleep(1)
 
 print(info.menu)
@@ -43,6 +45,8 @@ while (True):
     user_input = input("pysql> ")
     ddl_obj = ddl.DDL(uname, passwd, dbname)
     dml_obj = dml.DML(uname, passwd, dbname)
+    exp_obj = export.Export(uname, passwd, dbname)
+    imp_obj = imports.Import(uname, passwd, dbname)
 
     if user_input.lower() in ["-a", "about"]:
         print(info.about)
@@ -233,6 +237,112 @@ while (True):
 
         else:
             print(f"[-]Unable to delete values from table {tb_name}\n")
+
+    elif user_input.lower() == "all":
+        print(info.all_commands)
+
+    elif user_input.lower() == "export":
+        print(info.export)
+
+    elif user_input.lower() == "import":
+        print(info.import_)
+
+    elif user_input.lower() == "exportdb":
+        db_name = input("pysql> Enter database name: ")
+        path = input("pysql> Enter path to export: ")
+        result = exp_obj.export_database(db_name, path)
+
+        if result is True:
+            print(f"[+]Exported database {db_name}\n")
+
+        else:
+            print(f"[-]Unable to export database {db_name}\n")
+
+    elif user_input.lower() == "exporttb -txt":
+        tb_name = input("pysql> Enter table name: ")
+        path = input("pysql> Enter path to export: ")
+        result = exp_obj.export_table_txt(tb_name, path)
+
+        if result is True:
+            print(f"[+]Exported table {tb_name}\n")
+
+        else:
+            print(f"[-]Unable to export table {tb_name}\n")
+
+    elif user_input.lower() == "exporttb -csv":
+        tb_name = input("pysql> Enter table name: ")
+        path = input("pysql> Enter path to export: ")
+        result = exp_obj.export_table_csv(tb_name, path)
+
+        if result is True:
+            print(f"[+]Exported table {tb_name}\n")
+
+        else:
+            print(f"[-]Unable to export table {tb_name}\n")
+
+    elif user_input.lower() == "exporttb -sql":
+        db_name = input("pysql> Enter database name: ")
+        tb_name = input("pysql> Enter table name: ")
+        path = input("pysql> Enter path to export: ")
+        result = exp_obj.export_table_sql(db_name, tb_name, path)
+
+        if result is True:
+            print(f"[+]Exported table {tb_name}\n")
+
+        else:
+            print(f"[-]Unable to export table {tb_name}\n")
+
+    elif user_input.lower() == "exportall -txt":
+        path = input("pysql> Enter path to export: ")
+        result = exp_obj.export_all_txt(path)
+
+        if result is True:
+            print(f"[+]Exported all tables in {dbname}\n")
+
+        else:
+            print(f"[-]Unable to export tables in {dbname}\n")
+
+    elif user_input.lower() == "exportall -csv":
+        path = input("pysql> Enter path to export: ")
+        result = exp_obj.export_all_csv(path)
+
+        if result is True:
+            print(f"[+]Exported all tables in {dbname}\n")
+
+        else:
+            print(f"[-]Unable to export tables in {dbname}\n")
+
+    elif user_input.lower() == "exportall -sql":
+        path = input("pysql> Enter path to export: ")
+        result = exp_obj.export_all_sql(path)
+
+        if result is True:
+            print(f"[+]Exported all tables in {dbname}\n")
+
+        else:
+            print(f"[-]Unable to export tables in {dbname}\n")
+
+    elif user_input.lower() == "importdb":
+        db_name = input("pysql> Enter database name: ")
+        path = input("pysql> Enter path of file: ")
+        result = imp_obj.import_database(db_name, path)
+
+        if result is True:
+            print(f"[+]Imported to database {db_name}\n")
+
+        else:
+            print(f"[-]Unable to import to database {db_name}\n")
+
+    elif user_input.lower() == "importtb":
+        db_name = input("pysql> Enter database name: ")
+        path = input("pysql> Enter path of file: ")
+        result = imp_obj.import_table(db_name, path)
+
+        if result is True:
+            print(f"[+]Imported table to database {db_name}\n")
+
+        else:
+            print(f"[-]Unable to import table to database {db_name}\n")
 
     else:
         print("Choose a valid option")

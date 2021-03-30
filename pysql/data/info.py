@@ -20,6 +20,7 @@ ascii_art = """
 
 menu = """
 OPTIONS
+
     -a  about       Shows information about PySQL
     -c  commands    Display available commands
     -h  help        Display this help message
@@ -36,13 +37,17 @@ See https://github.com/Devansh3712/PySQL for more information
 
 commands = """
 COMMANDS
-    ddl    Displays Data Definition Language commands
-    dml    Displays Data Manipulation Language commands
-    all    Displays all SQL commands
+
+    ddl     Displays Data Definition Language commands
+    dml     Displays Data Manipulation Language commands
+    export  Export table/database
+    import  Import database
+    all     Displays all available commands
 """
 
 data_definition_language = """
 DDL COMMANDS
+
     showdb                       Display all databases in MySQL server
     createdb    DB_NAME          Create a new database
     dropdb      DB_NAME          Delete a database
@@ -56,12 +61,61 @@ DDL COMMANDS
 
 data_manipulation_language = """
 DML COMMANDS
-    select  TB_NAME, COLUMNS, ARGS      Displays selected columns of a table
-    insert  -s  TB_NAME, ARGS           Insert a single row in a table
-            -m  TB_NAME, NUM, ARGS      Insert `NUM` rows in a table
-            -f  TB_NAME, FILE_NAME      Insert values in a table from CSV file
-    update  TB_NAME, COLUMNS, ARGS      Updates values of columns in a table
-    delete  TB_NAME, COLUMN             Deletes values of row in a table
+
+    select      TB_NAME, COLUMNS, ARGS      Displays selected columns of a table
+    insert -s   TB_NAME, ARGS               Insert a single row in a table
+           -m   TB_NAME, NUM, ARGS          Insert `NUM` rows in a table
+           -f   TB_NAME, FILE_NAME          Insert values in a table from CSV file
+    update      TB_NAME, COLUMNS, ARGS      Updates values of columns in a table
+    delete      TB_NAME, COLUMN             Deletes values of row in a table
+"""
+
+all_commands = """
+ALL COMMANDS
+
+    select          TB_NAME, COLUMNS, ARGS      Displays selected columns of a table
+    insert -s       TB_NAME, ARGS               Insert a single row in a table
+           -m       TB_NAME, NUM, ARGS          Insert `NUM` rows in a table
+           -f       TB_NAME, FILE_NAME          Insert values in a table from CSV file
+    update          TB_NAME, COLUMNS, ARGS      Updates values of columns in a table
+    delete          TB_NAME, COLUMN             Deletes values of row in a table
+    showdb                                      Display all databases in MySQL server
+    createdb        DB_NAME                     Create a new database
+    dropdb          DB_NAME                     Delete a database
+    showtb                                      Display all tables in current db
+    createtb        TB_NAME, ARGS               Create a new table in current db
+    droptb          TB_NAME                     Delete a table in current db
+    trunctb         TB_NAME                     Truncate a table in current db
+    desctb          TB_NAME                     Display structure of a table in current db
+    altertb         TB_NAME, ARGS               Alter contents of table in current db
+    exportdb        DB_NAME, PATH               Export db as `.sql` file to path
+    exporttb  -txt  TB_NAME, PATH               Export table as `.txt` file to path
+              -csv  TB_NAME, PATH               Export table as `.csv` file to path
+              -sql  TB_NAME, PATH               Export table schema as `.sql` file to path
+    exportall -txt  PATH                        Export all tables in db as `.txt` file to path
+              -csv  PATH                        Export all tables in db as `.csv` file to path
+              -sql  PATH                        Export all tables schema in db as `.sql` file to path
+    importdb        DB_NAME, PATH               Import `.sql` file into input database
+    importtb        DB_NAME, PATH               Import `.sql` table schema into input table
+"""
+
+export = """
+EXPORT
+
+    exportdb        DB_NAME, PATH   Export db as `.sql` file to path
+    exporttb  -txt  TB_NAME, PATH   Export table as `.txt` file to path
+              -csv  TB_NAME, PATH   Export table as `.csv` file to path
+              -sql  TB_NAME, PATH   Export table schema as `.sql` file to path
+    exportall -txt  PATH            Export all tables in db as `.txt` file to path
+              -csv  PATH            Export all tables in db as `.csv` file to path
+              -sql  PATH            Export all tables schema in db as `.sql` file to path
+"""
+
+import_ = """
+IMPORT
+
+    importdb    DB_NAME, PATH           Import `.sql` file into input database
+    importtb    DB_NAME, PATH           Import `.sql` table schema into input table
 """
 
 
