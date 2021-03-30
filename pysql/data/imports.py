@@ -12,7 +12,6 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 try:
     import mysql.connector as mc
     import packages.auth as auth
-    import os
 
 except:
     raise Exception("'imports' module not setup")
@@ -80,7 +79,7 @@ class Import:
                     os.system(f"mysql -u {self.uname} -p{self.passw} {db} < {path}")
 
                 return True
-            
+
             else:
                 return False
 
@@ -109,7 +108,7 @@ class Import:
                     os.system(f"mysql -u {self.uname} -p{self.passw} {db} < {path}")
 
                 return True
-            
+
             else:
                 return False
 

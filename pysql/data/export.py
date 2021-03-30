@@ -120,7 +120,7 @@ class Export:
                 file.close()
 
                 return True
-            
+
             else:
                 return False
 
@@ -147,24 +147,24 @@ class Export:
                 select_result = self.cursor.fetchall()
                 # provides column names in the input table
                 table_columns = self.cursor.column_names
-                
+
                 if path == "":
                     path = "."
 
                 file = open(f"{path}/{table}.csv", "w", newline = "")
                 writer_obj = csv.writer(file)
                 writer_obj.writerow(list(table_columns))
-                
+
                 for row in select_result:
                     writer_obj.writerow(list(row))
 
                 file.close()
 
                 return True
-            
+
             else:
                 return False
-        
+
         except:
             return False
 
@@ -181,7 +181,7 @@ class Export:
             query = f"show tables"
             self.cursor.execute(query)
             result = self.cursor.fetchall()
-            
+
             # if <db_name> directory does not exist, create one
             if os.path.isdir(f"{path}/{self.db}") is False:
 
@@ -217,7 +217,7 @@ class Export:
             query = f"show tables"
             self.cursor.execute(query)
             result = self.cursor.fetchall()
-            
+
             # if <db_name> directory does not exist, create one
             if os.path.isdir(f"{path}/{self.db}") is False:
 
@@ -253,7 +253,7 @@ class Export:
             query = f"show tables"
             self.cursor.execute(query)
             result = self.cursor.fetchall()
-            
+
             # if <db_name> directory does not exist, create one
             if os.path.isdir(f"{path}/{self.db}") is False:
 
@@ -298,7 +298,7 @@ class Export:
                     os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} > {path}/{db}.sql")
 
                 return True
-            
+
             else:
                 return False
 
@@ -328,7 +328,7 @@ class Export:
                     os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} {table} > {path}/{db}.{table}.sql")
 
                 return True
-            
+
             else:
                 return False
 
