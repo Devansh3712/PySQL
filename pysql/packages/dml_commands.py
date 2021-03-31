@@ -46,13 +46,12 @@ class DML:
                         [returns boolean value]
     """
 
-    def __init__(self, username: str, password: str, database: str):
+    def __init__(self, username: str, password: str):
 
         self.uname = username
         self.passw = password
-        self.db = database
         # create a `Database` class instance
-        self.const = auth.Database(self.uname, self.passw, self.db)
+        self.const = auth.Database(self.uname, self.passw)
         # authenticate data using auth module
         authenticate = self.const.authenticate()
 
@@ -62,7 +61,6 @@ class DML:
                 host = "localhost",
                 user = f"{self.uname}",
                 password = f"{self.passw}",
-                database = f"{self.db}",
                 autocommit = True
             )
             self.cursor = self.connection.cursor(buffered = True)
@@ -70,7 +68,7 @@ class DML:
         else:
             raise Exception("User could not be authenticated")
 
-    def select(self, table: str, columns: str, args: str):
+    def select(self, db: str, table: str, columns: str, args: str):
         """
         Shows the selected components of the current
         table, executing the SQL query
@@ -82,10 +80,13 @@ class DML:
                     is "" <NULL>
         """
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
 
         try:
             if (authenticate is True):
+
+                self.cursor.execute(f"use {db}")
+
                 # if no arguments are provided for selection
                 if (args == ""):
 
@@ -139,7 +140,7 @@ class DML:
         except:
             return False
 
-    def insert(self, table: str, args: str) -> bool:
+    def insert(self, db: str, table: str, args: str) -> bool:
         """
         Inserts a single row into the selected
         table, executing the SQL query
@@ -149,10 +150,12 @@ class DML:
                     to be entered in the table
         """
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
 
         try:
             if (authenticate is True):
+
+                self.cursor.execute(f"use {db}")
 
                 # create list of values to be inserted
                 args = args.split(",")
@@ -167,8 +170,14 @@ class DML:
                 else:
 
                     args = [x.strip(" ") for x in args]
-                    query = f"insert into {table} values {tuple(args)}"
-                    self.cursor.execute(query)
+
+                    if len(args) == 1:
+                        query = f"insert into {table} values ({str(args[0])})"
+                        self.cursor.execute(query)
+
+                    else:
+                        query = f"insert into {table} values {tuple(args)}"
+                        self.cursor.execute(query)
 
                     return True
             else:
@@ -177,17 +186,20 @@ class DML:
         except:
             return False
 
-    def insert_file(self, table: str, file_name: str) -> bool:
+    def insert_file(self, db: str, table: str, file_name: str) -> bool:
         """
         Inserts values into the input table from
         a comma separated value (CSV) file, uses the
         :insert: function of `DML` class
         """
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
 
         try:
             if (authenticate is True):
+
+                self.cursor.execute(f"use {db}")
+
                 # check if CSV file exists
                 if os.path.exists(file_name):
 
@@ -201,7 +213,7 @@ class DML:
                     for record in content:
                         row = ",".join(map(str, record))
                         # call the :insert: function
-                        result = DML(self.uname, self.passw, self.db).insert(table, row)
+                        result = DML(self.uname, self.passw).insert(db, table, row)
 
                         if result is False:
                             return False
@@ -217,7 +229,7 @@ class DML:
         except:
             return False
 
-    def update(self, table: str, columns: str, args: str) -> bool:
+    def update(self, db: str, table: str, columns: str, args: str) -> bool:
         """
         Update values in the input table of
         selected columns, executing the SQL query
@@ -229,10 +241,13 @@ class DML:
                     updated
         """
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
 
         try:
             if (authenticate is True):
+
+                self.cursor.execute(f"use {db}")
+
                 # if no arguments are given
                 if args == "":
 
@@ -257,7 +272,7 @@ class DML:
         except:
             return False
 
-    def delete(self, table: str, column: str) -> bool:
+    def delete(self, db: str, table: str, column: str) -> bool:
         """
         Delete values in the input table of
         selected columns, executing the SQL query
@@ -267,10 +282,13 @@ class DML:
                     deleted
         """        
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
 
         try:
             if (authenticate is True):
+
+                self.cursor.execute(f"use {db}")
+
                 # if no arguments are given
                 if column == "":
 

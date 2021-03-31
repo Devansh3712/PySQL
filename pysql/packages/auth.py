@@ -33,14 +33,13 @@ class Database:
                             [returns boolean value]
     """
 
-    def __init__(self, username: str, password: str, database: str):
+    def __init__(self, username: str, password: str):
         """
         Initialize connection and cursor object as `NoneType`
         so that its value can change when authenticate() is called
         """
         self.uname = username
         self.passw = password
-        self.db = database
         Database.connection = None
         Database.cursor = None
 
@@ -61,7 +60,6 @@ class Database:
                 host = "localhost",
                 user = f"{self.uname}",
                 password = f"{self.passw}",
-                database = f"{self.db}",
                 autocommit = True
             )
 
@@ -85,7 +83,7 @@ class Database:
         databases in MySQL server, and if input
         database is in the list, returns True
         """
-        authenticate = Database(self.uname, self.passw, self.db).authenticate()
+        authenticate = Database(self.uname, self.passw).authenticate()
         if (authenticate is True):
 
             Database.cursor.execute("show databases")
@@ -102,7 +100,7 @@ class Database:
         else:
             return False
 
-    def auth_table(self, table: str) -> bool:
+    def auth_table(self, db: str, table: str) -> bool:
         """
         Check whether the provided table exists
         or not in the selected database
@@ -111,9 +109,10 @@ class Database:
         tables in the selected database, and if input
         table is in the list, returns True
         """
-        authenticate = Database(self.uname, self.passw, self.db).authenticate()
+        authenticate = Database(self.uname, self.passw).authenticate()
         if (authenticate is True):
 
+            Database.cursor.execute(f"use {db}")
             Database.cursor.execute("show tables")
             # list of all tables in selected database
             result = Database.cursor.fetchall()
@@ -128,7 +127,7 @@ class Database:
         else:
             return False
 
-    def auth_table_columns(self, table: str, query: str) -> bool:
+    def auth_table_columns(self, db: str, table: str, query: str) -> bool:
         """
         Check whether the provided table has the
         given column as a parameter and its
@@ -138,11 +137,12 @@ class Database:
         structure of the table, and if the column name
         and type match, returns True
         """
-        authenticate = Database(self.uname, self.passw, self.db).authenticate()
+        authenticate = Database(self.uname, self.passw).authenticate()
         if (authenticate is True):
 
             # split column name and type of column
             query = query.split(' ')
+            Database.cursor.execute(f"use {db}")
             Database.cursor.execute(f"select * from {table}")
             # contains description of all columns in the table
             result = Database.cursor.description

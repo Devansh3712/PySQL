@@ -61,13 +61,12 @@ class Export:
                             [returns boolean value]
     """
 
-    def __init__(self, username: str, password: str, database: str):
+    def __init__(self, username: str, password: str):
 
         self.uname = username
         self.passw = password
-        self.db = database
         # create a `Database` class instance
-        self.const = auth.Database(self.uname, self.passw, self.db)
+        self.const = auth.Database(self.uname, self.passw)
         # authenticate data using auth module
         authenticate = self.const.authenticate()
 
@@ -77,7 +76,6 @@ class Export:
                 host = "localhost",
                 user = f"{self.uname}",
                 password = f"{self.passw}",
-                database = f"{self.db}",
                 autocommit = True
             )
             self.cursor = self.connection.cursor(buffered = True)
@@ -85,7 +83,7 @@ class Export:
         else:
             raise Exception("User could not be authenticated")
 
-    def export_table_txt(self, table: str, path: str) -> bool:
+    def export_table_txt(self, db: str, table: str, path: str) -> bool:
         """
         Export the input table as a `.txt` file,
         with result of SQL query
@@ -95,11 +93,12 @@ class Export:
                     (default is current directory)
         """
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
 
         try:
             if (authenticate is True):
 
+                self.cursor.execute(f"use {db}")
                 query = f"select * from {table}"
                 self.cursor.execute(query)
                 select_result = self.cursor.fetchall()
@@ -127,7 +126,7 @@ class Export:
         except:
             return False
 
-    def export_table_csv(self, table: str, path: str) -> bool:
+    def export_table_csv(self, db: str, table: str, path: str) -> bool:
         """
         Export the input table as a `.csv` file,
         with result of SQL query
@@ -137,11 +136,12 @@ class Export:
                     (default is current directory)
         """
         # authenticate whether the table exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
 
         try:
             if (authenticate is True):
 
+                self.cursor.execute(f"use {db}")
                 query = f"select * from {table}"
                 self.cursor.execute(query)
                 select_result = self.cursor.fetchall()
@@ -168,7 +168,7 @@ class Export:
         except:
             return False
 
-    def export_all_txt(self, path: str) -> bool:
+    def export_all_txt(self, db: str, path: str) -> bool:
         """
         Export all tables present in the current
         database as `.txt` files, using the
@@ -178,23 +178,24 @@ class Export:
                     (default is current directory)
         """
         try:
+            self.cursor.execute(f"use {db}")
             query = f"show tables"
             self.cursor.execute(query)
             result = self.cursor.fetchall()
 
             # if <db_name> directory does not exist, create one
-            if os.path.isdir(f"{path}/{self.db}") is False:
+            if os.path.isdir(f"{path}/{db}") is False:
 
                 if path != "":
                     path_n = path.replace("/", "\\")
-                    os.system(f"mkdir {path_n}\\{self.db}")
+                    os.system(f"mkdir {path_n}\\{db}")
 
                 else:
-                    os.system(f"mkdir {self.db}")
+                    os.system(f"mkdir {db}")
                     path = "."
 
             for db_name in result:
-                res = Export(self.uname, self.passw, self.db).export_table_txt(db_name[0], f"{path}/{self.db}")
+                res = Export(self.uname, self.passw).export_table_txt(db, db_name[0], f"{path}/{db}")
 
                 if res is False:
                     return False
@@ -204,7 +205,7 @@ class Export:
         except:
             return False
 
-    def export_all_csv(self, path: str) -> bool:
+    def export_all_csv(self, db: str, path: str) -> bool:
         """
         Export all tables present in the current
         database as `.csv` files, using the
@@ -214,23 +215,24 @@ class Export:
                     (default is current directory)
         """
         try:
+            self.cursor.execute(f"use {db}")
             query = f"show tables"
             self.cursor.execute(query)
             result = self.cursor.fetchall()
 
             # if <db_name> directory does not exist, create one
-            if os.path.isdir(f"{path}/{self.db}") is False:
+            if os.path.isdir(f"{path}/{db}") is False:
 
                 if path != "":
                     path_n = path.replace("/", "\\")
-                    os.system(f"mkdir {path_n}\\{self.db}")
+                    os.system(f"mkdir {path_n}\\{db}")
 
                 else:
-                    os.system(f"mkdir {self.db}")
+                    os.system(f"mkdir {db}")
                     path = "."
 
             for db_name in result:
-                res = Export(self.uname, self.passw, self.db).export_table_csv(db_name[0], f"{path}/{self.db}")
+                res = Export(self.uname, self.passw).export_table_csv(db, db_name[0], f"{path}/{db}")
 
                 if res is False:
                     return False
@@ -240,7 +242,7 @@ class Export:
         except:
             return False
 
-    def export_all_sql(self, path: str) -> bool:
+    def export_all_sql(self, db: str, path: str) -> bool:
         """
         Export all tables' schema present in the current
         database as `.sql` files, using the
@@ -250,23 +252,24 @@ class Export:
                     (default is current directory)
         """
         try:
+            self.cursor.execute(f"use {db}")
             query = f"show tables"
             self.cursor.execute(query)
             result = self.cursor.fetchall()
 
             # if <db_name> directory does not exist, create one
-            if os.path.isdir(f"{path}/{self.db}") is False:
+            if os.path.isdir(f"{path}/{db}") is False:
 
                 if path != "":
                     path_n = path.replace("/", "\\")
-                    os.system(f"mkdir {path_n}\\{self.db}")
+                    os.system(f"mkdir {path_n}\\{db}")
 
                 else:
-                    os.system(f"mkdir {self.db}")
+                    os.system(f"mkdir {db}")
                     path = "."
 
             for db_name in result:
-                res = Export(self.uname, self.passw, self.db).export_table_sql(self.db, db_name[0], f"{path}/{self.db}")
+                res = Export(self.uname, self.passw).export_table_sql(db, db_name[0], f"{path}/{db}")
 
                 if res is False:
                     return False
@@ -316,7 +319,7 @@ class Export:
         """
         # authenticate whether the table exists or not
         authenticate_1 = self.const.auth_db(db)
-        authenticate_2 = self.const.auth_table(table)
+        authenticate_2 = self.const.auth_table(db, table)
 
         try:
             if (authenticate_1 is True and authenticate_2 is True):

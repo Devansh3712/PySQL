@@ -34,6 +34,10 @@ class DDL:
                             MySQL server
                             [returns boolean value]
 
+    :use_database:      ->  use a database present in the
+                            MySQL server
+                            [returns boolean value]
+
     :drop_database:     ->  if the database name is valid,
                             deleting the database from server
                             [returns boolean value]
@@ -62,13 +66,12 @@ class DDL:
                             [returns boolean value]
     """
 
-    def __init__(self, username: str, password: str, database: str):
+    def __init__(self, username: str, password: str):
 
         self.uname = username
         self.passw = password
-        self.db = database
         # create a `Database` class instance
-        self.const = auth.Database(self.uname, self.passw, self.db)
+        self.const = auth.Database(self.uname, self.passw)
         # authenticate data using auth module
         authenticate = self.const.authenticate()
 
@@ -78,7 +81,6 @@ class DDL:
                 host = "localhost",
                 user = f"{self.uname}",
                 password = f"{self.passw}",
-                database = f"{self.db}",
                 autocommit = True
             )
             self.cursor = self.connection.cursor(buffered = True)
@@ -123,6 +125,23 @@ class DDL:
         except:
             return False
 
+    def use_database(self, database: str) -> bool:
+        """
+        Use the input database of the local MySQL
+        server, if it exists, executing the SQL query
+        `use <db_name>`
+        """
+        # authenticate whether database exists or not
+        authenticate = self.const.auth_db(database)
+        if (authenticate is True):
+
+            query = f"use {database}"
+            self.cursor.execute(query)
+            return True
+
+        else:
+            return False
+
     def drop_database(self, database: str) -> bool:
         """
         Drops/deletes the input database in the MySQL Server,
@@ -153,9 +172,13 @@ class DDL:
             self.cursor.execute(query)
             db_result = self.cursor.fetchall()
 
+            query = "select database()"
+            self.cursor.execute(query)
+            db = self.cursor.fetchone()
+
             result = tabulate.tabulate(
                 db_result,
-                headers = [f"Tables_in_{self.db}"],
+                headers = [f"Tables_in_{db[0]}"],
                 tablefmt = "psql"
             )
             return result
@@ -190,16 +213,17 @@ class DDL:
         except:
             return False
 
-    def drop_table(self, table: str) -> bool:
+    def drop_table(self, db: str, table: str) -> bool:
         """
         Drops/deletes the input table in the current
         database if table exists and is valid,
         executing the SQL query `drop table <table_name>`
         """
         # authenticate whether table name exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
         if (authenticate is True):
 
+            self.cursor.execute(f"use {db}")
             query = f"drop table {table}"
             self.cursor.execute(query)
             return True
@@ -207,16 +231,17 @@ class DDL:
         else:
             return False
 
-    def truncate_table(self, table: str) -> bool:
+    def truncate_table(self, db: str, table: str) -> bool:
         """
         Deletes the data of the input table, if the
         table exists and is valid, executing the
         SQL query `truncate table <table_name>`
         """
         # authenticate whether table name exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
         if (authenticate is True):
 
+            self.cursor.execute(f"use {db}")
             query = f"truncate table {table}"
             self.cursor.execute(query)
             return True
@@ -224,7 +249,7 @@ class DDL:
         else:
             return False
 
-    def desc_table(self, table: str):
+    def desc_table(self, db: str, table: str):
         """
         Returns the structure of the input table,
         formatted using `tabulate` module if the
@@ -233,9 +258,10 @@ class DDL:
         representation of the SQL query `desc <table_name>`
         """
         # authenticate whether table name exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
         if (authenticate is True):
 
+            self.cursor.execute(f"use {db}")
             query = f"desc {table}"
             self.cursor.execute(query)
             desc_result = self.cursor.fetchall()
@@ -258,7 +284,7 @@ class DDL:
         else:
             return False
 
-    def alter_table(self, table: str, args: list) -> bool:
+    def alter_table(self, db: str, table: str, args: list) -> bool:
         """
         Alters the content of the input table, if
         the table exists and the column name is valid
@@ -267,11 +293,11 @@ class DDL:
         and `drop_column`, using the `Alter` class
         """
         # authenticate whether table name exists or not
-        authenticate = self.const.auth_table(table)
+        authenticate = self.const.auth_table(db, table)
         if (authenticate is True):
 
             # create `Alter` class instance
-            const = Alter(self.uname, self.passw, self.db, table)
+            const = Alter(self.uname, self.passw, db, table)
             args[1] = args[1].lstrip(" ")
 
             if (args[0] == "add"):
@@ -325,10 +351,10 @@ class Alter:
 
         self.uname = username
         self.passw = password
-        self.db = database
         self.table = table
+        self.db = database
         # create a `Database` class instance
-        self.const = auth.Database(self.uname, self.passw, self.db)
+        self.const = auth.Database(self.uname, self.passw)
 
         self.connection = mc.connect(
             host = "localhost",
@@ -360,7 +386,7 @@ class Alter:
         SQL query `alter table <table_name> drop column <column_name>` 
         """
         # authenticate whether column details exist in table or not
-        authenticate = self.const.auth_table_columns(self.table, column)
+        authenticate = self.const.auth_table_columns(self.db, self.table, column)
         if (authenticate is True):
 
             query = f"alter table {self.table} drop column {column}"
@@ -378,7 +404,7 @@ class Alter:
         """
         auth_column = column.split(' ')
         # authenticate whether column details exist in table or not
-        authenticate = self.const.auth_table_columns(self.table, auth_column[0])
+        authenticate = self.const.auth_table_columns(self.db, self.table, auth_column[0])
         if (authenticate is True):
 
             query = f"alter table {self.table} modify column {column}"

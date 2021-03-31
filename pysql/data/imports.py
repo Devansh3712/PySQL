@@ -33,13 +33,12 @@ class Import:
                             [returns boolean value]
     """
 
-    def __init__(self, username: str, password: str, database: str):
+    def __init__(self, username: str, password: str):
 
         self.uname = username
         self.passw = password
-        self.db = database
         # create a `Database` class instance
-        self.const = auth.Database(self.uname, self.passw, self.db)
+        self.const = auth.Database(self.uname, self.passw)
         # authenticate data using auth module
         authenticate = self.const.authenticate()
 
@@ -49,7 +48,6 @@ class Import:
                 host = "localhost",
                 user = f"{self.uname}",
                 password = f"{self.passw}",
-                database = f"{self.db}",
                 autocommit = True
             )
             self.cursor = self.connection.cursor(buffered = True)
