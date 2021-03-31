@@ -269,7 +269,7 @@ while (True):
                     flag = False
                     break
 
-            if flag == True:
+            if flag is True:
                 print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
 
         else:

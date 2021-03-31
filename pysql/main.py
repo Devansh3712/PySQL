@@ -262,7 +262,7 @@ while (True):
                     flag = False
                     break
 
-            if flag == True:
+            if flag is True:
                 print(f"[+]Inserted values in table {tb_name}\n")
 
         else:
