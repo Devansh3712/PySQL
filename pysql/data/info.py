@@ -49,6 +49,7 @@ data_definition_language = """
 DDL COMMANDS
 
     showdb                       Display all databases in MySQL server
+    usedb                        Use a database
     createdb    DB_NAME          Create a new database
     dropdb      DB_NAME          Delete a database
     showtb                       Display all tables in current db
@@ -80,6 +81,7 @@ ALL COMMANDS
     update          TB_NAME, COLUMNS, ARGS      Updates values of columns in a table
     delete          TB_NAME, COLUMN             Deletes values of row in a table
     showdb                                      Display all databases in MySQL server
+    usedb                                       Use a database
     createdb        DB_NAME                     Create a new database
     dropdb          DB_NAME                     Delete a database
     showtb                                      Display all tables in current db
