@@ -20,6 +20,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
+__version__ = "1.0.1"
 
 if platform.system() == "Windows":
     init(convert = True)
@@ -455,6 +456,10 @@ while (True):
 
     else:
         print("Choose a valid option")
+
+# entry point for running PySQL CLI
+def cli():
+    pass
 
 
 """

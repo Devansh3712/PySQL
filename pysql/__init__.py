@@ -4,7 +4,6 @@ functions, for using as a
 library
 """
 
-__version__ = "1.0.0"
 __author__ = "Devansh Singh"
 __email__ = "devanshamity@gmail.com"
 __license__ = "MIT"
