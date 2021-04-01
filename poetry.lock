@@ -42,6 +42,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "stdiomask"
+version = "0.0.6"
+description = "A cross-platform Python module for entering passwords to a stdio terminal and displaying a **** mask, which getpass cannot do."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "tabulate"
 version = "0.8.9"
 description = "Pretty-print tabular data"
@@ -55,7 +63,7 @@ widechars = ["wcwidth"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "4a199d1a94a3760ba027c2d4488a6eb4068ff8642d7d6b40ff605d506acead0f"
+content-hash = "296227bb35453ff84d1de202992bbdc42035571c67da6f22a472fe2bacea7904"
 
 [metadata.files]
 colorama = [
@@ -112,6 +120,9 @@ protobuf = [
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
+]
+stdiomask = [
+    {file = "stdiomask-0.0.6.tar.gz", hash = "sha256:c1e47069ead9e10bda150a26f7922ca01d2adc503042a9d7acf64877a2b9a3a6"},
 ]
 tabulate = [
     {file = "tabulate-0.8.9-py3-none-any.whl", hash = "sha256:d7c013fe7abbc5e491394e10fa845f8f32fe54f8dc60c6622c6cf482d25d47e4"},

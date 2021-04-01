@@ -3,7 +3,7 @@
 </center>
 
 <h1 align = "center"> PySQL </h1>
-<p align = "center"> GUI & Python wrapper for making MySQL queries easier </p>
+<p align = "center"><i> GUI & Python wrapper for making MySQL queries easier </i></p>
 
 <p align = "center">
   <a href = "www.python.org"><img src="https://img.shields.io/badge/python%20-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white"/></a>
@@ -40,9 +40,28 @@ PySQL
 $ git clone https://github.com/Devansh3712/PySQL.git
 ```
 
+- Installation pre-requisites
+
+  - ``MySQL server``
+  - ``Python virtualenv``
+
+- PyPi package
+
+> Windows
+
+```console
+> pip install pysql-cli
+```
+
+> Linux / MacOS
+
+```console
+$ pip3 install pysql-cli
+```
+
 - Automatic Setup
 
-Open the ``PySQL`` directory, and run the setup file & activate the ``virtual environment``
+Open the ``PySQL`` directory, run the setup file & activate the ``virtual environment``
 
 > Windows
 
@@ -61,7 +80,7 @@ $ source venv/bin/activate
 
 - Manual Setup
 
-Install using the dependency files
+Open the ``PySQL`` directory
 
 > using requirements.txt
 
@@ -77,7 +96,18 @@ $ poetry install
 
 ## Usage
 
-- For using the Python command-line wrapper
+- Using the pip package
+
+  - ``pysql``: Basic PySQL CLI
+  - ``cpysql``: Colored PySQL CLI
+
+```console
+$ pysql
+$ cpysql
+```
+
+- Using the Python command-line wrapper `.py file`
+
   - ``main.py``: Basic PySQL CLI
   - ``main_c.py``: Colored PySQL CLI
 
