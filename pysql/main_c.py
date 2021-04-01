@@ -21,12 +21,6 @@ except:
     raise Exception("Package Error: modules not setup")
 
 
-__version__ = "0.0.1"
-__author__ = "Devansh Singh"
-__email__ = "devanshamity@gmail.com"
-__license__ = "MIT"
-
-
 if platform.system() == "Windows":
     init(convert = True)
 
