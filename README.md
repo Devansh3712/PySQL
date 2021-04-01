@@ -13,25 +13,6 @@
 
 ---
 
-```
-PySQL
-  └── pysql
-      ├── __init__.py
-      ├── data
-      │   ├── __init__.py
-      │   ├── export.py
-      │   ├── imports.py
-      │   ├── info.py
-      │   └── logs.py
-      ├── main.py
-      ├── main_c.py
-      └── packages
-          ├── __init__.py
-          ├── auth.py
-          ├── ddl_commands.py
-          └── dml_commands.py
-```
-
 ## Installation
 
 - Clone the repository to your local machine
