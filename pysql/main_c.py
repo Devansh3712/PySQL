@@ -66,7 +66,7 @@ while (True):
 
         elif user_input.lower() in ["-q", "quit"]:
             print(f"{Fore.LIGHTMAGENTA_EX}Goodbye{Style.RESET_ALL}")
-            exit()
+            break
 
         elif user_input.lower() in ["-c", "commands"]:
             print(info.commands)

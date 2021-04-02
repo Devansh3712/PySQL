@@ -59,7 +59,7 @@ while (True):
 
         elif user_input.lower() in ["-q", "quit"]:
             print("Goodbye")
-            exit()
+            break
 
         elif user_input.lower() in ["-c", "commands"]:
             print(info.commands)
