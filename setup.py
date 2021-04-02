@@ -33,3 +33,8 @@ setup(
     ],
     install_requires = requirements,
 )
+
+"""
+PySQL
+Devansh Singh, 2021
+"""

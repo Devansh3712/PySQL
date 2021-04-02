@@ -56,406 +56,411 @@ while (True):
 
     user_input = input("pysql> ")
 
-    if user_input.lower() in ["-a", "about"]:
-        print(info.about)
+    try:
 
-    elif user_input.lower() in ["-h", "help"]:
-        print(info.menu)
+        if user_input.lower() in ["-a", "about"]:
+            print(info.about)
 
-    elif user_input.lower() in ["-q", "quit"]:
-        print(f"{Fore.LIGHTMAGENTA_EX}Goodbye{Style.RESET_ALL}")
-        exit()
+        elif user_input.lower() in ["-h", "help"]:
+            print(info.menu)
 
-    elif user_input.lower() in ["-c", "commands"]:
-        print(info.commands)
+        elif user_input.lower() in ["-q", "quit"]:
+            print(f"{Fore.LIGHTMAGENTA_EX}Goodbye{Style.RESET_ALL}")
+            exit()
 
-    elif user_input.lower() in ["-v", "version"]:
-        print(__version__ + "\n")
+        elif user_input.lower() in ["-c", "commands"]:
+            print(info.commands)
 
-    elif user_input.lower() == "ddl":
-        print(info.data_definition_language)
+        elif user_input.lower() in ["-v", "version"]:
+            print(__version__ + "\n")
 
-    elif user_input.lower() == "showdb":
-        result = ddl_obj.show_databases()
+        elif user_input.lower() == "ddl":
+            print(info.data_definition_language)
 
-        if result:
-            print(result + "\n")
-
-        else:
-            print(f"{Fore.RED}[-]Unable to show databases{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "createdb":
-        db_name = input("pysql> Enter database name: ")
-        result = ddl_obj.create_database(db_name)
-
-        if result is True:
-            print(f"{Fore.GREEN}[+]Created database {Style.RESET_ALL}{db_name}\n")
-
-        else:
-            print(f"{Fore.RED}[-]Unable to create database {Style.RESET_ALL}{db_name}\n")
-
-    elif user_input.lower() == "usedb":
-        db_name = input("pysql> Enter database name: ")
-        result = ddl_obj.use_database(db_name)
-
-        if result is True:
-            current_db = db_name
-            db_use = True
-            print(f"{Fore.GREEN}[+]Connected to database {Style.RESET_ALL}{db_name}\n")
-
-        else:
-            print(f"{Fore.RED}[-]Unable to connect to database {Style.RESET_ALL}{db_name}\n")
-
-    elif user_input.lower() == "dropdb":
-        db_name = input("pysql> Enter database name: ")
-
-        result = ddl_obj.drop_database(db_name)
-
-        if result is True:
-            print(f"{Fore.GREEN}[+]Deleted database {Style.RESET_ALL}{db_name}\n")
-            current_db = ""
-            db_use = False
-
-        else:
-            print(f"{Fore.RED}[-]Unable to delete database {Style.RESET_ALL}{db_name}\n")
-
-    elif user_input.lower() == "showtb":
-
-        if db_use is True:
-            result = ddl_obj.show_tables()
+        elif user_input.lower() == "showdb":
+            result = ddl_obj.show_databases()
 
             if result:
                 print(result + "\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to show tables{Style.RESET_ALL}\n")
+                print(f"{Fore.RED}[-]Unable to show databases{Style.RESET_ALL}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "createtb":
-
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            args = input("pysql> Enter table details: ")
-            args = args.split(",")
-            result = ddl_obj.create_table(tb_name, args)
+        elif user_input.lower() == "createdb":
+            db_name = input("pysql> Enter database name: ")
+            result = ddl_obj.create_database(db_name)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Created table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.GREEN}[+]Created database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to create table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]Unable to create database {Style.RESET_ALL}{db_name}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "droptb":
-
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            result = ddl_obj.drop_table(current_db, tb_name)
+        elif user_input.lower() == "usedb":
+            db_name = input("pysql> Enter database name: ")
+            result = ddl_obj.use_database(db_name)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Deleted table {Style.RESET_ALL}{tb_name}\n")
+                current_db = db_name
+                db_use = True
+                print(f"{Fore.GREEN}[+]Connected to database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to delete table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]Unable to connect to database {Style.RESET_ALL}{db_name}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "dropdb":
+            db_name = input("pysql> Enter database name: ")
 
-    elif user_input.lower() == "trunctb":
-
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            result = ddl_obj.truncate_table(current_db, tb_name)
+            result = ddl_obj.drop_database(db_name)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Truncated table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.GREEN}[+]Deleted database {Style.RESET_ALL}{db_name}\n")
+                current_db = ""
+                db_use = False
 
             else:
-                print(f"{Fore.RED}[-]Unable to truncate table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]Unable to delete database {Style.RESET_ALL}{db_name}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "showtb":
 
-    elif user_input.lower() == "desctb":
+            if db_use is True:
+                result = ddl_obj.show_tables()
 
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            result = ddl_obj.desc_table(current_db, tb_name)
+                if result:
+                    print(result + "\n")
 
-            if result:
-                print(result + "\n")
-
-            else:
-                print(f"{Fore.RED}[-]Unable to display table {Style.RESET_ALL}{tb_name}\n")
-
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "altertb":
-
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            args = input("pysql> Enter arguments: ")
-            args = args.split(",")
-            result = ddl_obj.alter_table(current_db, tb_name, args)
-
-            if result is True:
-                print(f"{Fore.GREEN}[+]Altered table {Style.RESET_ALL}{tb_name}\n")
+                else:
+                    print(f"{Fore.RED}[-]Unable to show tables{Style.RESET_ALL}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to alter table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "createtb":
 
-    elif user_input.lower() == "dml":
-        print(info.data_manipulation_language)
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                args = input("pysql> Enter table details: ")
+                args = args.split(",")
+                result = ddl_obj.create_table(tb_name, args)
 
-    elif user_input.lower() == "select":
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Created table {Style.RESET_ALL}{tb_name}\n")
 
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            columns = input("pysql> Enter selection columns: ")
-            args = input("pysql> Enter arguments: ")
-            result = dml_obj.select(current_db, tb_name, columns, args)
-
-            if result:
-                print(result + "\n")
+                else:
+                    print(f"{Fore.RED}[-]Unable to create table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to show selected values{Style.RESET_ALL}\n")
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "droptb":
 
-    elif user_input.lower() in ["insert -s", "insert"]:
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                result = ddl_obj.drop_table(current_db, tb_name)
 
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            args = input("pysql> Enter values: ")
-            result = dml_obj.insert(current_db, tb_name, args)
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Deleted table {Style.RESET_ALL}{tb_name}\n")
 
-            if result is True:
-                print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
+                else:
+                    print(f"{Fore.RED}[-]Unable to delete table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "trunctb":
 
-    elif user_input.lower() == "insert -m":
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                result = ddl_obj.truncate_table(current_db, tb_name)
 
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            num = int(input("pysql> Enter number of records: "))
-            flag = True
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Truncated table {Style.RESET_ALL}{tb_name}\n")
 
-            for records in range (num):
+                else:
+                    print(f"{Fore.RED}[-]Unable to truncate table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "desctb":
+
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                result = ddl_obj.desc_table(current_db, tb_name)
+
+                if result:
+                    print(result + "\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to display table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "altertb":
+
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                args = input("pysql> Enter arguments: ")
+                args = args.split(",")
+                result = ddl_obj.alter_table(current_db, tb_name, args)
+
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Altered table {Style.RESET_ALL}{tb_name}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to alter table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "dml":
+            print(info.data_manipulation_language)
+
+        elif user_input.lower() == "select":
+
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                columns = input("pysql> Enter selection columns: ")
+                args = input("pysql> Enter arguments: ")
+                result = dml_obj.select(current_db, tb_name, columns, args)
+
+                if result:
+                    print(result + "\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to show selected values{Style.RESET_ALL}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() in ["insert -s", "insert"]:
+
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
                 args = input("pysql> Enter values: ")
                 result = dml_obj.insert(current_db, tb_name, args)
 
-                if result is False:
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
+
+                else:
                     print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
-                    flag = False
-                    break
-
-            if flag is True:
-                print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
-
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "insert -f":
-
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            path = input("pysql> Enter path to CSV file: ")
-            result = dml_obj.insert_file(current_db, tb_name, path)
-
-            if result is True:
-                print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "insert -m":
 
-    elif user_input.lower() == "update":
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                num = int(input("pysql> Enter number of records: "))
+                flag = True
 
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            columns = input("pysql> Enter columns to update: ")
-            args = input("pysql> Enter arguments: ")
-            result = dml_obj.update(current_db, tb_name, columns, args)
+                for records in range (num):
+                    args = input("pysql> Enter values: ")
+                    result = dml_obj.insert(current_db, tb_name, args)
 
-            if result is True:
-                print(f"{Fore.GREEN}[+]Updated values in table {Style.RESET_ALL}{tb_name}\n")
+                    if result is False:
+                        print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+                        flag = False
+                        break
 
-            else:
-                print(f"{Fore.RED}[-]Unable to update values in table {Style.RESET_ALL}{tb_name}\n")
-
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "delete":
-
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            columns = input("pysql> Enter columns to delete: ")
-            result = dml_obj.delete(current_db, tb_name, columns)
-
-            if result is True:
-                print(f"{Fore.GREEN}[+]Deleted values from table {Style.RESET_ALL}{tb_name}\n")
+                if flag is True:
+                    print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to delete values from table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "insert -f":
 
-    elif user_input.lower() == "all":
-        print(info.all_commands)
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                path = input("pysql> Enter path to CSV file: ")
+                result = dml_obj.insert_file(current_db, tb_name, path)
 
-    elif user_input.lower() == "export":
-        print(info.export)
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
 
-    elif user_input.lower() == "import":
-        print(info.import_)
+                else:
+                    print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
 
-    elif user_input.lower() == "exportdb":
-        db_name = input("pysql> Enter database name: ")
-        path = input("pysql> Enter path to export: ")
-        result = exp_obj.export_database(db_name, path)
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
 
-        if result is True:
-            print(f"{Fore.GREEN}[+]Exported database {Style.RESET_ALL}{db_name}\n")
+        elif user_input.lower() == "update":
 
-        else:
-            print(f"{Fore.RED}[-]Unable to export database {Style.RESET_ALL}{db_name}\n")
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                columns = input("pysql> Enter columns to update: ")
+                args = input("pysql> Enter arguments: ")
+                result = dml_obj.update(current_db, tb_name, columns, args)
 
-    elif user_input.lower() == "exporttb -txt":
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Updated values in table {Style.RESET_ALL}{tb_name}\n")
 
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
+                else:
+                    print(f"{Fore.RED}[-]Unable to update values in table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "delete":
+
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                columns = input("pysql> Enter columns to delete: ")
+                result = dml_obj.delete(current_db, tb_name, columns)
+
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Deleted values from table {Style.RESET_ALL}{tb_name}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to delete values from table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "all":
+            print(info.all_commands)
+
+        elif user_input.lower() == "export":
+            print(info.export)
+
+        elif user_input.lower() == "import":
+            print(info.import_)
+
+        elif user_input.lower() == "exportdb":
+            db_name = input("pysql> Enter database name: ")
             path = input("pysql> Enter path to export: ")
-            result = exp_obj.export_table_txt(current_db, tb_name, path)
+            result = exp_obj.export_database(db_name, path)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.GREEN}[+]Exported database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]Unable to export database {Style.RESET_ALL}{db_name}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+        elif user_input.lower() == "exporttb -txt":
 
-    elif user_input.lower() == "exporttb -csv":
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                path = input("pysql> Enter path to export: ")
+                result = exp_obj.export_table_txt(current_db, tb_name, path)
 
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            path = input("pysql> Enter path to export: ")
-            result = exp_obj.export_table_csv(current_db, tb_name, path)
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "exporttb -csv":
+
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                path = input("pysql> Enter path to export: ")
+                result = exp_obj.export_table_csv(current_db, tb_name, path)
+
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "exporttb -sql":
+
+            if db_use is True:
+                tb_name = input("pysql> Enter table name: ")
+                path = input("pysql> Enter path to export: ")
+                result = exp_obj.export_table_sql(current_db, tb_name, path)
+
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "exportall -txt":
+
+            if db_use is True:
+                path = input("pysql> Enter path to export: ")
+                result = exp_obj.export_all_txt(current_db, path)
+
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "exportall -csv":
+
+            if db_use is True:
+                path = input("pysql> Enter path to export: ")
+                result = exp_obj.export_all_csv(current_db, path)
+
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "exportall -sql":
+
+            if db_use is True:
+                path = input("pysql> Enter path to export: ")
+                result = exp_obj.export_all_sql(current_db, path)
+
+                if result is True:
+                    print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
+
+                else:
+                    print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
+
+            else:
+                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+
+        elif user_input.lower() == "importdb":
+            db_name = input("pysql> Enter database name: ")
+            path = input("pysql> Enter path of file: ")
+            result = imp_obj.import_database(db_name, path)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.GREEN}[+]Imported to database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]Unable to import to database {Style.RESET_ALL}{db_name}\n")
 
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "exporttb -sql":
-
-        if db_use is True:
-            tb_name = input("pysql> Enter table name: ")
-            path = input("pysql> Enter path to export: ")
-            result = exp_obj.export_table_sql(current_db, tb_name, path)
+        elif user_input.lower() == "importtb":
+            db_name = input("pysql> Enter database name: ")
+            path = input("pysql> Enter path of file: ")
+            result = imp_obj.import_table(db_name, path)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.GREEN}[+]Imported table to database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+                print(f"{Fore.RED}[-]Unable to import table to database {Style.RESET_ALL}{db_name}\n")
 
         else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+            print(f"{Fore.RED}[-]Choose a valid option{Style.RESET_ALL}\n")
 
-    elif user_input.lower() == "exportall -txt":
-
-        if db_use is True:
-            path = input("pysql> Enter path to export: ")
-            result = exp_obj.export_all_txt(current_db, path)
-
-            if result is True:
-                print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
-
-            else:
-                print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
-
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "exportall -csv":
-
-        if db_use is True:
-            path = input("pysql> Enter path to export: ")
-            result = exp_obj.export_all_csv(current_db, path)
-
-            if result is True:
-                print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
-
-            else:
-                print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
-
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "exportall -sql":
-
-        if db_use is True:
-            path = input("pysql> Enter path to export: ")
-            result = exp_obj.export_all_sql(current_db, path)
-
-            if result is True:
-                print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
-
-            else:
-                print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
-
-        else:
-            print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
-
-    elif user_input.lower() == "importdb":
-        db_name = input("pysql> Enter database name: ")
-        path = input("pysql> Enter path of file: ")
-        result = imp_obj.import_database(db_name, path)
-
-        if result is True:
-            print(f"{Fore.GREEN}[+]Imported to database {Style.RESET_ALL}{db_name}\n")
-
-        else:
-            print(f"{Fore.RED}[-]Unable to import to database {Style.RESET_ALL}{db_name}\n")
-
-    elif user_input.lower() == "importtb":
-        db_name = input("pysql> Enter database name: ")
-        path = input("pysql> Enter path of file: ")
-        result = imp_obj.import_table(db_name, path)
-
-        if result is True:
-            print(f"{Fore.GREEN}[+]Imported table to database {Style.RESET_ALL}{db_name}\n")
-
-        else:
-            print(f"{Fore.RED}[-]Unable to import table to database {Style.RESET_ALL}{db_name}\n")
-
-    else:
-        print("Choose a valid option")
+    except:
+        print(f"{Fore.RED}[-]Unable to execute command{Style.RESET_ALL}\n")
 
 # entry point for running PySQL CLI
 def cli():

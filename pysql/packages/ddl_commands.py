@@ -133,13 +133,18 @@ class DDL:
         """
         # authenticate whether database exists or not
         authenticate = self.const.auth_db(database)
-        if (authenticate is True):
 
-            query = f"use {database}"
-            self.cursor.execute(query)
-            return True
+        try:
+            if (authenticate is True):
 
-        else:
+                query = f"use {database}"
+                self.cursor.execute(query)
+                return True
+
+            else:
+                return False
+
+        except:
             return False
 
     def drop_database(self, database: str) -> bool:
@@ -150,13 +155,18 @@ class DDL:
         """
         # authenticate whether database exists or not
         authenticate = self.const.auth_db(database)
-        if (authenticate is True):
 
-            query = f"drop database {database}"
-            self.cursor.execute(query)
-            return True
+        try:
+            if (authenticate is True):
 
-        else:
+                query = f"drop database {database}"
+                self.cursor.execute(query)
+                return True
+
+            else:
+                return False
+
+        except:
             return False
 
     def show_tables(self):
@@ -221,14 +231,19 @@ class DDL:
         """
         # authenticate whether table name exists or not
         authenticate = self.const.auth_table(db, table)
-        if (authenticate is True):
 
-            self.cursor.execute(f"use {db}")
-            query = f"drop table {table}"
-            self.cursor.execute(query)
-            return True
+        try:
+            if (authenticate is True):
 
-        else:
+                self.cursor.execute(f"use {db}")
+                query = f"drop table {table}"
+                self.cursor.execute(query)
+                return True
+
+            else:
+                return False
+
+        except:
             return False
 
     def truncate_table(self, db: str, table: str) -> bool:
@@ -239,14 +254,19 @@ class DDL:
         """
         # authenticate whether table name exists or not
         authenticate = self.const.auth_table(db, table)
-        if (authenticate is True):
 
-            self.cursor.execute(f"use {db}")
-            query = f"truncate table {table}"
-            self.cursor.execute(query)
-            return True
+        try:
+            if (authenticate is True):
 
-        else:
+                self.cursor.execute(f"use {db}")
+                query = f"truncate table {table}"
+                self.cursor.execute(query)
+                return True
+
+            else:
+                return False
+
+        except:
             return False
 
     def desc_table(self, db: str, table: str):
@@ -259,29 +279,34 @@ class DDL:
         """
         # authenticate whether table name exists or not
         authenticate = self.const.auth_table(db, table)
-        if (authenticate is True):
 
-            self.cursor.execute(f"use {db}")
-            query = f"desc {table}"
-            self.cursor.execute(query)
-            desc_result = self.cursor.fetchall()
+        try:
+            if (authenticate is True):
 
-            # tabulate the table structure
-            result = tabulate.tabulate(
-                desc_result,
-                headers = [
-                    'Field',
-                    'Type',
-                    'Null',
-                    'Key',
-                    'Default',
-                    'Extra'
-                ],
-                tablefmt = "psql"
-            )
-            return result
+                self.cursor.execute(f"use {db}")
+                query = f"desc {table}"
+                self.cursor.execute(query)
+                desc_result = self.cursor.fetchall()
 
-        else:
+                # tabulate the table structure
+                result = tabulate.tabulate(
+                    desc_result,
+                    headers = [
+                        'Field',
+                        'Type',
+                        'Null',
+                        'Key',
+                        'Default',
+                        'Extra'
+                    ],
+                    tablefmt = "psql"
+                )
+                return result
+
+            else:
+                return False
+
+        except:
             return False
 
     def alter_table(self, db: str, table: str, args: list) -> bool:
@@ -294,29 +319,34 @@ class DDL:
         """
         # authenticate whether table name exists or not
         authenticate = self.const.auth_table(db, table)
-        if (authenticate is True):
 
-            # create `Alter` class instance
-            const = Alter(self.uname, self.passw, db, table)
-            args[1] = args[1].lstrip(" ")
+        try:
+            if (authenticate is True):
 
-            if (args[0] == "add"):
-                if (const.add_column(args[1]) is True):
-                    return True
+                # create `Alter` class instance
+                const = Alter(self.uname, self.passw, db, table)
+                args[1] = args[1].lstrip(" ")
 
-                else:
-                    return False
+                if (args[0] == "add"):
+                    if (const.add_column(args[1]) is True):
+                        return True
 
-            elif (args[0] == "modify"):
-                if (const.modify_column(args[1]) is True):
-                    return True
+                    else:
+                        return False
 
-                else:
-                    return False
+                elif (args[0] == "modify"):
+                    if (const.modify_column(args[1]) is True):
+                        return True
 
-            elif (args[0] == "drop"):
-                if (const.drop_column(args[1]) is True):
-                    return True
+                    else:
+                        return False
+
+                elif (args[0] == "drop"):
+                    if (const.drop_column(args[1]) is True):
+                        return True
+
+                    else:
+                        return False
 
                 else:
                     return False
@@ -324,7 +354,7 @@ class DDL:
             else:
                 return False
 
-        else:
+        except:
             return False
 
 
@@ -387,13 +417,18 @@ class Alter:
         """
         # authenticate whether column details exist in table or not
         authenticate = self.const.auth_table_columns(self.db, self.table, column)
-        if (authenticate is True):
 
-            query = f"alter table {self.table} drop column {column}"
-            self.cursor.execute(query)
-            return True
+        try:
+            if (authenticate is True):
 
-        else:
+                query = f"alter table {self.table} drop column {column}"
+                self.cursor.execute(query)
+                return True
+
+            else:
+                return False
+
+        except:
             return False
 
     def modify_column(self, column: str) -> bool:
@@ -405,13 +440,18 @@ class Alter:
         auth_column = column.split(' ')
         # authenticate whether column details exist in table or not
         authenticate = self.const.auth_table_columns(self.db, self.table, auth_column[0])
-        if (authenticate is True):
 
-            query = f"alter table {self.table} modify column {column}"
-            self.cursor.execute(query)
-            return True
+        try:
+            if (authenticate is True):
 
-        else:
+                query = f"alter table {self.table} modify column {column}"
+                self.cursor.execute(query)
+                return True
+
+            else:
+                return False
+
+        except:
             return False
 
 

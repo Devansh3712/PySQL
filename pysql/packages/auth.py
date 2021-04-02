@@ -84,20 +84,25 @@ class Database:
         database is in the list, returns True
         """
         authenticate = Database(self.uname, self.passw).authenticate()
-        if (authenticate is True):
 
-            Database.cursor.execute("show databases")
-            # list of all databases of user
-            result = Database.cursor.fetchall()
+        try:
+            if (authenticate is True):
 
-            for db in result:
+                Database.cursor.execute("show databases")
+                # list of all databases of user
+                result = Database.cursor.fetchall()
 
-                if (db[0] == database):
-                    return True
+                for db in result:
 
-            return False
+                    if (db[0] == database):
+                        return True
 
-        else:
+                return False
+
+            else:
+                return False
+
+        except:
             return False
 
     def auth_table(self, db: str, table: str) -> bool:
@@ -110,21 +115,26 @@ class Database:
         table is in the list, returns True
         """
         authenticate = Database(self.uname, self.passw).authenticate()
-        if (authenticate is True):
 
-            Database.cursor.execute(f"use {db}")
-            Database.cursor.execute("show tables")
-            # list of all tables in selected database
-            result = Database.cursor.fetchall()
+        try:
+            if (authenticate is True):
 
-            for data in result:
+                Database.cursor.execute(f"use {db}")
+                Database.cursor.execute("show tables")
+                # list of all tables in selected database
+                result = Database.cursor.fetchall()
 
-                if (data[0] == table):
-                    return True
+                for data in result:
 
-            return False
+                    if (data[0] == table):
+                        return True
 
-        else:
+                return False
+
+            else:
+                return False
+
+        except:
             return False
 
     def auth_table_columns(self, db: str, table: str, query: str) -> bool:
@@ -138,23 +148,28 @@ class Database:
         and type match, returns True
         """
         authenticate = Database(self.uname, self.passw).authenticate()
-        if (authenticate is True):
 
-            # split column name and type of column
-            query = query.split(' ')
-            Database.cursor.execute(f"use {db}")
-            Database.cursor.execute(f"select * from {table}")
-            # contains description of all columns in the table
-            result = Database.cursor.description
+        try:
+            if (authenticate is True):
 
-            for column in result:
+                # split column name and type of column
+                query = query.split(' ')
+                Database.cursor.execute(f"use {db}")
+                Database.cursor.execute(f"select * from {table}")
+                # contains description of all columns in the table
+                result = Database.cursor.description
 
-                if (column[0].lower() == query[0].lower()):
-                    return True
+                for column in result:
 
-            return False
+                    if (column[0].lower() == query[0].lower()):
+                        return True
 
-        else:
+                return False
+
+            else:
+                return False
+
+        except:
             return False
 
 
