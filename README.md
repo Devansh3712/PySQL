@@ -19,7 +19,7 @@
 - Clone the repository to your local machine
 
 ```console
-$ git clone https://github.com/Devansh3712/PySQL.git
+git clone https://github.com/Devansh3712/PySQL.git
 ```
 
 - Installation pre-requisites
@@ -32,13 +32,13 @@ $ git clone https://github.com/Devansh3712/PySQL.git
 > Windows
 
 ```console
-> pip install pysql-cli
+pip install pysql-cli
 ```
 
 > Linux / MacOS
 
 ```console
-$ pip3 install pysql-cli
+pip3 install pysql-cli
 ```
 
 - Automatic Setup
@@ -48,16 +48,16 @@ Open the ``PySQL`` directory, run the setup file & activate the ``virtual enviro
 > Windows
 
 ```console
-> setup.cmd
-> venv\Scripts\activate.bat
+setup.cmd
+venv\Scripts\activate.bat
 ```
 
 > Linux / MacOS
 
 ```console
-$ chmod +x ./setup.sh
-$ . setup.sh
-$ source venv/bin/activate
+chmod +x ./setup.sh
+. setup.sh
+source venv/bin/activate
 ```
 
 - Manual Setup
@@ -67,13 +67,13 @@ Open the ``PySQL`` directory
 > using requirements.txt
 
 ```console
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 > using poetry
 
 ```console
-$ poetry install
+poetry install
 ```
 
 ## Usage
@@ -84,8 +84,8 @@ $ poetry install
   - ``cpysql``: Colored PySQL CLI
 
 ```console
-$ pysql
-$ cpysql
+pysql
+cpysql
 ```
 
 - Using the Python command-line wrapper `.py file`
@@ -96,15 +96,15 @@ $ cpysql
 > Windows
 
 ```console
-> python pysql/main.py
-> python pysql/main_c.py
+python pysql/main.py
+python pysql/main_c.py
 ```
 
 > Linux
 
 ```console
-$ python3 pysql/main.py
-$ python3 pysql/main_c.py
+python3 pysql/main.py
+python3 pysql/main_c.py
 ```
 
 ## Commands
