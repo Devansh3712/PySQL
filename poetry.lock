@@ -7,6 +7,14 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "mysql-connector"
+version = "2.2.9"
+description = "MySQL driver written in Python"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "mysql-connector-python"
 version = "8.0.23"
 description = "MySQL driver written in Python"
@@ -63,12 +71,15 @@ widechars = ["wcwidth"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "296227bb35453ff84d1de202992bbdc42035571c67da6f22a472fe2bacea7904"
+content-hash = "a75b34c6b36cb5afe7802fff84b187e50ae0d9e49ced1c5e8892e71c2856fc57"
 
 [metadata.files]
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
     {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
+]
+mysql-connector = [
+    {file = "mysql-connector-2.2.9.tar.gz", hash = "sha256:1733e6ce52a049243de3264f1fbc22a852cb35458c4ad739ba88189285efdf32"},
 ]
 mysql-connector-python = [
     {file = "mysql-connector-python-8.0.23.tar.gz", hash = "sha256:5e84dcc25d4b505118e0c28f07de496a41bc0ab121232a2aba83d0248cd49257"},

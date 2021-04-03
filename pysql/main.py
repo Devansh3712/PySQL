@@ -16,7 +16,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 print(info.ascii_art)
 time.sleep(1)
@@ -27,10 +27,10 @@ passwd = stdiomask.getpass(prompt = "Password: ")
 # authenticate input credentials
 authenticate = auth.Database(uname, passwd).authenticate()
 if authenticate is False:
-    print("\n[-]User could not be authenticated")
+    print("\n[-] User could not be authenticated")
     exit()
 
-print(f"\n[+]User authenticated")
+print(f"\n[+] User authenticated")
 time.sleep(1)
 
 print(info.menu)
@@ -77,17 +77,17 @@ while (True):
                 print(result + "\n")
 
             else:
-                print("[-]Unable to show databases\n")
+                print("[-] Unable to show databases\n")
 
         elif user_input.lower() == "createdb":
             db_name = input("pysql> Enter database name: ")
             result = ddl_obj.create_database(db_name)
 
             if result is True:
-                print(f"[+]Created database {db_name}\n")
+                print(f"[+] Created database {db_name}\n")
 
             else:
-                print(f"[-]Unable to create database {db_name}\n")
+                print(f"[-] Unable to create database {db_name}\n")
 
         elif user_input.lower() == "usedb":
             db_name = input("pysql> Enter database name: ")
@@ -96,10 +96,10 @@ while (True):
             if result is True:
                 current_db = db_name
                 db_use = True
-                print(f"[+]Connected to database {db_name}\n")
+                print(f"[+] Connected to database {db_name}\n")
 
             else:
-                print(f"[-]Unable to connect to database {db_name}\n")
+                print(f"[-] Unable to connect to database {db_name}\n")
 
         elif user_input.lower() == "dropdb":
             db_name = input("pysql> Enter database name: ")
@@ -107,12 +107,12 @@ while (True):
             result = ddl_obj.drop_database(db_name)
 
             if result is True:
-                print(f"[+]Deleted database {db_name}\n")
+                print(f"[+] Deleted database {db_name}\n")
                 current_db = ""
                 db_use = False
 
             else:
-                print(f"[-]Unable to delete database {db_name}\n")
+                print(f"[-] Unable to delete database {db_name}\n")
 
         elif user_input.lower() == "showtb":
 
@@ -123,10 +123,10 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print("[-]Unable to show tables\n")
+                    print("[-] Unable to show tables\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "createtb":
 
@@ -137,13 +137,13 @@ while (True):
                 result = ddl_obj.create_table(tb_name, args)
 
                 if result is True:
-                    print(f"[+]Created table {tb_name}\n")
+                    print(f"[+] Created table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to create table {tb_name}\n")
+                    print(f"[-] Unable to create table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "droptb":
 
@@ -152,13 +152,13 @@ while (True):
                 result = ddl_obj.drop_table(current_db, tb_name)
 
                 if result is True:
-                    print(f"[+]Deleted table {tb_name}\n")
+                    print(f"[+] Deleted table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to delete table {tb_name}\n")
+                    print(f"[-] Unable to delete table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "trunctb":
 
@@ -167,13 +167,13 @@ while (True):
                 result = ddl_obj.truncate_table(current_db, tb_name)
 
                 if result is True:
-                    print(f"[+]Truncated table {tb_name}\n")
+                    print(f"[+] Truncated table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to truncate table {tb_name}\n")
+                    print(f"[-] Unable to truncate table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "desctb":
 
@@ -185,10 +185,10 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print(f"[-]Unable to display table {tb_name}\n")
+                    print(f"[-] Unable to display table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "altertb":
 
@@ -199,13 +199,13 @@ while (True):
                 result = ddl_obj.alter_table(current_db, tb_name, args)
 
                 if result is True:
-                    print(f"[+]Altered table {tb_name}\n")
+                    print(f"[+] Altered table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to alter table {tb_name}\n")
+                    print(f"[-] Unable to alter table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "dml":
             print(info.data_manipulation_language)
@@ -222,10 +222,10 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print("[-]Unable to show selected values\n")
+                    print("[-] Unable to show selected values\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() in ["insert -s", "insert"]:
 
@@ -235,13 +235,13 @@ while (True):
                 result = dml_obj.insert(current_db, tb_name, args)
 
                 if result is True:
-                    print(f"[+]Inserted values in table {tb_name}\n")
+                    print(f"[+] Inserted values in table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to insert value in table {tb_name}\n")
+                    print(f"[-] Unable to insert value in table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "insert -m":
 
@@ -255,15 +255,15 @@ while (True):
                     result = dml_obj.insert(current_db, tb_name, args)
 
                     if result is False:
-                        print(f"[-]Unable to insert value in table {tb_name}\n")
+                        print(f"[-] Unable to insert value in table {tb_name}\n")
                         flag = False
                         break
 
                 if flag is True:
-                    print(f"[+]Inserted values in table {tb_name}\n")
+                    print(f"[+] Inserted values in table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "insert -f":
 
@@ -273,13 +273,13 @@ while (True):
                 result = dml_obj.insert_file(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"[+]Inserted values in table {tb_name}\n")
+                    print(f"[+] Inserted values in table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to insert value in table {tb_name}\n")
+                    print(f"[-] Unable to insert value in table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "update":
 
@@ -290,13 +290,13 @@ while (True):
                 result = dml_obj.update(current_db, tb_name, columns, args)
 
                 if result is True:
-                    print(f"[+]Updated values in table {tb_name}\n")
+                    print(f"[+] Updated values in table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to update values in table {tb_name}\n")
+                    print(f"[-] Unable to update values in table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "delete":
 
@@ -306,13 +306,13 @@ while (True):
                 result = dml_obj.delete(current_db, tb_name, columns)
 
                 if result is True:
-                    print(f"[+]Deleted values from table {tb_name}\n")
+                    print(f"[+] Deleted values from table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to delete values from table {tb_name}\n")
+                    print(f"[-] Unable to delete values from table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "all":
             print(info.all_commands)
@@ -329,10 +329,10 @@ while (True):
             result = exp_obj.export_database(db_name, path)
 
             if result is True:
-                print(f"[+]Exported database {db_name}\n")
+                print(f"[+] Exported database {db_name}\n")
 
             else:
-                print(f"[-]Unable to export database {db_name}\n")
+                print(f"[-] Unable to export database {db_name}\n")
 
         elif user_input.lower() == "exporttb -txt":
 
@@ -342,13 +342,13 @@ while (True):
                 result = exp_obj.export_table_txt(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"[+]Exported table {tb_name}\n")
+                    print(f"[+] Exported table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to export table {tb_name}\n")
+                    print(f"[-] Unable to export table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exporttb -csv":
 
@@ -358,13 +358,13 @@ while (True):
                 result = exp_obj.export_table_csv(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"[+]Exported table {tb_name}\n")
+                    print(f"[+] Exported table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to export table {tb_name}\n")
+                    print(f"[-] Unable to export table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exporttb -sql":
 
@@ -374,13 +374,13 @@ while (True):
                 result = exp_obj.export_table_sql(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"[+]Exported table {tb_name}\n")
+                    print(f"[+] Exported table {tb_name}\n")
 
                 else:
-                    print(f"[-]Unable to export table {tb_name}\n")
+                    print(f"[-] Unable to export table {tb_name}\n")
 
             else:
-                print(f"[-]No database in use")
+                print(f"[-] No database in use")
 
         elif user_input.lower() == "exportall -txt":
 
@@ -389,13 +389,13 @@ while (True):
                 result = exp_obj.export_all_txt(current_db, path)
 
                 if result is True:
-                    print(f"[+]Exported all tables in {current_db}\n")
+                    print(f"[+] Exported all tables in {current_db}\n")
 
                 else:
-                    print(f"[-]Unable to export tables in {current_db}\n")
+                    print(f"[-] Unable to export tables in {current_db}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exportall -csv":
 
@@ -404,13 +404,13 @@ while (True):
                 result = exp_obj.export_all_csv(current_db, path)
 
                 if result is True:
-                    print(f"[+]Exported all tables in {current_db}\n")
+                    print(f"[+] Exported all tables in {current_db}\n")
 
                 else:
-                    print(f"[-]Unable to export tables in {current_db}\n")
+                    print(f"[-] Unable to export tables in {current_db}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exportall -sql":
 
@@ -419,13 +419,13 @@ while (True):
                 result = exp_obj.export_all_sql(current_db, path)
 
                 if result is True:
-                    print(f"[+]Exported all tables in {current_db}\n")
+                    print(f"[+] Exported all tables in {current_db}\n")
 
                 else:
-                    print(f"[-]Unable to export tables in {current_db}\n")
+                    print(f"[-] Unable to export tables in {current_db}\n")
 
             else:
-                print(f"[-]No database in use\n")
+                print(f"[-] No database in use\n")
 
         elif user_input.lower() == "importdb":
             db_name = input("pysql> Enter database name: ")
@@ -433,10 +433,10 @@ while (True):
             result = imp_obj.import_database(db_name, path)
 
             if result is True:
-                print(f"[+]Imported to database {db_name}\n")
+                print(f"[+] Imported to database {db_name}\n")
 
             else:
-                print(f"[-]Unable to import to database {db_name}\n")
+                print(f"[-] Unable to import to database {db_name}\n")
 
         elif user_input.lower() == "importtb":
             db_name = input("pysql> Enter database name: ")
@@ -444,16 +444,16 @@ while (True):
             result = imp_obj.import_table(db_name, path)
 
             if result is True:
-                print(f"[+]Imported table to database {db_name}\n")
+                print(f"[+] Imported table to database {db_name}\n")
 
             else:
-                print(f"[-]Unable to import table to database {db_name}\n")
+                print(f"[-] Unable to import table to database {db_name}\n")
 
         else:
-            print("[-]Choose a valid option\n")
+            print("[-] Choose a valid option\n")
 
     except:
-        print(f"[-]Unable to execute command\n")
+        print(f"[-] Unable to execute command\n")
 
 # entry point for running PySQL CLI
 def cli():

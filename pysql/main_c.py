@@ -20,7 +20,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 if platform.system() == "Windows":
     init(convert = True)
@@ -34,10 +34,10 @@ passwd = stdiomask.getpass(prompt = f"{Fore.CYAN}Password: {Style.RESET_ALL}")
 
 authenticate = auth.Database(uname, passwd).authenticate()
 if authenticate is False:
-    print(f"\n{Fore.RED}[-]User could not be authenticated{Style.RESET_ALL}")
+    print(f"\n[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} User could not be authenticated{Style.RESET_ALL}")
     exit()
 
-print(f"\n{Fore.GREEN}[+]User authenticated{Style.RESET_ALL}")
+print(f"\n[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} User authenticated{Style.RESET_ALL}")
 time.sleep(1)
 
 print(info.menu)
@@ -84,17 +84,17 @@ while (True):
                 print(result + "\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to show databases{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to show databases{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "createdb":
             db_name = input("pysql> Enter database name: ")
             result = ddl_obj.create_database(db_name)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Created database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Created database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to create database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to create database {Style.RESET_ALL}{db_name}\n")
 
         elif user_input.lower() == "usedb":
             db_name = input("pysql> Enter database name: ")
@@ -103,10 +103,10 @@ while (True):
             if result is True:
                 current_db = db_name
                 db_use = True
-                print(f"{Fore.GREEN}[+]Connected to database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Connected to database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to connect to database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to connect to database {Style.RESET_ALL}{db_name}\n")
 
         elif user_input.lower() == "dropdb":
             db_name = input("pysql> Enter database name: ")
@@ -114,12 +114,12 @@ while (True):
             result = ddl_obj.drop_database(db_name)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Deleted database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Deleted database {Style.RESET_ALL}{db_name}\n")
                 current_db = ""
                 db_use = False
 
             else:
-                print(f"{Fore.RED}[-]Unable to delete database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to delete database {Style.RESET_ALL}{db_name}\n")
 
         elif user_input.lower() == "showtb":
 
@@ -130,10 +130,10 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to show tables{Style.RESET_ALL}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to show tables{Style.RESET_ALL}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "createtb":
 
@@ -144,13 +144,13 @@ while (True):
                 result = ddl_obj.create_table(tb_name, args)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Created table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Created table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to create table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to create table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "droptb":
 
@@ -159,13 +159,13 @@ while (True):
                 result = ddl_obj.drop_table(current_db, tb_name)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Deleted table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Deleted table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to delete table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to delete table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "trunctb":
 
@@ -174,13 +174,13 @@ while (True):
                 result = ddl_obj.truncate_table(current_db, tb_name)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Truncated table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Truncated table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to truncate table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to truncate table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "desctb":
 
@@ -192,10 +192,10 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to display table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to display table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "altertb":
 
@@ -206,13 +206,13 @@ while (True):
                 result = ddl_obj.alter_table(current_db, tb_name, args)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Altered table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Altered table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to alter table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to alter table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "dml":
             print(info.data_manipulation_language)
@@ -229,10 +229,10 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to show selected values{Style.RESET_ALL}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to show selected values{Style.RESET_ALL}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() in ["insert -s", "insert"]:
 
@@ -242,13 +242,13 @@ while (True):
                 result = dml_obj.insert(current_db, tb_name, args)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Inserted values in table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "insert -m":
 
@@ -262,15 +262,15 @@ while (True):
                     result = dml_obj.insert(current_db, tb_name, args)
 
                     if result is False:
-                        print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+                        print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
                         flag = False
                         break
 
                 if flag is True:
-                    print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Inserted values in table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "insert -f":
 
@@ -280,13 +280,13 @@ while (True):
                 result = dml_obj.insert_file(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Inserted values in table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Inserted values in table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to insert value in table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "update":
 
@@ -297,13 +297,13 @@ while (True):
                 result = dml_obj.update(current_db, tb_name, columns, args)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Updated values in table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Updated values in table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to update values in table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to update values in table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "delete":
 
@@ -313,13 +313,13 @@ while (True):
                 result = dml_obj.delete(current_db, tb_name, columns)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Deleted values from table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Deleted values from table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to delete values from table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to delete values from table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "all":
             print(info.all_commands)
@@ -336,10 +336,10 @@ while (True):
             result = exp_obj.export_database(db_name, path)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Exported database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Exported database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to export database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to export database {Style.RESET_ALL}{db_name}\n")
 
         elif user_input.lower() == "exporttb -txt":
 
@@ -349,13 +349,13 @@ while (True):
                 result = exp_obj.export_table_txt(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Exported table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to export table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "exporttb -csv":
 
@@ -365,13 +365,13 @@ while (True):
                 result = exp_obj.export_table_csv(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Exported table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to export table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "exporttb -sql":
 
@@ -381,13 +381,13 @@ while (True):
                 result = exp_obj.export_table_sql(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Exported table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Exported table {Style.RESET_ALL}{tb_name}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to export table {Style.RESET_ALL}{tb_name}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to export table {Style.RESET_ALL}{tb_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "exportall -txt":
 
@@ -396,13 +396,13 @@ while (True):
                 result = exp_obj.export_all_txt(current_db, path)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Exported all tables in {Style.RESET_ALL}{current_db}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to export tables in {Style.RESET_ALL}{current_db}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "exportall -csv":
 
@@ -411,13 +411,13 @@ while (True):
                 result = exp_obj.export_all_csv(current_db, path)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Exported all tables in {Style.RESET_ALL}{current_db}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to export tables in {Style.RESET_ALL}{current_db}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "exportall -sql":
 
@@ -426,13 +426,13 @@ while (True):
                 result = exp_obj.export_all_sql(current_db, path)
 
                 if result is True:
-                    print(f"{Fore.GREEN}[+]Exported all tables in {Style.RESET_ALL}{current_db}\n")
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Exported all tables in {Style.RESET_ALL}{current_db}\n")
 
                 else:
-                    print(f"{Fore.RED}[-]Unable to export tables in {Style.RESET_ALL}{current_db}\n")
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to export tables in {Style.RESET_ALL}{current_db}\n")
 
             else:
-                print(f"{Fore.RED}[-]No database in use{Style.RESET_ALL}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} No database in use{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "importdb":
             db_name = input("pysql> Enter database name: ")
@@ -440,10 +440,10 @@ while (True):
             result = imp_obj.import_database(db_name, path)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Imported to database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Imported to database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to import to database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to import to database {Style.RESET_ALL}{db_name}\n")
 
         elif user_input.lower() == "importtb":
             db_name = input("pysql> Enter database name: ")
@@ -451,16 +451,16 @@ while (True):
             result = imp_obj.import_table(db_name, path)
 
             if result is True:
-                print(f"{Fore.GREEN}[+]Imported table to database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Imported table to database {Style.RESET_ALL}{db_name}\n")
 
             else:
-                print(f"{Fore.RED}[-]Unable to import table to database {Style.RESET_ALL}{db_name}\n")
+                print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to import table to database {Style.RESET_ALL}{db_name}\n")
 
         else:
-            print(f"{Fore.RED}[-]Choose a valid option{Style.RESET_ALL}\n")
+            print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Choose a valid option{Style.RESET_ALL}\n")
 
     except:
-        print(f"{Fore.RED}[-]Unable to execute command{Style.RESET_ALL}\n")
+        print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to execute command{Style.RESET_ALL}\n")
 
 # entry point for running PySQL CLI
 def cli():
