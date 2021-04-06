@@ -26,7 +26,7 @@ def update_pysql() -> bool:
                     return True
 
             if flag is False:
-                
+
                 if call(["git", "branch"], stderr = STDOUT, stdout = open(os.devnull, "w")) != 0:
                     return False
 
@@ -50,7 +50,7 @@ def update_pysql() -> bool:
                     return True
 
             if flag is False:
-                
+
                 if call(["git", "branch"], stderr = STDOUT, stdout = open(os.devnull, "w")) != 0:
                     return False
 
