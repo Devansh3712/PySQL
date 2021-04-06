@@ -4,11 +4,15 @@ PySQL Python Wrapper CLI
 [colored version]
 """
 
+import os
+import sys
+# create relative path for importing modules
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
 try:
     import stdiomask
     import time
     import platform
-    import sys
     import urllib.request
     from colorama import init, Fore, Style
     import packages.auth as auth
@@ -21,7 +25,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = open("__version__.py", "r").read()
+__version__ = "1.0.4"
 
 if platform.system() == "Windows":
     init(convert = True)

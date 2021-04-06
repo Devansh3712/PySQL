@@ -4,6 +4,10 @@ through pip/GitHub
 """
 
 import os
+import sys
+# create relative path for importing modules
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
 import platform
 from subprocess import call, STDOUT
 

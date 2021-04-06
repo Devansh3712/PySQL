@@ -3,6 +3,11 @@ module for running
 PySQL Python Wrapper CLI
 """
 
+import os
+import sys
+# create relative path for importing modules
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
+
 try:
     import stdiomask
     import time
@@ -18,7 +23,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = open("__version__.py", "r").read()
+__version__ = "1.0.4"
 
 print(info.ascii_art)
 time.sleep(1)
