@@ -6,6 +6,7 @@ PySQL Python Wrapper CLI
 try:
     import stdiomask
     import time
+    import urllib.request
     import packages.auth as auth
     import packages.ddl_commands as ddl
     import packages.dml_commands as dml
@@ -16,7 +17,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = "1.0.2"
+__version__ = open("__version__.py", "r").read()
 
 print(info.ascii_art)
 time.sleep(1)
@@ -66,6 +67,9 @@ while (True):
 
         elif user_input.lower() in ["-v", "version"]:
             print(__version__ + "\n")
+
+        elif user_input.lower() in ["-u", "update"]:
+            gh_version = urllib.request.urlopen()
 
         elif user_input.lower() == "ddl":
             print(info.data_definition_language)

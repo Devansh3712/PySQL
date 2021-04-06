@@ -25,6 +25,7 @@ OPTIONS
     -c  commands    Display available commands
     -h  help        Display this help message
     -v  version     Display application version
+    -u  update      Check for PySQL updates
     -q  quit        Exit the program
 """
 

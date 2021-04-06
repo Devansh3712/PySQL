@@ -9,6 +9,7 @@ try:
     import time
     import platform
     import sys
+    import urllib.request
     from colorama import init, Fore, Style
     import packages.auth as auth
     import packages.ddl_commands as ddl
@@ -20,7 +21,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = "1.0.2"
+__version__ = open("__version__.py", "r").read()
 
 if platform.system() == "Windows":
     init(convert = True)
@@ -73,6 +74,9 @@ while (True):
 
         elif user_input.lower() in ["-v", "version"]:
             print(__version__ + "\n")
+
+        elif user_input.lower() in ["-u", "update"]:
+            gh_version = urllib.request.urlopen()
 
         elif user_input.lower() == "ddl":
             print(info.data_definition_language)
