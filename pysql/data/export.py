@@ -13,6 +13,7 @@ try:
     import mysql.connector as mc
     import tabulate
     import csv
+    import platform
     import packages.auth as auth
 
 except:
@@ -112,7 +113,8 @@ class Export:
                 )
 
                 if path == "":
-                    path = "."
+                    path = os.path.expanduser("~")
+                    path = path.replace("\\", "/")
 
                 file = open(f"{path}/{table}.txt", "w")
                 file.write(result)
@@ -149,7 +151,8 @@ class Export:
                 table_columns = self.cursor.column_names
 
                 if path == "":
-                    path = "."
+                    path = os.path.expanduser("~")
+                    path = path.replace("\\", "/")
 
                 file = open(f"{path}/{table}.csv", "w", newline = "")
                 writer_obj = csv.writer(file)
@@ -187,12 +190,22 @@ class Export:
             if os.path.isdir(f"{path}/{db}") is False:
 
                 if path != "":
-                    path_n = path.replace("/", "\\")
-                    os.system(f"mkdir {path_n}\\{db}")
+
+                    if platform.system() == "Windows":
+                        path_n = path.replace("/", "\\")
+                        os.system(f"mkdir {path_n}\{db}")
+
+                    else:
+                        os.system(f"mkdir {path}/{db}")
 
                 else:
-                    os.system(f"mkdir {db}")
-                    path = "."
+
+                    if platform.system() == "Windows":
+                        path = os.path.expanduser("~")
+                        os.system(f"mkdir {path}\{db}")
+
+                    else:
+                        os.system(f"mkdir ~/{db}")
 
             for db_name in result:
                 res = Export(self.uname, self.passw).export_table_txt(db, db_name[0], f"{path}/{db}")
@@ -224,12 +237,22 @@ class Export:
             if os.path.isdir(f"{path}/{db}") is False:
 
                 if path != "":
-                    path_n = path.replace("/", "\\")
-                    os.system(f"mkdir {path_n}\\{db}")
+
+                    if platform.system() == "Windows":
+                        path_n = path.replace("/", "\\")
+                        os.system(f"mkdir {path_n}\{db}")
+
+                    else:
+                        os.system(f"mkdir {path}/{db}")
 
                 else:
-                    os.system(f"mkdir {db}")
-                    path = "."
+
+                    if platform.system() == "Windows":
+                        path = os.path.expanduser("~")
+                        os.system(f"mkdir {path}\{db}")
+
+                    else:
+                        os.system(f"mkdir ~/{db}")
 
             for db_name in result:
                 res = Export(self.uname, self.passw).export_table_csv(db, db_name[0], f"{path}/{db}")
@@ -261,12 +284,22 @@ class Export:
             if os.path.isdir(f"{path}/{db}") is False:
 
                 if path != "":
-                    path_n = path.replace("/", "\\")
-                    os.system(f"mkdir {path_n}\\{db}")
+
+                    if platform.system() == "Windows":
+                        path_n = path.replace("/", "\\")
+                        os.system(f"mkdir {path_n}\{db}")
+
+                    else:
+                        os.system(f"mkdir {path}/{db}")
 
                 else:
-                    os.system(f"mkdir {db}")
-                    path = "."
+
+                    if platform.system() == "Windows":
+                        path = os.path.expanduser("~")
+                        os.system(f"mkdir {path}\{db}")
+
+                    else:
+                        os.system(f"mkdir ~/{db}")
 
             for db_name in result:
                 res = Export(self.uname, self.passw).export_table_sql(db, db_name[0], f"{path}/{db}")

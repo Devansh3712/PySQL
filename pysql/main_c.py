@@ -25,7 +25,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 
 if platform.system() == "Windows":
     init(convert = True)

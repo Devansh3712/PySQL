@@ -10,7 +10,7 @@ with open(path.join(this_dir, "README.md"), encoding = "utf-8") as f:
 
 setup(
     name = "pysql-cli",
-    version = "1.0.4",
+    version = "1.0.5",
     author = "Devansh Singh",
     author_email = "devanshamity@gmail.com",
     url = "https://github.com/Devansh3712/PySQL",
