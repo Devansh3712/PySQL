@@ -76,7 +76,21 @@ while (True):
             print(__version__ + "\n")
 
         elif user_input.lower() in ["-u", "update"]:
-            gh_version = urllib.request.urlopen()
+            gh_version = urllib.request.urlopen("https://raw.githubusercontent.com/Devansh3712/PySQL/main/pysql/__version__.py")
+            gh_version = gh_version.read().decode("utf-8")
+
+            if gh_version > __version__:
+
+                result = update.update_pysql()
+
+                if result is True:
+                    print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} PySQL updated to v{gh_version} succesfully{Style.RESET_ALL}\n")
+
+                else:
+                    print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to update PySQL{Style.RESET_ALL}\n")
+
+            else:
+                print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} PySQL is up-to-date{Style.RESET_ALL}\n")
 
         elif user_input.lower() == "ddl":
             print(info.data_definition_language)

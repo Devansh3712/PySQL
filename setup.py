@@ -8,9 +8,11 @@ this_dir = path.abspath(path.dirname(__file__))
 with open(path.join(this_dir, "README.md"), encoding = "utf-8") as f:
     long_description = f.read()
 
+__version__ = open("./pysql/__version__.py", "r").read()
+
 setup(
     name = "pysql-cli",
-    version = "1.0.2",
+    version = __version__,
     author = "Devansh Singh",
     author_email = "devanshamity@gmail.com",
     url = "https://github.com/Devansh3712/PySQL",

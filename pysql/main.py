@@ -13,6 +13,7 @@ try:
     import data.info as info
     import data.export as export
     import data.imports as imports
+    import data.update as update
 
 except:
     raise Exception("Package Error: modules not setup")
@@ -69,7 +70,21 @@ while (True):
             print(__version__ + "\n")
 
         elif user_input.lower() in ["-u", "update"]:
-            gh_version = urllib.request.urlopen()
+            gh_version = urllib.request.urlopen("https://raw.githubusercontent.com/Devansh3712/PySQL/main/pysql/__version__.py")
+            gh_version = gh_version.read().decode("utf-8")
+
+            if gh_version > __version__:
+
+                result = update.update_pysql()
+
+                if result is True:
+                    print(f"[+] PySQL updated to v{gh_version} succesfully\n")
+
+                else:
+                    print(f"[-] Unable to update PySQL\n")
+
+            else:
+                print(f"[+] PySQL is up-to-date\n")
 
         elif user_input.lower() == "ddl":
             print(info.data_definition_language)

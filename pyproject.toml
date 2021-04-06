@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "PySQL"
-version = "1.0.2"
+version = "1.0.3"
 description = "GUI & Python wrapper for making MySQL queries easier"
 authors = ["Devansh3712 <devanshamity@gmail.com>"]
 license = "MIT"
