@@ -21,11 +21,12 @@ try:
     import data.info as info
     import data.export as export
     import data.imports as imports
+    import data.update as update
 
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = "1.0.5"
+__version__ = "1.0.6"
 
 if platform.system() == "Windows":
     init(convert = True)
