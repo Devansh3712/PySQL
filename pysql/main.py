@@ -23,7 +23,7 @@ try:
 except:
     raise Exception("Package Error: modules not setup")
 
-__version__ = "1.0.6"
+__version__ = "1.0.7"
 
 print(info.ascii_art)
 time.sleep(1)

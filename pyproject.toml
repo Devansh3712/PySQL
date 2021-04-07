@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "PySQL"
-version = "1.0.6"
+version = "1.0.7"
 description = "GUI & Python wrapper for making MySQL queries easier"
 authors = ["Devansh3712 <devanshamity@gmail.com>"]
 license = "MIT"
@@ -12,6 +12,7 @@ tabulate = "^0.8.9"
 colorama = "^0.4.4"
 stdiomask = "^0.0.6"
 mysql-connector = "^2.2.9"
+urllib3 = "^1.26.4"
 
 [tool.poetry.dev-dependencies]
 
