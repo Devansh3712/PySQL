@@ -1,5 +1,5 @@
 <p align = "center">
-  <a href = "https://github.com/Devansh3712/PySQL"><img src = "https://user-images.githubusercontent.com/58616444/113156144-57560f80-9257-11eb-85a1-1b834c072454.png"></a>
+  <a href = "https://devansh3712.github.io/PySQL/"><img src = "https://user-images.githubusercontent.com/58616444/113156144-57560f80-9257-11eb-85a1-1b834c072454.png"></a>
 </p>
 
 <h1 align = "center"> PySQL </h1>
