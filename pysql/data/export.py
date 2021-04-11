@@ -10,6 +10,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
+    import utils.exceptions as exceptions
     import mysql.connector as mc
     import tabulate
     import csv
@@ -17,7 +18,7 @@ try:
     import packages.auth as auth
 
 except:
-    raise Exception("'export' module not setup")
+    raise exceptions.ModuleSetupError("export")
 
 
 class Export:
@@ -82,7 +83,7 @@ class Export:
             self.cursor = self.connection.cursor(buffered = True)
 
         else:
-            raise Exception("User could not be authenticated")
+            raise exceptions.AuthenticationError()
 
     def export_table_txt(self, db: str, table: str, path: str) -> bool:
         """

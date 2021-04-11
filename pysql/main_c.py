@@ -10,6 +10,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
+    import utils.exceptions as exceptions
     import stdiomask
     import time
     import platform
@@ -24,9 +25,9 @@ try:
     import data.update as update
 
 except:
-    raise Exception("Package Error: modules not setup")
+    raise exceptions.PySQLPackageError()
 
-__version__ = "1.0.8"
+__version__ = "1.0.9"
 
 if platform.system() == "Windows":
     init(convert = True)
@@ -90,6 +91,7 @@ while (True):
 
                 if result is True:
                     print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} PySQL updated to v{gh_version} succesfully{Style.RESET_ALL}\n")
+                    break
 
                 else:
                     print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to update PySQL{Style.RESET_ALL}\n")

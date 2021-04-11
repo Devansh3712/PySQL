@@ -1,4 +1,4 @@
-## Working tree for `PySQL`
+## Working directory tree for `PySQL`
 
 ```
 pysql
@@ -13,9 +13,12 @@ pysql
     │   └── update.py
     ├── main.py
     ├── main_c.py
-    └── packages
+    ├── packages
+    │   ├── __init__.py
+    │   ├── auth.py
+    │   ├── ddl_commands.py
+    │   └── dml_commands.py
+    └── utils
         ├── __init__.py
-        ├── auth.py
-        ├── ddl_commands.py
-        └── dml_commands.py
+        └── exceptions.py
 ```

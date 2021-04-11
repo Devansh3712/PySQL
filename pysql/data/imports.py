@@ -10,11 +10,12 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
+    import utils.exceptions as exceptions
     import mysql.connector as mc
     import packages.auth as auth
 
 except:
-    raise Exception("'imports' module not setup")
+    raise exceptions.ModuleSetupError("imports")
 
 
 class Import:
@@ -53,7 +54,7 @@ class Import:
             self.cursor = self.connection.cursor(buffered = True)
 
         else:
-            raise Exception("User could not be authenticated")
+            raise exceptions.AuthenticationError()
 
     def import_table(self, db: str, path: str) -> bool:
         """

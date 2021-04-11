@@ -9,13 +9,14 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
+    import utils.exceptions as exceptions
     import mysql.connector as mc
     import tabulate
     import csv
     import packages.auth as auth
 
 except:
-    raise Exception("'dml_commands' module not setup")
+    raise exceptions.ModuleSetupError("dml_commands")
 
 
 class DML:
@@ -66,7 +67,7 @@ class DML:
             self.cursor = self.connection.cursor(buffered = True)
 
         else:
-            raise Exception("User could not be authenticated")
+            raise exceptions.AuthenticationError()
 
     def select(self, db: str, table: str, columns: str, args: str):
         """

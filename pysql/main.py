@@ -9,6 +9,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
+    import utils.exceptions as exceptions
     import stdiomask
     import time
     import urllib.request
@@ -21,9 +22,9 @@ try:
     import data.update as update
 
 except:
-    raise Exception("Package Error: modules not setup")
+    raise exceptions.PySQLPackageError()
 
-__version__ = "1.0.8"
+__version__ = "1.0.9"
 
 print(info.ascii_art)
 time.sleep(1)
@@ -84,6 +85,7 @@ while (True):
 
                 if result is True:
                     print(f"[+] PySQL updated to v{gh_version} succesfully\n")
+                    break
 
                 else:
                     print(f"[-] Unable to update PySQL\n")
