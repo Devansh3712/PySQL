@@ -1,0 +1,14 @@
+language: python
+python:
+  - 3.6
+  - 3.7
+  - 3.8
+  - 3.9
+cache: pip
+services:
+  - mysql
+before_install:
+  - echo "USE mysql; UPDATE user SET authentication_string = PASSWORD('root') WHERE user = 'root'; FLUSH PRIVILEGES;" | mysql -u root
+  - mysql -u root --password="root" < tests/travis.sql
+script:
+  - python3 -m unittest discover
