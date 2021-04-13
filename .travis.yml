@@ -10,7 +10,10 @@ services:
 before_install:
   - echo "USE mysql; UPDATE user SET authentication_string = PASSWORD('root') WHERE user = 'root'; FLUSH PRIVILEGES;" | mysql -u root
   - mysql -u root --password="root" < tests/travis.sql
+install:
+  - pip install -r requirements.txt
+  - pip install coverage
 script:
-  - python3 -m unittest discover
+  - coverage run -m unittest discover
 after_success:
   - bash <(curl -s https://codecov.io/bash)
