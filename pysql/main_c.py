@@ -166,7 +166,7 @@ while (True):
                 tb_name = input("pysql> Enter table name: ")
                 args = input("pysql> Enter table details: ")
                 args = args.split(",")
-                result = ddl_obj.create_table(tb_name, args)
+                result = ddl_obj.create_table(current_db, tb_name, args)
 
                 if result is True:
                     print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Created table {Style.RESET_ALL}{tb_name}\n")

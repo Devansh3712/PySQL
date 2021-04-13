@@ -197,29 +197,39 @@ class DDL:
         except:
             return False
 
-    def create_table(self, table: str, args: list) -> bool:
+    def create_table(self, db: str, table: str, args: list) -> bool:
         """
         Creates a table in the current database with 
         provided arguments in the form of SQL statement,
         executing the SQL query `create table <table_name> (data)`
 
+        db      ->  name of database used
         table   ->  name of table to be created
         args    ->  provide column names and datatypes
         """
+        # authenticate whether database exists or not
+        authenticate = self.const.auth_db(db)
+
         try:
-            # statement with column parameters for MySQL table
-            statement = ""
-            for num in range (len(args)):
+            if (authenticate is True):
 
-                if (num == len(args) - 1):
-                    statement += args[num]
+                self.cursor.execute(f"use {db}")
+                # statement with column parameters for MySQL table
+                statement = ""
+                for num in range (len(args)):
 
-                else:
-                    statement += args[num] + ", "
+                    if (num == len(args) - 1):
+                        statement += args[num]
 
-            query = f"create table {table} ({statement})"
-            self.cursor.execute(query)
-            return True
+                    else:
+                        statement += args[num] + ", "
+
+                query = f"create table {table} ({statement})"
+                self.cursor.execute(query)
+                return True
+
+            else:
+                return False
 
         except:
             return False
