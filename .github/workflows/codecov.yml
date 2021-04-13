@@ -1,0 +1,14 @@
+name: Codecov Workflow
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Upload coverage to Codecov"
+        uses: codecov/codecov-action@v1
+        with:
+          python-version: '3.x'
+          fail_ci_if_error: true
