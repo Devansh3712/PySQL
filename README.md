@@ -11,6 +11,7 @@
   <a href = "./LICENSE"><img src = "https://img.shields.io/github/license/Devansh3712/PySQL?style=for-the-badge"></a>
   <a href = "https://pypi.org/project/pysql-cli/"><img src = "https://img.shields.io/badge/PyPi-1.0.9-blue?style=for-the-badge&logo=appveyor"></a>
   <a href = "https://travis-ci.com/github/Devansh3712/PySQL"><img src = "https://img.shields.io/travis/Devansh3712/PySQL?style=for-the-badge"></a>
+  <a href = "https://app.codecov.io/gh/Devansh3712/PySQL/"><img src = "https://img.shields.io/codecov/c/github/Devansh3712/PySQL?style=for-the-badge&token=QJ3LKMG9MT"></a>
 </p>
 
 ---
