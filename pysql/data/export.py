@@ -12,8 +12,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 try:
     import utils.exceptions as exceptions
     import mysql.connector as mc
-    import tabulate
     import csv
+    import json
     import platform
     import packages.auth as auth
 
@@ -26,9 +26,8 @@ class Export:
     class for exporting tables in `.txt` & `.csv`
     format and database in `.sql` format
 
-    :export_table_txt:  ->  if the `table` name is valid, exports
-                            the table as `.txt` file, formatted
-                            using tabulate
+    :export_table_json: ->  if the `table` name is valid, exports
+                            the table as `.json` file
                             [returns boolean value]
 
     :export_table_csv:  ->  if the `table` name is valid, exports
@@ -36,9 +35,9 @@ class Export:
                             using tabulate
                             [returns boolean value]
 
-    :export_all_txt:    ->  exports all the tables present in the
+    :export_all_json:   ->  exports all the tables present in the
                             current database in <db_name> directory
-                            as `.txt` files, using :export_table_txt:
+                            as `.json` files, using :export_table_json:
                             function
                             [returns boolean value]
 
@@ -85,11 +84,10 @@ class Export:
         else:
             raise exceptions.AuthenticationError()
 
-    def export_table_txt(self, db: str, table: str, path: str) -> bool:
+    def export_table_json(self, db: str, table: str, path: str) -> bool:
         """
-        Export the input table as a `.txt` file,
-        with result of SQL query
-        `select * from <tb_name>`
+        Export the input table as a `.json` file,
+        using the :export_table_csv: function
 
         path    ->  path where file has to be exported
                     (default is current directory)
@@ -100,26 +98,30 @@ class Export:
         try:
             if (authenticate is True):
 
-                self.cursor.execute(f"use {db}")
-                query = f"select * from {table}"
-                self.cursor.execute(query)
-                select_result = self.cursor.fetchall()
-                # provides column names in the input table
-                table_columns = self.cursor.column_names
-
-                result = tabulate.tabulate(
-                    select_result,
-                    headers = list(table_columns),
-                    tablefmt = "psql"
-                )
-
                 if path == "":
                     path = os.path.expanduser("~")
                     path = path.replace("\\", "/")
 
-                file = open(f"{path}/{table}.txt", "w")
-                file.write(result)
+                # export a csv file of table
+                Export(self.uname, self.passw).export_table_csv(db, table, f"{path}")
+                data = {}
+
+                file = open(f"{path}/{table}.csv", encoding = "utf-8")
+                new_file = open(f"{path}/{table}.json", "w", encoding = "utf-8")
+                reader_obj = csv.DictReader(file)
+                # numbering the rows
+                key = 1
+
+                # add rows in data dictionary
+                for rows in reader_obj:
+                    data[key] = rows
+                    key += 1
+
                 file.close()
+                os.remove(f"{path}/{table}.csv")
+
+                new_file.write(json.dumps(data, indent = 4))
+                new_file.close()
 
                 return True
 
@@ -172,11 +174,11 @@ class Export:
         except:
             return False
 
-    def export_all_txt(self, db: str, path: str) -> bool:
+    def export_all_json(self, db: str, path: str) -> bool:
         """
         Export all tables present in the current
-        database as `.txt` files, using the
-        command :export_table_txt:
+        database as `.json` files, using the
+        command :export_table_json:
 
         path    ->  path where file has to be exported
                     (default is current directory)
@@ -208,8 +210,8 @@ class Export:
                     else:
                         os.system(f"mkdir ~/{db}")
 
-            for db_name in result:
-                res = Export(self.uname, self.passw).export_table_txt(db, db_name[0], f"{path}/{db}")
+            for tb in result:
+                res = Export(self.uname, self.passw).export_table_json(db, tb[0], f"{path}/{db}")
 
                 if res is False:
                     return False
@@ -255,8 +257,8 @@ class Export:
                     else:
                         os.system(f"mkdir ~/{db}")
 
-            for db_name in result:
-                res = Export(self.uname, self.passw).export_table_csv(db, db_name[0], f"{path}/{db}")
+            for tb in result:
+                res = Export(self.uname, self.passw).export_table_csv(db, tb[0], f"{path}/{db}")
 
                 if res is False:
                     return False
@@ -302,8 +304,8 @@ class Export:
                     else:
                         os.system(f"mkdir ~/{db}")
 
-            for db_name in result:
-                res = Export(self.uname, self.passw).export_table_sql(db, db_name[0], f"{path}/{db}")
+            for tb in result:
+                res = Export(self.uname, self.passw).export_table_sql(db, tb[0], f"{path}/{db}")
 
                 if res is False:
                     return False

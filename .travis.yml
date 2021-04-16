@@ -9,7 +9,7 @@ services:
   - mysql
 before_install:
   - echo "USE mysql; UPDATE user SET authentication_string = PASSWORD('root') WHERE user = 'root'; FLUSH PRIVILEGES;" | mysql -u root
-  - mysql -u root --password="root" < tests/travis.sql
+  - mysql -u root --password="root" < src/travis.sql
 install:
   - pip install -r requirements.txt
   - pip install coverage

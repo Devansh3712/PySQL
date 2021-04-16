@@ -26,7 +26,7 @@ def update_pysql() -> bool:
                 module = module.split("==")
 
                 if module[0] == "pysql-cli":
-                    os.system("pip install pysql-cli --upgrade > NUL")
+                    os.system("pip install pysql-cli --upgrade >> NUL 2>&1")
                     os.remove("dependencies.txt")
                     flag = True
                     return True
@@ -40,7 +40,7 @@ def update_pysql() -> bool:
                     return False
 
                 else:
-                    os.system("git pull > NUL")
+                    os.system("git pull >> NUL 2>&1")
                     return True
 
         else:
@@ -55,7 +55,7 @@ def update_pysql() -> bool:
                 module = module.split("==")
 
                 if module[0] == "pysql-cli":
-                    os.system("pip3 install pysql-cli --upgrade > /dev/null")
+                    os.system("pip3 install pysql-cli --upgrade >> /dev/null 2>&1")
                     os.remove("dependencies.txt")
                     flag = True
                     return True
@@ -69,7 +69,7 @@ def update_pysql() -> bool:
                     return False
 
                 else:
-                    os.system("git pull > /dev/null")
+                    os.system("git pull >> /dev/null 2>&1")
                     return True
 
     except:
