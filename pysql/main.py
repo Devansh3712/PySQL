@@ -126,7 +126,7 @@ while (True):
 
             if result is True:
                 print(f"[+] Default user {_uname} created\n")
-            
+
             else:
                 print(f"[-] Unable to create default user\n")
 

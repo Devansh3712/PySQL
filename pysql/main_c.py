@@ -135,7 +135,7 @@ while (True):
 
             if result is True:
                 print(f"[{Fore.GREEN}+{Style.RESET_ALL}]{Fore.GREEN} Default user {Style.RESET_ALL}{Fore.CYAN}{_uname}{Style.RESET_ALL}{Fore.GREEN} created{Style.RESET_ALL}\n")
-            
+
             else:
                 print(f"[{Fore.RED}-{Style.RESET_ALL}]{Fore.RED} Unable to create default user{Style.RESET_ALL}\n")
 
