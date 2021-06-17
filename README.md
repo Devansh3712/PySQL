@@ -3,7 +3,7 @@
 </p>
 
 <h1 align = "center"> PySQL </h1>
-<p align = "center"><i> GUI & Python wrapper for making MySQL queries easier </i></p>
+<p align = "center"><i> Python wrapper for making MySQL queries easier </i></p>
 
 <p align = "center">
   <a href = "https://www.python.org"><img src="https://img.shields.io/badge/python%20-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white"/></a>
