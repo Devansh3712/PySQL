@@ -9,18 +9,18 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
-    import utils.exceptions as exceptions
+    import pysql.utils.exceptions as exceptions
     import stdiomask
     import time
     import urllib.request
-    import packages.auth as auth
-    import packages.ddl_commands as ddl
-    import packages.dml_commands as dml
-    import data.info as info
-    import data.export as export
-    import data.imports as imports
-    import utils.update as update
-    import utils.user as user
+    import pysql.packages.auth as auth
+    import pysql.packages.ddl_commands as ddl
+    import pysql.packages.dml_commands as dml
+    import pysql.data.info as info
+    import pysql.data.export as export
+    import pysql.data.imports as imports
+    import pysql.utils.update as update
+    import pysql.utils.user as user
 
 except:
     raise exceptions.PySQLPackageError()
