@@ -9,11 +9,11 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
-    import utils.exceptions as exceptions
+    import pysql.utils.exceptions as exceptions
     import mysql.connector as mc
     import tabulate
     import csv
-    import packages.auth as auth
+    import pysql.packages.auth as auth
 
 except:
     raise exceptions.ModuleSetupError("dml_commands")
