@@ -23,17 +23,26 @@ class Import:
     class for importing databases & table schemas
     into the database
 
-    :import_database:   ->  if the db name is valid, imports
-                            the contents of `.sql` file to
-                            the database
-                            [returns boolean value]
+    Parameters
+    ----------
+    username: str
+        MySQL username of user
+    password: str
+        MySQL password of user
 
-    :import_table:      ->  if the db name and table name are
-                            valid, imports the contents of `.sql`
-                            file to the database
-                            [returns boolean value]
+    Instances
+    ---------
+    self.uname: str
+        username
+    self.passw: str
+        password
+    self.const
+        authorization instance
+    self.connection
+        mysql.connector connection
+    self.cursor
+        mysql.connector cursor
     """
-
     def __init__(self, username: str, password: str):
 
         self.uname = username
@@ -58,19 +67,26 @@ class Import:
 
     def import_table(self, db: str, path: str) -> bool:
         """
-        Imports the input `.sql` file in the
+        Imports the input SQL file in the
         input table in the given database
-        `mysql -u <uname> -p<passwd> <db_name> < <filename>.sql`
 
-        path    ->  path to the `.sql` file
-                    (default is current directory)
+        Parameters
+        ----------
+        db: str
+            name of database to import to
+        path:
+            path of SQL file
+        
+        Returns
+        -------
+        bool
+            True if table is imported else False
         """
         # authenticate whether the table exists or not
         authenticate = self.const.auth_db(db)
 
         try:
             if (authenticate is True):
-
                 if path == "":
                     os.system(f"mysql -u {self.uname} -p{self.passw} {db} < {path}")
 
@@ -87,19 +103,26 @@ class Import:
 
     def import_database(self, db: str, path: str) -> bool:
         """
-        Imports the input `.sql` file, to the
-        input database, executes the command
-        `mysql -u <uname> -p<passwd> <db_name> < <filename>.sql`
+        Imports the input SQL file, to the
+        input database
 
-        path    ->  path to the `.sql` file
-                    (default is current directory)
+        Parameters
+        ----------
+        db: str
+            name of database to import
+        path:
+            path of SQL file
+        
+        Returns
+        -------
+        bool
+            True if database is imported else False
         """
         # authenticate whether the table exists or not
         authenticate = self.const.auth_db(db)
 
         try:
             if (authenticate is True):
-
                 if path == "":
                     os.system(f"mysql -u {self.uname} -p{self.passw} {db} < {path}")
 
