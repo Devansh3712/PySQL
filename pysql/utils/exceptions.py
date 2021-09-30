@@ -13,9 +13,7 @@ class PySQLPackageError(Exception):
     Exception raised for errors in running modules
     of PySQL
     """
-
     def __init__(self):
-
         self.message = "Modules not setup for PySQL"
         super().__init__(self.message)
 
@@ -25,9 +23,7 @@ class AuthenticationError(Exception):
     Exception raised for error in MySQL user
     authentication
     """
-
     def __init__(self):
-
         self.message = "User cannot be authenticated"
         super().__init__(self.message)
 
@@ -37,11 +33,12 @@ class ModuleSetupError(Exception):
     Exception raised for error in running
     a particular module
 
-    :module:    ->  name of module
+    Parameters
+    ----------
+    module: str
+        name of the module
     """
-
     def __init__(self, module: str):
-
         self.module = module
         self.message = "module not setup"
         super().__init__(self.message)
