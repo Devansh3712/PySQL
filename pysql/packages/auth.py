@@ -15,24 +15,13 @@ class Database:
     class for maintaining and authenticating user,
     database and table credentials
 
-    :authenticate:      ->  authenticate the username, password
-                            and selected database of MySQL user
-                            [returns boolean value]
-
-    :auth_db:           ->  authenticate whether the input database
-                            exists or in MySQL server
-                            [returns boolean value]
-
-    :auth_table:        ->  authenticate whether the input table
-                            exists in the selected database
-                            [returns boolean value]
-
-    :auth_table_colums: ->  authenticate whether the input column
-                            and datatype exist in the selected
-                            table
-                            [returns boolean value]
+    Parameters
+    ----------
+    username: str
+        MySQL username
+    password: str
+        MySQL password
     """
-
     def __init__(self, username: str, password: str):
         """
         Initialize connection and cursor object as `NoneType`
@@ -46,13 +35,13 @@ class Database:
     def authenticate(self) -> bool:
         """
         Connect to the MySQL server on the local machine
-        with the initialized `self.uname` and `self.passw`
+        with the initialized self.uname and self.passw
 
-        if username or password is wrong/invalid or it
-        is unable to connect to MySQL, returns False
-
-        else if connection is made, a cursor object is
-        initialized which is used to execute SQL commands
+        Returns
+        -------
+        bool
+            True if connection with localhost can be made
+            else False
         """
         try:
             # initialize connection with MySQL
@@ -79,21 +68,25 @@ class Database:
         Check whether the provided database exists
         or not in the MySQL server
 
-        it generates a list of tuples containing all
-        databases in MySQL server, and if input
-        database is in the list, returns True
+        Parameters
+        ----------
+        database: str
+            name of the database to authenticate
+        
+        Returns
+        -------
+        bool
+            True if database exists else False
         """
         authenticate = Database(self.uname, self.passw).authenticate()
 
         try:
             if (authenticate is True):
-
                 Database.cursor.execute("show databases")
                 # list of all databases of user
                 result = Database.cursor.fetchall()
 
                 for db in result:
-
                     if (db[0] == database):
                         return True
 
@@ -110,15 +103,22 @@ class Database:
         Check whether the provided table exists
         or not in the selected database
 
-        it generates a list of tuples containing all
-        tables in the selected database, and if input
-        table is in the list, returns True
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        table: str
+            name of table to authenticate
+
+        Returns
+        -------
+        bool
+            True if table exists else False
         """
         authenticate = Database(self.uname, self.passw).authenticate()
 
         try:
             if (authenticate is True):
-
                 Database.cursor.execute(f"use {db}")
                 Database.cursor.execute("show tables")
                 # list of all tables in selected database
@@ -143,15 +143,24 @@ class Database:
         given column as a parameter and its
         description matches
 
-        it generates a list of tuples containing
-        structure of the table, and if the column name
-        and type match, returns True
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        table: str
+            name of table to use
+        query: str
+            name of column to authenticate
+
+        Returns
+        -------
+        bool
+            True if column matches else False
         """
         authenticate = Database(self.uname, self.passw).authenticate()
 
         try:
             if (authenticate is True):
-
                 # split column name and type of column
                 query = query.split(' ')
                 Database.cursor.execute(f"use {db}")
@@ -160,7 +169,6 @@ class Database:
                 result = Database.cursor.description
 
                 for column in result:
-
                     if (column[0].lower() == query[0].lower()):
                         return True
 
