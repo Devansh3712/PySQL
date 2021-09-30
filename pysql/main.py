@@ -74,7 +74,6 @@ while (True):
         user_input = input("pysql> ")
 
     try:
-
         if user_input.lower() in ["-a", "about"]:
             print(info.about)
 
@@ -99,7 +98,6 @@ while (True):
             gh_version = gh_version.read().decode("utf-8")
 
             if gh_version > __version__:
-
                 result = update.update_pysql()
 
                 if result is True:

@@ -12,17 +12,22 @@ import platform
 from subprocess import call, STDOUT
 
 def update_pysql() -> bool:
+    """
+    Update PySQL using pip/GitHub
 
+    Returns
+    -------
+    bool
+        True if updated, else False
+    """
     try:
         if platform.system() == "Windows":
-
             # creates a text file with a list of all installed modules
             os.system("pip freeze > dependencies.txt")
             file = open("dependencies.txt").read().splitlines()
             flag = False
 
             for module in file:
-
                 module = module.split("==")
 
                 if module[0] == "pysql-cli":
@@ -31,27 +36,23 @@ def update_pysql() -> bool:
                     flag = True
                     return True
 
-            if flag is False:
+            os.remove("dependencies.txt")
 
-                os.remove("dependencies.txt")
+            # checks if the current directory is a git repository
+            if call(["git", "branch"], stderr = STDOUT, stdout = open(os.devnull, "w")) != 0:
+                return False
 
-                # checks if the current directory is a git repository
-                if call(["git", "branch"], stderr = STDOUT, stdout = open(os.devnull, "w")) != 0:
-                    return False
-
-                else:
-                    os.system("git pull >> NUL 2>&1")
-                    return True
+            else:
+                os.system("git pull >> NUL 2>&1")
+                return True
 
         else:
-
             # creates a text file with a list of all installed modules
             os.system("pip3 freeze > dependencies.txt")
             file = open("dependencies.txt").read().splitlines()
             flag = False
 
             for module in file:
-
                 module = module.split("==")
 
                 if module[0] == "pysql-cli":
@@ -60,17 +61,15 @@ def update_pysql() -> bool:
                     flag = True
                     return True
 
-            if flag is False:
+            os.remove("dependencies.txt")
 
-                os.remove("dependencies.txt")
+            # checks if the current directory is a git repository
+            if call(["git", "branch"], stderr = STDOUT, stdout = open(os.devnull, "w")) != 0:
+                return False
 
-                # checks if the current directory is a git repository
-                if call(["git", "branch"], stderr = STDOUT, stdout = open(os.devnull, "w")) != 0:
-                    return False
-
-                else:
-                    os.system("git pull >> /dev/null 2>&1")
-                    return True
+            else:
+                os.system("git pull >> /dev/null 2>&1")
+                return True
 
     except:
         return False
@@ -78,5 +77,5 @@ def update_pysql() -> bool:
 
 """
 PySQL
-Devansh Singh, 2020
+Devansh Singh, 2021
 """
