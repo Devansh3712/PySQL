@@ -3,7 +3,7 @@
 </p>
 
 <h1 align = "center"> PySQL </h1>
-<p align = "center"><i> Python wrapper for making MySQL queries easier </i></p>
+<p align = "center"><i> Python wrapper for making MySQL queries easier to execute </i></p>
 
 <p align = "center">
   <a href = "https://www.python.org"><img src="https://img.shields.io/badge/python%20-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white"/></a>
@@ -26,8 +26,7 @@ git clone https://github.com/Devansh3712/PySQL.git
 
 - Installation pre-requisites
 
-  - ``MySQL server``
-  - ``Python virtualenv``
+  - ``MySQL local server``
 
 - PyPi package
 
@@ -43,23 +42,21 @@ pip install pysql-cli
 pip3 install pysql-cli
 ```
 
-- Automatic Setup
+- Automatic Installation
 
-Open the ``PySQL`` directory, run the setup file & activate the ``virtual environment``
+Open the ``PySQL`` directory and run the install file
 
 > Windows
 
 ```console
-setup.cmd
-venv\Scripts\activate.bat
+install.bat
 ```
 
 > Linux / MacOS
 
 ```console
-chmod +x ./setup.sh
-. setup.sh
-source venv/bin/activate
+chmod +x ./install.sh
+./install.sh
 ```
 
 - Manual Setup
