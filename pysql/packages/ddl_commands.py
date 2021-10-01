@@ -10,9 +10,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
     import pysql.utils.exceptions as exceptions
+    import pysql.packages.auth as auth
     import mysql.connector as mc
     import tabulate
-    import pysql.packages.auth as auth
+    from typing import Union
 
 except:
     raise exceptions.ModuleSetupError("ddl_commands")
@@ -21,54 +22,26 @@ except:
 class DDL:
     """
     class for implementation of Data Definition Language
-    based commands (create, drop, alter)
+    based commands (CREATE, DROP, ALTER)
 
-    :show_databases:    ->  returns all available databases
-                            in the local MySQL server
-                            [returns formatted result else False]
-
-    :show_tables:       ->  returns all available tables in the
-                            current database
-                            [returns formatted result else False]
-
-    :create_database:   ->  create a new database in the
-                            MySQL server
-                            [returns boolean value]
-
-    :use_database:      ->  use a database present in the
-                            MySQL server
-                            [returns boolean value]
-
-    :drop_database:     ->  if the database name is valid,
-                            deleting the database from server
-                            [returns boolean value]
-
-    :create_table:      ->  takes comma separated string arguments,
-                            converting them into SQL statements and
-                            creating a table in the chosen database
-                            [returns boolean value]
-
-    :drop_table:        ->  if the table name is valid,
-                            deletes the table from chosen database
-                            [returns boolean value]
-
-    :truncate_table:    ->  delete all the data in the provided table
-                            without deleting the table
-                            [returns boolean value]
-
-    :desc_table:        ->  if the table name is valid, returns
-                            the structure of the provided table,
-                            formatted using tabulate
-                            [returns formatted table else returns False]
-
-    :alter_table:       ->  if the table name is valid, and the column
-                            name is authenticated, alters the structure
-                            of the input table in the current database
-                            [returns boolean value]
+    Parameters
+    ----------
+    username: str
+        MySQL username
+    password: str
+        MySQL password
+    
+    Instances
+    ---------
+    self.const
+        authorization instance
+    self.connection
+        mysql.connector connection
+    self.cursor
+        mysql.connector cursor
     """
 
     def __init__(self, username: str, password: str):
-
         self.uname = username
         self.passw = password
         # create a `Database` class instance
@@ -89,13 +62,18 @@ class DDL:
         else:
             raise exceptions.AuthenticationError()
 
-    def show_databases(self):
+    def show_databases(self) -> Union[str, bool]:
         """
         Returns all the databases in the
         local MySQL server, formatted using
         tabulate
 
-        executes the SQL query `show databases`
+        Returns
+        -------
+        str
+            databases in local machine
+        bool
+            False if any error occurs
         """
         try:
             query = "show databases"
@@ -170,7 +148,7 @@ class DDL:
         except:
             return False
 
-    def show_tables(self):
+    def show_tables(self) -> Union[str, bool]:
         """
         Returns all the tables in the
         current database, formatted using
@@ -280,7 +258,7 @@ class DDL:
         except:
             return False
 
-    def desc_table(self, db: str, table: str):
+    def desc_table(self, db: str, table: str) -> Union[str, bool]:
         """
         Returns the structure of the input table,
         formatted using `tabulate` module if the
