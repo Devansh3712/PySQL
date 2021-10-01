@@ -1,6 +1,6 @@
 """
 module for maintaining a
-default user
+default PySQL user
 """
 
 import os
@@ -10,8 +10,9 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
     import pysql.utils.exceptions as exceptions
-    import dotenv
     import pysql.packages.auth as auth
+    import dotenv
+    from typing import Union
 
 except:
     raise exceptions.ModuleSetupError("user")
@@ -82,7 +83,7 @@ class User:
         except:
             return False
 
-    def get_default_user(self):
+    def get_default_user(self) -> Union[str, bool]:
         """
         Get the default user credentials
 
