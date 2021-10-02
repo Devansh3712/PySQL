@@ -355,7 +355,8 @@ class Export:
                     os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} > {db}.sql")
 
                 else:
-                    os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} > {path}/{db}.sql")
+                    PATH = os.path.join(path, f"{db}.sql")
+                    os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} > {PATH}")
 
                 return True
 
@@ -393,8 +394,8 @@ class Export:
                     os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} {table} > {db}.{table}.sql")
 
                 else:
-                    PATH = os.path.join(path, f"{db}.sql")
-                    os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} > {PATH}")
+                    PATH = os.path.join(path, f"{db}.{table}.sql")
+                    os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} {table} > {PATH}")
 
                 return True
 
