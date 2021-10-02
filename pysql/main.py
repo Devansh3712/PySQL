@@ -25,7 +25,7 @@ try:
 except:
     raise exceptions.PySQLPackageError()
 
-__version__ = "1.1.0"
+__version__ = "1.1.2"
 
 print(info.ascii_art)
 time.sleep(1)
