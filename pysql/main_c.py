@@ -28,7 +28,7 @@ try:
 except:
     raise exceptions.PySQLPackageError()
 
-__version__ = "1.1.0"
+__version__ = "1.1.2"
 
 if platform.system() == "Windows":
     init(convert = True)
