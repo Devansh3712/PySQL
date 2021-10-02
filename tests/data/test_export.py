@@ -20,118 +20,156 @@ class TestExport(unittest.TestCase):
 
     def test_export_table_json(self):
         """
-        Test `export_table_json` function
+        Test export_table_json function
 
-        Params
-        :db:    ->  name of database used
-        :table: ->  name of table used
-        :path:  ->  path to export
-
-        Returns True if table is exported to
-        specified path, else returns False
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        table: str
+            name of table to export
+        path: str
+            path to export table
+        
+        Returns
+        -------
+        bool
+            True if table is exported else False
         """
         directory = pathlib.Path(__file__).parents[2]
-        result = const.export_table_json("test", "users", f"{directory}/src")
+        result = const.export_table_json("test", "users", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        os.remove(f"{directory}/src/users.json")
+        os.remove(os.path.join(directory, "src", "users.json"))
 
     def test_export_table_csv(self):
         """
-        Test `export_table_csv` function
+        Test export_table_csv function
 
-        Params
-        :db:    ->  name of database used
-        :table: ->  name of table used
-        :path:  ->  path to export
-
-        Returns True if table is exported to
-        specified path, else returns False
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        table: str
+            name of table to export
+        path: str
+            path to export table
+        
+        Returns
+        -------
+        bool
+            True if table is exported else False
         """
         directory = pathlib.Path(__file__).parents[2]
-        result = const.export_table_csv("test", "users", f"{directory}/src")
+        result = const.export_table_csv("test", "users", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        os.remove(f"{directory}/src/users.csv")
+        os.remove(os.path.join(directory, "src", "users.csv"))
 
     def test_export_table_sql(self):
         """
-        Test `export_table_sql` function
+        Test export_table_sql function
 
-        Params
-        :db:    ->  name of database used
-        :table: ->  name of table used
-        :path:  ->  path to export
-
-        Returns True if table is exported to
-        specified path, else returns False
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        table: str
+            name of table to export
+        path: str
+            path to export SQL file
+        
+        Returns
+        -------
+        bool
+            True if table is exported else False
         """
         directory = pathlib.Path(__file__).parents[2]
-        result = const.export_table_sql("test", "users", f"{directory}/src")
+        result = const.export_table_sql("test", "users", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        os.remove(f"{directory}/src/test.users.sql")
+        os.remove(os.path.join(directory, "src", "test.users.sql"))
 
     def test_export_all_json(self):
         """
-        Test `export_all_json` function
+        Test export_all_json function
 
-        Params
-        :db:    ->  name of database used
-        :path:  ->  path to export
-
-        Returns True if table is exported to
-        specified path, else returns False
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        path: str
+            path to export tables
+        
+        Returns
+        -------
+        bool
+            True if tables are exported else False
         """
         directory = pathlib.Path(__file__).parents[2]
-        result = const.export_all_json("test", f"{directory}/src")
+        result = const.export_all_json("test", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        shutil.rmtree(f"{directory}/src/test")
+        shutil.rmtree(os.path.join(directory, "src", "test"))
 
     def test_export_all_csv(self):
         """
-        Test `export_all_csv` function
+        Test export_all_csv function
 
-        Params
-        :db:    ->  name of database used
-        :path:  ->  path to export
-
-        Returns True if table is exported to
-        specified path, else returns False
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        path: str
+            path to export tables
+        
+        Returns
+        -------
+        bool
+            True if tables are exported else False
         """
         directory = pathlib.Path(__file__).parents[2]
-        result = const.export_all_csv("test", f"{directory}/src")
+        result = const.export_all_csv("test", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        shutil.rmtree(f"{directory}/src/test")
+        shutil.rmtree(os.path.join(directory, "src", "test"))
 
     def test_export_all_sql(self):
         """
-        Test `export_all_sql` function
+        Test export_all_sql function
 
-        Params
-        :db:    ->  name of database used
-        :path:  ->  path to export
-
-        Returns True if table is exported to
-        specified path, else returns False
+        Parameters
+        ----------
+        db: str
+            name of database to use
+        path: str
+            path to export tables
+        
+        Returns
+        -------
+        bool
+            True if tables are exported else False
         """
         directory = pathlib.Path(__file__).parents[2]
-        result = const.export_all_sql("test", f"{directory}/src")
+        result = const.export_all_sql("test", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        shutil.rmtree(f"{directory}/src/test")
+        shutil.rmtree(os.path.join(directory, "src", "test"))
 
     def test_export_database(self):
         """
-        Test `export_database` function
+        Test export_database function
 
-        Params
-        :db:    ->  name of database used
-        :path:  ->  path to export
-
-        Returns True if table is exported to
-        specified path, else returns False
+        Parameters
+        ----------
+        db: str
+            name of database to export
+        path: str
+            path to export SQL file
+        
+        Returns
+        -------
+        bool
+            True if database is exported else False
         """
         directory = pathlib.Path(__file__).parents[2]
-        result = const.export_database("test", f"{directory}/src")
+        result = const.export_database("test", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        os.remove(f"{directory}/src/test.sql")
+        os.remove(os.path.join(directory, "src", "test"))
 
 
 if __name__ == "__main__":
