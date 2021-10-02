@@ -169,7 +169,7 @@ class TestExport(unittest.TestCase):
         directory = pathlib.Path(__file__).parents[2]
         result = const.export_database("test", os.path.join(directory, "src"))
         self.assertEqual(result, True)
-        os.remove(os.path.join(directory, "src", "test"))
+        os.remove(os.path.join(directory, "src", "test.sql"))
 
 
 if __name__ == "__main__":
