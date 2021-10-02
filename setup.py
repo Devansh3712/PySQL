@@ -1,16 +1,16 @@
 from setuptools import *
 from os import path
 
-with open ("requirements.txt") as f:
-    requirements = f.readlines()
-
 this_dir = path.abspath(path.dirname(__file__))
-with open(path.join(this_dir, "README.md"), encoding = "utf-8") as f:
-    long_description = f.read()
+with open(path.join(this_dir, "README.md"), encoding = "utf-8") as file:
+    long_description = file.read()
+
+with open(path.join(this_dir, "requirements.txt"), encoding = "utf-8") as file:
+    requirements = file.readlines()
 
 setup(
     name = "pysql-cli",
-    version = "1.1.1",
+    version = "1.1.2",
     author = "Devansh Singh",
     author_email = "devanshamity@gmail.com",
     url = "https://github.com/Devansh3712/PySQL",
