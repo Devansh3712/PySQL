@@ -69,8 +69,3 @@ class TestAuth(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-
-"""
-PySQL
-Devansh Singh, 2021
-"""

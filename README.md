@@ -69,12 +69,6 @@ Open the ``PySQL`` directory
 pip install -r requirements.txt
 ```
 
-> using poetry
-
-```console
-poetry install
-```
-
 ## Usage
 
 - Using the pip package
