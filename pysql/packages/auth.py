@@ -30,22 +30,24 @@ class Database:
 
     Attributes
     ----------
-    username: str
-        Local MySQL server username
-    password: str
-        Local MySQL server password
+    username : str
+        local MySQL server username
+    password : str
+        local MySQL server password
+    
+    Methods
+    -------
+    authenticate
+        verify user credentials
+    auth_db
+        verify database credentials
+    auth_table
+        verify table credentials
+    auth_table_columns
+        verify table columns & their desc
     """
 
     def __init__(self, username: str, password: str) -> None:
-        """
-        Parameters
-        ----------
-        username: str
-            Local MySQL server username
-        password: str
-            Local MySQL server password
-        """
-
         self.uname = username
         self.passw = password
         Database.connection = None
@@ -61,7 +63,6 @@ class Database:
             True if connection with the localhost can be made,
             else False
         """
-
         try:
             # initialize connection with MySQL
             Database.connection = mc.connect(
@@ -89,7 +90,7 @@ class Database:
 
         Parameters
         ----------
-        database: str
+        database : str
             name of the database to authenticate
         
         Returns
@@ -98,7 +99,6 @@ class Database:
             True if database exists else False
         """
         authenticate = self.authenticate()
-
         try:
             if authenticate is True:
                 Database.cursor.execute("show databases")
@@ -124,9 +124,9 @@ class Database:
 
         Parameters
         ----------
-        db: str
+        db : str
             name of database to use
-        table: str
+        table : str
             name of table to authenticate
 
         Returns
@@ -135,7 +135,6 @@ class Database:
             True if table exists else False
         """
         authenticate = self.authenticate().authenticate()
-
         try:
             if authenticate is True:
                 Database.cursor.execute(f"use {db}")
@@ -162,11 +161,11 @@ class Database:
 
         Parameters
         ----------
-        db: str
+        db : str
             name of database to use
-        table: str
+        table : str
             name of table to use
-        query: str
+        query : str
             name of column to authenticate
 
         Returns
@@ -175,7 +174,6 @@ class Database:
             True if column matches else False
         """
         authenticate = self.authenticate()
-
         try:
             if (authenticate is True):
                 # split column name and type of column

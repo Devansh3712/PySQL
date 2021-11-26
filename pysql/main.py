@@ -8,22 +8,17 @@ import sys
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-try:
-    import pysql.utils.exceptions as exceptions
-    import stdiomask
-    import time
-    import urllib.request
-    import pysql.packages.auth as auth
-    import pysql.packages.ddl_commands as ddl
-    import pysql.packages.dml_commands as dml
-    import pysql.data.info as info
-    import pysql.data.export as export
-    import pysql.data.imports as imports
-    import pysql.utils.update as update
-    import pysql.utils.user as user
-
-except:
-    raise exceptions.PySQLPackageError()
+import stdiomask
+import time
+import urllib.request
+import pysql.packages.auth as auth
+import pysql.packages.ddl_commands as ddl
+import pysql.packages.dml_commands as dml
+import pysql.data.info as info
+import pysql.data.export as export
+import pysql.data.imports as imports
+import pysql.utils.update as update
+import pysql.utils.user as user
 
 __version__ = "1.1.2"
 
@@ -80,7 +75,7 @@ while (True):
         elif user_input.lower() in ["-h", "help"]:
             print(info.menu)
 
-        elif user_input.lower() in ["-q", "quit"]:
+        elif user_input.lower() in ["-q", "quit", "exit"]:
             print("Goodbye")
             break
 
@@ -99,7 +94,6 @@ while (True):
 
             if gh_version > __version__:
                 result = update.update_pysql()
-
                 if result is True:
                     print(f"[+] PySQL updated to v{gh_version} succesfully\n")
                     break
@@ -111,7 +105,6 @@ while (True):
                 print(f"[+] PySQL is up-to-date\n")
 
         elif user_input.lower() == "adduser":
-
             if db_use is True:
                 _uname = input(f"({current_db}) pysql> Enter username: ")
                 _passwd = stdiomask.getpass(prompt = f"({current_db}) pysql> Enter password: ")
@@ -129,7 +122,6 @@ while (True):
                 print(f"[-] Unable to create default user\n")
 
         elif user_input.lower() == "removeuser":
-
             if db_use is True:
                 _passwd = stdiomask.getpass(prompt = f"({current_db}) pysql> Enter password: ")
 
@@ -137,6 +129,7 @@ while (True):
                 _passwd = stdiomask.getpass(prompt = "pysql> Enter password: ")
 
             def_user = user.User().get_default_user()
+
             if _passwd == def_user[1]:
                 result = user.User().remove_default_user()
 
@@ -162,7 +155,6 @@ while (True):
                 print("[-] Unable to show databases\n")
 
         elif user_input.lower() == "createdb":
-
             if db_use is True:
                 db_name = input(f"({current_db}) pysql> Enter database name: ")
 
@@ -178,7 +170,6 @@ while (True):
                 print(f"[-] Unable to create database {db_name}\n")
 
         elif user_input.lower() == "usedb":
-
             if db_use is True:
                 db_name = input(f"({current_db}) pysql> Enter database name: ")
 
@@ -196,7 +187,6 @@ while (True):
                 print(f"[-] Unable to connect to database {db_name}\n")
 
         elif user_input.lower() == "dropdb":
-
             if db_use is True:
                 db_name = input(f"({current_db}) pysql> Enter database name: ")
 
@@ -214,9 +204,8 @@ while (True):
                 print(f"[-] Unable to delete database {db_name}\n")
 
         elif user_input.lower() == "showtb":
-
             if db_use is True:
-                result = ddl_obj.show_tables()
+                result = ddl_obj.show_tables(current_db)
 
                 if result:
                     print(result + "\n")
@@ -228,7 +217,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "createtb":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 args = input(f"({current_db}) pysql> Enter table details: ")
@@ -245,7 +233,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "droptb":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 result = ddl_obj.drop_table(current_db, tb_name)
@@ -260,7 +247,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "trunctb":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 result = ddl_obj.truncate_table(current_db, tb_name)
@@ -275,7 +261,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "desctb":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 result = ddl_obj.desc_table(current_db, tb_name)
@@ -290,7 +275,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "altertb":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 args = input(f"({current_db}) pysql> Enter arguments: ")
@@ -310,7 +294,6 @@ while (True):
             print(info.data_manipulation_language)
 
         elif user_input.lower() == "select":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 columns = input(f"({current_db}) pysql> Enter selection columns: ")
@@ -327,7 +310,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() in ["insert -s", "insert"]:
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 args = input(f"({current_db}) pysql> Enter values: ")
@@ -343,7 +325,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "insert -m":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 num = int(input(f"({current_db}) pysql> Enter number of records: "))
@@ -365,7 +346,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "insert -f":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 path = input(f"({current_db}) pysql> Enter path to CSV file: ")
@@ -381,7 +361,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "update":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 columns = input(f"({current_db}) pysql> Enter columns to update: ")
@@ -398,7 +377,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "delete":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 columns = input(f"({current_db}) pysql> Enter columns to delete: ")
@@ -423,7 +401,6 @@ while (True):
             print(info.import_)
 
         elif user_input.lower() == "exportdb":
-
             if db_use is True:
                 db_name = input(f"({current_db}) pysql> Enter database name: ")
                 path = input(f"({current_db}) pysql> Enter path to export: ")
@@ -441,7 +418,6 @@ while (True):
                 print(f"[-] Unable to export database {db_name}\n")
 
         elif user_input.lower() == "exporttb -json":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 path = input(f"({current_db}) pysql> Enter path to export: ")
@@ -457,7 +433,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exporttb -csv":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 path = input(f"({current_db}) pysql> Enter path to export: ")
@@ -473,7 +448,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exporttb -sql":
-
             if db_use is True:
                 tb_name = input(f"({current_db}) pysql> Enter table name: ")
                 path = input(f"({current_db}) pysql> Enter path to export: ")
@@ -489,7 +463,6 @@ while (True):
                 print(f"[-] No database in use")
 
         elif user_input.lower() == "exportall -json":
-
             if db_use is True:
                 path = input(f"({current_db}) pysql> Enter path to export: ")
                 result = exp_obj.export_all_json(current_db, path)
@@ -504,7 +477,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exportall -csv":
-
             if db_use is True:
                 path = input(f"({current_db}) pysql> Enter path to export: ")
                 result = exp_obj.export_all_csv(current_db, path)
@@ -519,7 +491,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "exportall -sql":
-
             if db_use is True:
                 path = input(f"({current_db}) pysql> Enter path to export: ")
                 result = exp_obj.export_all_sql(current_db, path)
@@ -534,7 +505,6 @@ while (True):
                 print(f"[-] No database in use\n")
 
         elif user_input.lower() == "importdb":
-
             if db_use is True:
                 db_name = input(f"({current_db}) pysql> Enter database name: ")
                 path = input(f"({current_db}) pysql> Enter path of file: ")
@@ -552,7 +522,6 @@ while (True):
                 print(f"[-] Unable to import to database {db_name}\n")
 
         elif user_input.lower() == "importtb":
-
             if db_use is True:
                 db_name = input(f"({current_db}) pysql> Enter database name: ")
                 path = input(f"({current_db}) pysql> Enter path of file: ")
@@ -578,9 +547,3 @@ while (True):
 # entry point for running PySQL CLI
 def cli():
     pass
-
-
-"""
-PySQL
-Devansh Singh, 2021
-"""
