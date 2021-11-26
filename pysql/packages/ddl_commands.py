@@ -27,6 +27,7 @@ import sys
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
+import pysql.utils.exceptions as exceptions
 import pysql.packages.auth as auth
 import mysql.connector as mc
 import tabulate
