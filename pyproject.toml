@@ -12,7 +12,7 @@ tabulate = "^0.8.9"
 colorama = "^0.4.4"
 stdiomask = "^0.0.6"
 mysql-connector = "^2.2.9"
-urllib3 = "^1.26.7"
+urllib3 = "^1.26.9"
 python-dotenv = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
