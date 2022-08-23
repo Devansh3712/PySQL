@@ -81,21 +81,21 @@ widechars = ["wcwidth"]
 
 [[package]]
 name = "urllib3"
-version = "1.26.7"
+version = "1.26.12"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, <4"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, <4"
 
 [package.extras]
-brotli = ["brotlipy (>=0.6.0)"]
-secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "ipaddress"]
+brotli = ["brotlicffi (>=0.8.0)", "brotli (>=1.0.9)", "brotlipy (>=0.6.0)"]
+secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "urllib3-secure-extra", "ipaddress"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "392d74787f75d1c81531923c39b388be2281034dd11bb51d3d3782261a98a6ea"
+content-hash = "7fb43742283c3d5b9488a886c8c60fd1fd774a2cb8a7e59945895f789476b7e2"
 
 [metadata.files]
 colorama = [
@@ -107,22 +107,6 @@ mysql-connector = [
 ]
 mysql-connector-python = [
     {file = "mysql-connector-python-8.0.27.tar.gz", hash = "sha256:cf0c8e41edcd8a02f9ccbe925160ef12486111fcb2641d4551e3b2578afbe2c4"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:dbfe5cd52386a46fd32b59ff7b03974e39ead0bdbb3d23639b8c2dede00ebcdb"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:a836d47f54ee50065ac98917513f2da50957c9cb809daaa144c9f2ab50afbc6f"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp36-cp36m-win_amd64.whl", hash = "sha256:ae17753a4034a79d6ecc9163f8b5c3ea8a9c1ac2c7dac8c0a24b97102b253d26"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp37-cp37m-macosx_11_0_x86_64.whl", hash = "sha256:aa3d5e3656b3b418430b8c5e821f0a9329530a22fe717815c76dba524714d3ff"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp37-cp37m-manylinux1_i686.whl", hash = "sha256:bca758bf9e4d936cc745ae4f51472217c0ebcfd54d4aaa85974f0620ac4633cc"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:542d692b8284f8185a8f75f70c9d6c13eef80d2d530444b4f7f130868253e9f9"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp37-cp37m-win_amd64.whl", hash = "sha256:7892dca8fc03a6e6131bc7359650064085ca803ae1406a104f55470e1c700668"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp38-cp38-macosx_11_0_x86_64.whl", hash = "sha256:e12481264dc938178d8225dd06590a6d16dbb1f8af51a7748cffe521afb52546"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp38-cp38-manylinux1_i686.whl", hash = "sha256:d3469c512a5a48809feeffc34df4c53667ee7b8795ff6e56c90861e1f5386763"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:64078ca692aa7e403e1660d4f8cd50816fee52e28827a9dd10d1cc4fc7ca5339"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp38-cp38-win_amd64.whl", hash = "sha256:d7cccd804cafd2d15c731d06a38a88adf93ece684dd5f68b2bc77c04ed9f4131"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp39-cp39-macosx_11_0_x86_64.whl", hash = "sha256:1ebbec05a4279bb2068e270c92f50101cfddb1c551d8c588f34097cde89d8344"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp39-cp39-manylinux1_i686.whl", hash = "sha256:86dc8e57082ee8fd631edeed5299396bd7d842fe455f5347e1ad08ace38b22ea"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:fcfb722e748ec9219d5caee7c73855e93e67c7c57cd790e49d37c1c8571ba040"},
-    {file = "mysql_connector_python-8.0.27-1commercial-cp39-cp39-win_amd64.whl", hash = "sha256:a261552ef3a2e865a76b751ba7ac3d1d1c4cbc8f167f39436343ef56c8d46d5a"},
-    {file = "mysql_connector_python-8.0.27-1commercial-py2.py3-none-any.whl", hash = "sha256:a7b93c14ef59d035e4277a9d637309e8057256efb073cb3db78337ff62c6099b"},
     {file = "mysql_connector_python-8.0.27-cp36-cp36m-manylinux1_i686.whl", hash = "sha256:08e8bdb0b0cd247213764d115433972d0f5d103a00eb9cd0330294bdbb58cbca"},
     {file = "mysql_connector_python-8.0.27-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:8a3a8605c5380870a898b4a52c5b0d138e7cb998b192f10552373782d003886d"},
     {file = "mysql_connector_python-8.0.27-cp36-cp36m-win_amd64.whl", hash = "sha256:94abfd76c6ad36f1bcf96f49d76dd55b9e09767eea972669baba9fc385fd9a46"},
@@ -178,6 +162,6 @@ tabulate = [
     {file = "tabulate-0.8.9.tar.gz", hash = "sha256:eb1d13f25760052e8931f2ef80aaf6045a6cceb47514db8beab24cded16f13a7"},
 ]
 urllib3 = [
-    {file = "urllib3-1.26.7-py2.py3-none-any.whl", hash = "sha256:c4fdf4019605b6e5423637e01bc9fe4daef873709a7973e195ceba0a62bbc844"},
-    {file = "urllib3-1.26.7.tar.gz", hash = "sha256:4987c65554f7a2dbf30c18fd48778ef124af6fab771a377103da0585e2336ece"},
+    {file = "urllib3-1.26.12-py2.py3-none-any.whl", hash = "sha256:b930dd878d5a8afb066a637fbb35144fe7901e3b209d1cd4f524bd0e9deee997"},
+    {file = "urllib3-1.26.12.tar.gz", hash = "sha256:3fa96cf423e6987997fc326ae8df396db2a8b7c667747d47ddd8ecba91f4a74e"},
 ]
