@@ -1,37 +1,17 @@
-"""
-MIT License
-
-Copyright (c) 2021 Devansh Singh
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import os
 import sys
+
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-import pysql.utils.exceptions as exceptions
-import pysql.packages.auth as auth
+from typing import Union, List
+
 import mysql.connector as mc
 import tabulate
-from typing import Union, List
+
+import pysql.utils.exceptions as exceptions
+import pysql.packages.auth as auth
+
 
 class DDL:
     """Class for implementation of commands based on
@@ -43,27 +23,6 @@ class DDL:
         local MySQL server username
     password : str
         local MySQL server password
-
-    Methods
-    -------
-    show_databases
-        show all local databases
-    create_database
-        create a new database
-    drop_database
-        delete a database
-    show_tables
-        show all tables of a database
-    create_table
-        create a new table
-    drop_table
-        delete an existing table
-    truncate_table
-        truncate table data
-    desc_table
-        show table structure
-    alter_table
-        alter table structure
     """
 
     def __init__(self, username: str, password: str):
@@ -76,13 +35,10 @@ class DDL:
         if authenticate is True:
             # initialize connection with MySQL server
             self.connection = mc.connect(
-                host = "localhost",
-                user = self.uname,
-                password = self.passw,
-                autocommit = True
+                host="localhost", user=self.uname, password=self.passw, autocommit=True
             )
             # initialize cursor to communicate with server
-            self.cursor = self.connection.cursor(buffered = True)
+            self.cursor = self.connection.cursor(buffered=True)
 
         else:
             raise exceptions.AuthenticationError()
@@ -104,9 +60,7 @@ class DDL:
             db_result = self.cursor.fetchall()
 
             result = tabulate.tabulate(
-                db_result,
-                headers = ["Databases"],
-                tablefmt = "psql"
+                db_result, headers=["Databases"], tablefmt="psql"
             )
             return result
 
@@ -121,7 +75,7 @@ class DDL:
         ----------
         database : str
             name of the database to be created
-        
+
         Returns
         -------
         bool
@@ -143,7 +97,7 @@ class DDL:
         ----------
         database : str
             name of the database to be created
-        
+
         Returns
         -------
         bool
@@ -170,7 +124,7 @@ class DDL:
         ----------
         database : str
             name of the database to be created
-        
+
         Returns
         -------
         bool
@@ -216,12 +170,10 @@ class DDL:
                 db_result = self.cursor.fetchall()
 
                 result = tabulate.tabulate(
-                    db_result,
-                    headers = [f"Tables_in_{database}"],
-                    tablefmt = "psql"
+                    db_result, headers=[f"Tables_in_{database}"], tablefmt="psql"
                 )
                 return result
-            
+
             else:
                 False
 
@@ -240,7 +192,7 @@ class DDL:
             name of the table to create
         args : list
             table description
-        
+
         Returns
         -------
         bool
@@ -272,7 +224,7 @@ class DDL:
             name of the database to connect
         table : str
             name of the table to delete
-        
+
         Returns
         -------
         bool
@@ -302,7 +254,7 @@ class DDL:
             name of the database to connect
         table : str
             name of the table to truncate
-        
+
         Returns
         -------
         bool
@@ -333,7 +285,7 @@ class DDL:
             name of the database to connect
         table : str
             name of the table to show
-        
+
         Returns
         -------
         str
@@ -353,15 +305,8 @@ class DDL:
                 # tabulate the table structure
                 result = tabulate.tabulate(
                     desc_result,
-                    headers = [
-                        "Field",
-                        "Type",
-                        "Null",
-                        "Key",
-                        "Default",
-                        "Extra"
-                    ],
-                    tablefmt = "psql"
+                    headers=["Field", "Type", "Null", "Key", "Default", "Extra"],
+                    tablefmt="psql",
                 )
                 return result
 
@@ -383,7 +328,7 @@ class DDL:
             name of the table to alter
         args : list
             arguments for altering
-        
+
         Returns
         -------
         bool
@@ -443,7 +388,7 @@ class Alter:
         name of database to connect
     table : str
         name of table to alter
-    
+
     Methods
     -------
     add_column
@@ -462,23 +407,23 @@ class Alter:
         # create a `Database` class instance
         self._auth = auth.Database(self.uname, self.passw)
         self.connection = mc.connect(
-            host = "localhost",
-            user = self.uname,
-            password = self.passw,
-            database = self.db,
-            autocommit = True
+            host="localhost",
+            user=self.uname,
+            password=self.passw,
+            database=self.db,
+            autocommit=True,
         )
-        self.cursor = self.connection.cursor(buffered = True)
+        self.cursor = self.connection.cursor(buffered=True)
 
     def add_column(self, column: str) -> bool:
-        """Adds the input column into the current table 
+        """Adds the input column into the current table
         if the column name is valid
 
         Parameters
         ----------
         column : str
             column arguments
-        
+
         Returns
         -------
         bool
@@ -500,7 +445,7 @@ class Alter:
         ----------
         column : str
             column arguments
-        
+
         Returns
         -------
         bool
@@ -528,7 +473,7 @@ class Alter:
         ----------
         column : str
             column arguments
-        
+
         Returns
         -------
         bool
@@ -536,7 +481,9 @@ class Alter:
         """
         auth_column = column.split(" ")
         # authenticate whether column details exist in table or not
-        authenticate = self._auth.auth_table_columns(self.db, self.table, auth_column[0])
+        authenticate = self._auth.auth_table_columns(
+            self.db, self.table, auth_column[0]
+        )
         try:
             if authenticate is True:
                 query = f"alter table {self.table} modify column {column}"

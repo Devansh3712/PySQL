@@ -1,29 +1,6 @@
-"""
-MIT License
-
-Copyright (c) 2021 Devansh Singh
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import os
 import sys
+
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
@@ -31,7 +8,9 @@ import stdiomask
 import time
 import platform
 import urllib.request
+
 from colorama import init, Fore, Style
+
 import pysql.packages.auth as auth
 import pysql.packages.ddl_commands as ddl
 import pysql.packages.dml_commands as dml
@@ -44,7 +23,7 @@ import pysql.utils.user as user
 __version__ = "1.1.2"
 
 if platform.system() == "Windows":
-    init(convert = True)
+    init(convert=True)
 
 print(f"{Fore.LIGHTRED_EX}{info.ascii_art}{reset}")
 time.sleep(1)
@@ -62,14 +41,16 @@ reset = Style.RESET_ALL
 if check is True:
     # get default user's name
     def_user = user.User().get_default_user()
-    print(f"\n[{green}+{reset}]{green} Default user {reset}{cyan}{def_user[0]}{reset}{green} authenticated{reset}")
+    print(
+        f"\n[{green}+{reset}]{green} Default user {reset}{cyan}{def_user[0]}{reset}{green} authenticated{reset}"
+    )
     uname = def_user[0]
     passwd = def_user[1]
 
 else:
     sys.stdout.write(f"{cyan}Username: {reset}")
     uname = input()
-    passwd = stdiomask.getpass(prompt = f"{cyan}Password: {reset}")
+    passwd = stdiomask.getpass(prompt=f"{cyan}Password: {reset}")
     # authenticate user credentials
     authenticate = auth.Database(uname, passwd).authenticate()
     if authenticate is False:
@@ -90,8 +71,7 @@ imp_obj = imports.Import(uname, passwd)
 current_db = ""
 db_use = False
 
-while (True):
-
+while True:
     if db_use is True:
         sys.stdout.write(f"{yellow}({current_db}){reset} pysql> ")
         user_input = input()
@@ -120,14 +100,18 @@ while (True):
             print(info.default_user)
 
         elif user_input.lower() in ["-u", "updates"]:
-            gh_version = urllib.request.urlopen("https://raw.githubusercontent.com/Devansh3712/PySQL/main/pysql/__version__.py")
+            gh_version = urllib.request.urlopen(
+                "https://raw.githubusercontent.com/Devansh3712/PySQL/main/pysql/__version__.py"
+            )
             gh_version = gh_version.read().decode("utf-8")
 
             if gh_version > __version__:
                 result = update.update_pysql()
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} PySQL updated to v{gh_version} succesfully{reset}\n")
+                    print(
+                        f"[{green}+{reset}]{green} PySQL updated to v{gh_version} succesfully{reset}\n"
+                    )
                     break
 
                 else:
@@ -138,30 +122,38 @@ while (True):
 
         elif user_input.lower() == "adduser":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter username: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter username: "
+                )
                 _uname = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter password: ")
-                _passwd = stdiomask.getpass(prompt = "")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter password: "
+                )
+                _passwd = stdiomask.getpass(prompt="")
 
             else:
                 _uname = input("pysql> Enter username: ")
-                _passwd = stdiomask.getpass(prompt = "pysql> Enter password: ")
+                _passwd = stdiomask.getpass(prompt="pysql> Enter password: ")
 
             result = user.User().add_default_user(_uname, _passwd)
 
             if result is True:
-                print(f"[{green}+{reset}]{green} Default user {reset}{cyan}{_uname}{reset}{green} created{reset}\n")
+                print(
+                    f"[{green}+{reset}]{green} Default user {reset}{cyan}{_uname}{reset}{green} created{reset}\n"
+                )
 
             else:
                 print(f"[{red}-{reset}]{red} Unable to create default user{reset}\n")
 
         elif user_input.lower() == "removeuser":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter password: ")
-                _passwd = stdiomask.getpass(prompt = "")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter password: "
+                )
+                _passwd = stdiomask.getpass(prompt="")
 
             else:
-                _passwd = stdiomask.getpass(prompt = "pysql> Enter password: ")
+                _passwd = stdiomask.getpass(prompt="pysql> Enter password: ")
 
             def_user = user.User().get_default_user()
 
@@ -169,10 +161,14 @@ while (True):
                 result = user.User().remove_default_user()
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Default user {reset}{cyan}{def_user[0]}{reset}{green} removed{reset}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Default user {reset}{cyan}{def_user[0]}{reset}{green} removed{reset}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to remove default user{reset}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to remove default user{reset}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} Unable to authenticate{reset}\n")
@@ -191,7 +187,9 @@ while (True):
 
         elif user_input.lower() == "createdb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter database name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter database name: "
+                )
                 db_name = input()
 
             else:
@@ -203,11 +201,15 @@ while (True):
                 print(f"[{green}+{reset}]{green} Created database {reset}{db_name}\n")
 
             else:
-                print(f"[{red}-{reset}]{red} Unable to create database {reset}{db_name}\n")
+                print(
+                    f"[{red}-{reset}]{red} Unable to create database {reset}{db_name}\n"
+                )
 
         elif user_input.lower() == "usedb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter database name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter database name: "
+                )
                 db_name = input()
 
             else:
@@ -218,14 +220,20 @@ while (True):
             if result is True:
                 current_db = db_name
                 db_use = True
-                print(f"[{green}+{reset}]{green} Connected to database {reset}{db_name}\n")
+                print(
+                    f"[{green}+{reset}]{green} Connected to database {reset}{db_name}\n"
+                )
 
             else:
-                print(f"[{red}-{reset}]{red} Unable to connect to database {reset}{db_name}\n")
+                print(
+                    f"[{red}-{reset}]{red} Unable to connect to database {reset}{db_name}\n"
+                )
 
         elif user_input.lower() == "dropdb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter database name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter database name: "
+                )
                 db_name = input()
 
             else:
@@ -239,7 +247,9 @@ while (True):
                 db_use = False
 
             else:
-                print(f"[{red}-{reset}]{red} Unable to delete database {reset}{db_name}\n")
+                print(
+                    f"[{red}-{reset}]{red} Unable to delete database {reset}{db_name}\n"
+                )
 
         elif user_input.lower() == "showtb":
             if db_use is True:
@@ -256,9 +266,13 @@ while (True):
 
         elif user_input.lower() == "createtb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table details: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table details: "
+                )
                 args = input()
                 args = args.split(",")
                 result = ddl_obj.create_table(current_db, tb_name, args)
@@ -267,14 +281,18 @@ while (True):
                     print(f"[{green}+{reset}]{green} Created table {reset}{tb_name}\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to create table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to create table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "droptb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
                 result = ddl_obj.drop_table(current_db, tb_name)
 
@@ -282,29 +300,39 @@ while (True):
                     print(f"[{green}+{reset}]{green} Deleted table {reset}{tb_name}\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to delete table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to delete table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "trunctb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
                 result = ddl_obj.truncate_table(current_db, tb_name)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Truncated table {reset}{tb_name}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Truncated table {reset}{tb_name}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to truncate table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to truncate table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "desctb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
                 result = ddl_obj.desc_table(current_db, tb_name)
 
@@ -312,16 +340,22 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to display table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to display table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "altertb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter arguments: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter arguments: "
+                )
                 args = input()
                 args = args.split(",")
                 result = ddl_obj.alter_table(current_db, tb_name, args)
@@ -330,7 +364,9 @@ while (True):
                     print(f"[{green}+{reset}]{green} Altered table {reset}{tb_name}\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to alter table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to alter table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
@@ -340,11 +376,17 @@ while (True):
 
         elif user_input.lower() == "select":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter selection columns: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter selection columns: "
+                )
                 columns = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table details: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table details: "
+                )
                 args = input()
                 result = dml_obj.select(current_db, tb_name, columns, args)
 
@@ -352,101 +394,145 @@ while (True):
                     print(result + "\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to show selected values{reset}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to show selected values{reset}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() in ["insert -s", "insert"]:
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
                 sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter values: ")
                 args = input()
                 result = dml_obj.insert(current_db, tb_name, args)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Inserted values in table {reset}{tb_name}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Inserted values in table {reset}{tb_name}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to insert value in table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to insert value in table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "insert -m":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter number of records: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter number of records: "
+                )
                 num = int(input())
                 flag = True
 
-                for records in range (num):
-                    sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter values: ")
+                for records in range(num):
+                    sys.stdout.write(
+                        f"{yellow}({current_db}){reset} pysql> Enter values: "
+                    )
                     args = input()
                     result = dml_obj.insert(current_db, tb_name, args)
 
                     if result is False:
-                        print(f"[{red}-{reset}]{red} Unable to insert value in table {reset}{tb_name}\n")
+                        print(
+                            f"[{red}-{reset}]{red} Unable to insert value in table {reset}{tb_name}\n"
+                        )
                         flag = False
                         break
 
                 if flag is True:
-                    print(f"[{green}+{reset}]{green} Inserted values in table {reset}{tb_name}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Inserted values in table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "insert -f":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to CSV file: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to CSV file: "
+                )
                 path = input()
                 result = dml_obj.insert_file(current_db, tb_name, path)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Inserted values in table {reset}{tb_name}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Inserted values in table {reset}{tb_name}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to insert value in table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to insert value in table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "update":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter columns to update: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter columns to update: "
+                )
                 columns = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter arguments: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter arguments: "
+                )
                 args = input()
                 result = dml_obj.update(current_db, tb_name, columns, args)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Updated values in table {reset}{tb_name}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Updated values in table {reset}{tb_name}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to update values in table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to update values in table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "delete":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter columns to delete: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter columns to delete: "
+                )
                 columns = input()
                 result = dml_obj.delete(current_db, tb_name, columns)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Deleted values from table {reset}{tb_name}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Deleted values from table {reset}{tb_name}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to delete values from table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to delete values from table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
@@ -462,9 +548,13 @@ while (True):
 
         elif user_input.lower() == "exportdb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter database name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter database name: "
+                )
                 db_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to export: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to export: "
+                )
                 path = input()
 
             else:
@@ -477,13 +567,19 @@ while (True):
                 print(f"[{green}+{reset}]{green} Exported database {reset}{db_name}\n")
 
             else:
-                print(f"[{red}-{reset}]{red} Unable to export database {reset}{db_name}\n")
+                print(
+                    f"[{red}-{reset}]{red} Unable to export database {reset}{db_name}\n"
+                )
 
         elif user_input.lower() == "exporttb -json":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to export: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to export: "
+                )
                 path = input()
                 result = exp_obj.export_table_json(current_db, tb_name, path)
 
@@ -491,16 +587,22 @@ while (True):
                     print(f"[{green}+{reset}]{green} Exported table {reset}{tb_name}\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to export table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to export table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "exporttb -csv":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to export: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to export: "
+                )
                 path = input()
                 result = exp_obj.export_table_csv(current_db, tb_name, path)
 
@@ -508,16 +610,22 @@ while (True):
                     print(f"[{green}+{reset}]{green} Exported table {reset}{tb_name}\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to export table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to export table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "exporttb -sql":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to export: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to export: "
+                )
                 path = input()
                 result = exp_obj.export_table_sql(current_db, tb_name, path)
 
@@ -525,61 +633,85 @@ while (True):
                     print(f"[{green}+{reset}]{green} Exported table {reset}{tb_name}\n")
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to export table {reset}{tb_name}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to export table {reset}{tb_name}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "exportall -json":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to export: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to export: "
+                )
                 path = input()
                 result = exp_obj.export_all_json(current_db, path)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Exported all tables in {reset}{current_db}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Exported all tables in {reset}{current_db}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to export tables in {reset}{current_db}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to export tables in {reset}{current_db}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "exportall -csv":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to export: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to export: "
+                )
                 path = input()
                 result = exp_obj.export_all_csv(current_db, path)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Exported all tables in {reset}{current_db}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Exported all tables in {reset}{current_db}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to export tables in {reset}{current_db}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to export tables in {reset}{current_db}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "exportall -sql":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path to export: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path to export: "
+                )
                 path = input()
                 result = exp_obj.export_all_sql(current_db, path)
 
                 if result is True:
-                    print(f"[{green}+{reset}]{green} Exported all tables in {reset}{current_db}\n")
+                    print(
+                        f"[{green}+{reset}]{green} Exported all tables in {reset}{current_db}\n"
+                    )
 
                 else:
-                    print(f"[{red}-{reset}]{red} Unable to export tables in {reset}{current_db}\n")
+                    print(
+                        f"[{red}-{reset}]{red} Unable to export tables in {reset}{current_db}\n"
+                    )
 
             else:
                 print(f"[{red}-{reset}]{red} No database in use{reset}\n")
 
         elif user_input.lower() == "importdb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter database name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter database name: "
+                )
                 db_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path of file: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path of file: "
+                )
                 path = input()
 
             else:
@@ -589,16 +721,24 @@ while (True):
             result = imp_obj.import_database(db_name, path)
 
             if result is True:
-                print(f"[{green}+{reset}]{green} Imported to database {reset}{db_name}\n")
+                print(
+                    f"[{green}+{reset}]{green} Imported to database {reset}{db_name}\n"
+                )
 
             else:
-                print(f"[{red}-{reset}]{red} Unable to import to database {reset}{db_name}\n")
+                print(
+                    f"[{red}-{reset}]{red} Unable to import to database {reset}{db_name}\n"
+                )
 
         elif user_input.lower() == "importtb":
             if db_use is True:
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter table name: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter table name: "
+                )
                 tb_name = input()
-                sys.stdout.write(f"{yellow}({current_db}){reset} pysql> Enter path of file: ")
+                sys.stdout.write(
+                    f"{yellow}({current_db}){reset} pysql> Enter path of file: "
+                )
                 path = input()
 
             else:
@@ -608,10 +748,14 @@ while (True):
             result = imp_obj.import_table(tb_name, path)
 
             if result is True:
-                print(f"[{green}+{reset}]{green} Imported table to database {reset}{db_name}\n")
+                print(
+                    f"[{green}+{reset}]{green} Imported table to database {reset}{db_name}\n"
+                )
 
             else:
-                print(f"[{red}-{reset}]{red} Unable to import table to database {reset}{db_name}\n")
+                print(
+                    f"[{red}-{reset}]{red} Unable to import table to database {reset}{db_name}\n"
+                )
 
         else:
             print(f"[{red}-{reset}]{red} Choose a valid option{reset}\n")

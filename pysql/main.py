@@ -5,12 +5,14 @@ PySQL Python Wrapper CLI
 
 import os
 import sys
+
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 import stdiomask
 import time
 import urllib.request
+
 import pysql.packages.auth as auth
 import pysql.packages.ddl_commands as ddl
 import pysql.packages.dml_commands as dml
@@ -37,7 +39,7 @@ if check is True:
 
 else:
     uname = input("Username: ")
-    passwd = stdiomask.getpass(prompt = "Password: ")
+    passwd = stdiomask.getpass(prompt="Password: ")
 
     # authenticate input credentials
     authenticate = auth.Database(uname, passwd).authenticate()
@@ -60,7 +62,7 @@ imp_obj = imports.Import(uname, passwd)
 current_db = ""
 db_use = False
 
-while (True):
+while True:
 
     if db_use is True:
         user_input = input(f"({current_db}) pysql> ")
@@ -89,7 +91,9 @@ while (True):
             print(__version__ + "\n")
 
         elif user_input.lower() in ["-u", "updates"]:
-            gh_version = urllib.request.urlopen("https://raw.githubusercontent.com/Devansh3712/PySQL/main/pysql/__version__.py")
+            gh_version = urllib.request.urlopen(
+                "https://raw.githubusercontent.com/Devansh3712/PySQL/main/pysql/__version__.py"
+            )
             gh_version = gh_version.read().decode("utf-8")
 
             if gh_version > __version__:
@@ -107,11 +111,13 @@ while (True):
         elif user_input.lower() == "adduser":
             if db_use is True:
                 _uname = input(f"({current_db}) pysql> Enter username: ")
-                _passwd = stdiomask.getpass(prompt = f"({current_db}) pysql> Enter password: ")
+                _passwd = stdiomask.getpass(
+                    prompt=f"({current_db}) pysql> Enter password: "
+                )
 
             else:
                 _uname = input("pysql> Enter username: ")
-                _passwd = stdiomask.getpass(prompt = "pysql> Enter password: ")
+                _passwd = stdiomask.getpass(prompt="pysql> Enter password: ")
 
             result = user.User().add_default_user(_uname, _passwd)
 
@@ -123,10 +129,12 @@ while (True):
 
         elif user_input.lower() == "removeuser":
             if db_use is True:
-                _passwd = stdiomask.getpass(prompt = f"({current_db}) pysql> Enter password: ")
+                _passwd = stdiomask.getpass(
+                    prompt=f"({current_db}) pysql> Enter password: "
+                )
 
             else:
-                _passwd = stdiomask.getpass(prompt = "pysql> Enter password: ")
+                _passwd = stdiomask.getpass(prompt="pysql> Enter password: ")
 
             def_user = user.User().get_default_user()
 
@@ -330,7 +338,7 @@ while (True):
                 num = int(input(f"({current_db}) pysql> Enter number of records: "))
                 flag = True
 
-                for records in range (num):
+                for records in range(num):
                     args = input(f"({current_db}) pysql> Enter values: ")
                     result = dml_obj.insert(current_db, tb_name, args)
 

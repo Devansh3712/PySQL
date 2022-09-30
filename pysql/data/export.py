@@ -6,15 +6,16 @@ databases as CSV, JSON
 
 import os
 import sys
+
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
-    import pysql.utils.exceptions as exceptions
-    import mysql.connector as mc
     import csv
     import json
     import platform
+    import mysql.connector as mc
+    import pysql.utils.exceptions as exceptions
     import pysql.packages.auth as auth
 
 except:
@@ -32,20 +33,8 @@ class Export:
         MySQL username of user
     password: str
         MySQL password of user
-
-    Instances
-    ---------
-    self.uname: str
-        username
-    self.passw: str
-        password
-    self.const
-        authorization instance
-    self.connection
-        mysql.connector connection
-    self.cursor
-        mysql.connector cursor
     """
+
     def __init__(self, username: str, password: str):
         self.uname = username
         self.passw = password
@@ -54,15 +43,15 @@ class Export:
         # authenticate data using auth module
         authenticate = self.const.authenticate()
 
-        if (authenticate is True):
+        if authenticate is True:
             # initialize connection with MySQL server and cursor object for execution of commands
             self.connection = mc.connect(
-                host = "localhost",
-                user = f"{self.uname}",
-                password = f"{self.passw}",
-                autocommit = True
+                host="localhost",
+                user=f"{self.uname}",
+                password=f"{self.passw}",
+                autocommit=True,
             )
-            self.cursor = self.connection.cursor(buffered = True)
+            self.cursor = self.connection.cursor(buffered=True)
 
         else:
             raise exceptions.AuthenticationError()
@@ -79,7 +68,7 @@ class Export:
             name of table to export
         path: str
             path to export table
-        
+
         Returns
         -------
         bool
@@ -89,7 +78,7 @@ class Export:
         authenticate = self.const.auth_table(db, table)
 
         try:
-            if (authenticate is True):
+            if authenticate is True:
                 if path == "":
                     path = os.path.expanduser("~")
                     path = path.replace("\\", "/")
@@ -98,8 +87,10 @@ class Export:
                 Export(self.uname, self.passw).export_table_csv(db, table, f"{path}")
                 data = {}
 
-                file = open(os.path.join(path, f"{table}.csv"), encoding = "utf-8")
-                new_file = open(os.path.join(path, f"{table}.json"), "w", encoding = "utf-8")
+                file = open(os.path.join(path, f"{table}.csv"), encoding="utf-8")
+                new_file = open(
+                    os.path.join(path, f"{table}.json"), "w", encoding="utf-8"
+                )
                 reader_obj = csv.DictReader(file)
                 # numbering the rows
                 key = 1
@@ -112,7 +103,7 @@ class Export:
                 file.close()
                 os.remove(os.path.join(path, f"{table}.csv"))
 
-                new_file.write(json.dumps(data, indent = 4))
+                new_file.write(json.dumps(data, indent=4))
                 new_file.close()
 
                 return True
@@ -135,7 +126,7 @@ class Export:
             name of table to export
         path: str
             path to export table
-        
+
         Returns
         -------
         bool
@@ -145,7 +136,7 @@ class Export:
         authenticate = self.const.auth_table(db, table)
 
         try:
-            if (authenticate is True):
+            if authenticate is True:
                 self.cursor.execute(f"use {db}")
                 query = f"select * from {table}"
                 self.cursor.execute(query)
@@ -157,7 +148,7 @@ class Export:
                     path = os.path.expanduser("~")
                     path = path.replace("\\", "/")
 
-                file = open(os.path.join(path, f"{table}.csv"), "w", newline = "")
+                file = open(os.path.join(path, f"{table}.csv"), "w", newline="")
                 writer_obj = csv.writer(file)
                 writer_obj.writerow(list(table_columns))
 
@@ -185,7 +176,7 @@ class Export:
             name of database to use
         path: str
             path to export tables
-        
+
         Returns
         -------
         bool
@@ -216,7 +207,9 @@ class Export:
                         os.system(f"mkdir ~/{db}")
 
             for tb in result:
-                res = Export(self.uname, self.passw).export_table_json(db, tb[0], os.path.join(path, db))
+                res = Export(self.uname, self.passw).export_table_json(
+                    db, tb[0], os.path.join(path, db)
+                )
 
                 if res is False:
                     return False
@@ -237,7 +230,7 @@ class Export:
             name of database to use
         path: str
             path to export tables
-        
+
         Returns
         -------
         bool
@@ -268,7 +261,9 @@ class Export:
                         os.system(f"mkdir ~/{db}")
 
             for tb in result:
-                res = Export(self.uname, self.passw).export_table_csv(db, tb[0], os.path.join(path, db))
+                res = Export(self.uname, self.passw).export_table_csv(
+                    db, tb[0], os.path.join(path, db)
+                )
 
                 if res is False:
                     return False
@@ -289,7 +284,7 @@ class Export:
             name of database to use
         path: str
             path to export tables
-        
+
         Returns
         -------
         bool
@@ -320,7 +315,9 @@ class Export:
                         os.system(f"mkdir ~/{db}")
 
             for tb in result:
-                res = Export(self.uname, self.passw).export_table_sql(db, tb[0], os.path.join(path, db))
+                res = Export(self.uname, self.passw).export_table_sql(
+                    db, tb[0], os.path.join(path, db)
+                )
 
                 if res is False:
                     return False
@@ -340,7 +337,7 @@ class Export:
             name of database to export
         path: str
             path to export SQL file
-        
+
         Returns
         -------
         bool
@@ -350,9 +347,11 @@ class Export:
         authenticate = self.const.auth_db(db)
 
         try:
-            if (authenticate is True):
+            if authenticate is True:
                 if path == "":
-                    os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} > {db}.sql")
+                    os.system(
+                        f"mysqldump -u {self.uname} -p{self.passw} {db} > {db}.sql"
+                    )
 
                 else:
                     PATH = os.path.join(path, f"{db}.sql")
@@ -378,7 +377,7 @@ class Export:
             name of table to export
         path: str
             path to export SQL file
-        
+
         Returns
         -------
         bool
@@ -389,13 +388,17 @@ class Export:
         authenticate_2 = self.const.auth_table(db, table)
 
         try:
-            if (authenticate_1 is True and authenticate_2 is True):
+            if authenticate_1 is True and authenticate_2 is True:
                 if path == "":
-                    os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} {table} > {db}.{table}.sql")
+                    os.system(
+                        f"mysqldump -u {self.uname} -p{self.passw} {db} {table} > {db}.{table}.sql"
+                    )
 
                 else:
                     PATH = os.path.join(path, f"{db}.{table}.sql")
-                    os.system(f"mysqldump -u {self.uname} -p{self.passw} {db} {table} > {PATH}")
+                    os.system(
+                        f"mysqldump -u {self.uname} -p{self.passw} {db} {table} > {PATH}"
+                    )
 
                 return True
 

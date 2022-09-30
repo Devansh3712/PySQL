@@ -1,28 +1,5 @@
-"""
-MIT License
-
-Copyright (c) 2021 Devansh Singh
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import mysql.connector as mc
+
 
 class Database:
     """Class for maintaining and authenticating user, database
@@ -34,7 +11,7 @@ class Database:
         local MySQL server username
     password : str
         local MySQL server password
-    
+
     Methods
     -------
     authenticate
@@ -66,15 +43,11 @@ class Database:
         try:
             # initialize connection with MySQL
             Database.connection = mc.connect(
-                host = "localhost",
-                user = self.uname,
-                password = self.passw,
-                autocommit = True
+                host="localhost", user=self.uname, password=self.passw, autocommit=True
             )
-
             if Database.connection.is_connected():
                 # initialize cursor object for execution of commands
-                Database.cursor = Database.connection.cursor(buffered = True)
+                Database.cursor = Database.connection.cursor(buffered=True)
                 return True
 
             else:
@@ -86,13 +59,13 @@ class Database:
     def auth_db(self, database: str) -> bool:
         """
         Check whether the provided database exists
-        or not in the local MySQL server 
+        or not in the local MySQL server
 
         Parameters
         ----------
         database : str
             name of the database to authenticate
-        
+
         Returns
         -------
         bool
@@ -108,7 +81,6 @@ class Database:
                 for db in result:
                     if db[0] == database:
                         return True
-
                 return False
 
             else:
@@ -141,11 +113,9 @@ class Database:
                 Database.cursor.execute("show tables")
                 # list of all tables in selected database
                 result = Database.cursor.fetchall()
-
                 for data in result:
                     if data[0] == table:
                         return True
-
                 return False
 
             else:
@@ -156,7 +126,7 @@ class Database:
 
     def auth_table_columns(self, db: str, table: str, query: str) -> bool:
         """
-        Check whether the provided table has the given column 
+        Check whether the provided table has the given column
         as a parameter
 
         Parameters
@@ -175,18 +145,16 @@ class Database:
         """
         authenticate = self.authenticate()
         try:
-            if (authenticate is True):
+            if authenticate is True:
                 # split column name and type of column
-                query = query.split(' ')
+                query = query.split(" ")
                 Database.cursor.execute(f"use {db}")
                 Database.cursor.execute(f"select * from {table}")
                 # contains description of all columns in the table
                 result = Database.cursor.description
-
                 for column in result:
                     if column[0].lower() == query[0].lower():
                         return True
-
                 return False
 
             else:
