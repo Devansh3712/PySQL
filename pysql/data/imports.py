@@ -6,12 +6,13 @@ files
 
 import os
 import sys
+
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 try:
-    import pysql.utils.exceptions as exceptions
     import mysql.connector as mc
+    import pysql.utils.exceptions as exceptions
     import pysql.packages.auth as auth
 
 except:
@@ -43,6 +44,7 @@ class Import:
     self.cursor
         mysql.connector cursor
     """
+
     def __init__(self, username: str, password: str):
 
         self.uname = username
@@ -52,15 +54,15 @@ class Import:
         # authenticate data using auth module
         authenticate = self.const.authenticate()
 
-        if (authenticate is True):
+        if authenticate is True:
             # initialize connection with MySQL server and cursor object for execution of commands
             self.connection = mc.connect(
-                host = "localhost",
-                user = f"{self.uname}",
-                password = f"{self.passw}",
-                autocommit = True
+                host="localhost",
+                user=f"{self.uname}",
+                password=f"{self.passw}",
+                autocommit=True,
             )
-            self.cursor = self.connection.cursor(buffered = True)
+            self.cursor = self.connection.cursor(buffered=True)
 
         else:
             raise exceptions.AuthenticationError()
@@ -76,7 +78,7 @@ class Import:
             name of database to import to
         path:
             path of SQL file
-        
+
         Returns
         -------
         bool
@@ -86,7 +88,7 @@ class Import:
         authenticate = self.const.auth_db(db)
 
         try:
-            if (authenticate is True):
+            if authenticate is True:
                 if path == "":
                     os.system(f"mysql -u {self.uname} -p{self.passw} {db} < {path}")
 
@@ -112,7 +114,7 @@ class Import:
             name of database to import
         path:
             path of SQL file
-        
+
         Returns
         -------
         bool
@@ -122,7 +124,7 @@ class Import:
         authenticate = self.const.auth_db(db)
 
         try:
-            if (authenticate is True):
+            if authenticate is True:
                 if path == "":
                     os.system(f"mysql -u {self.uname} -p{self.passw} {db} < {path}")
 

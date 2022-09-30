@@ -1,38 +1,18 @@
-"""
-MIT License
-
-Copyright (c) 2021 Devansh Singh
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-"""
-
 import os
 import sys
+
 # create relative path for importing modules
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
-import pysql.utils.exceptions as exceptions
-import pysql.packages.auth as auth
-import mysql.connector as mc
-import tabulate
 import csv
 from typing import Union
+
+import mysql.connector as mc
+import tabulate
+
+import pysql.utils.exceptions as exceptions
+import pysql.packages.auth as auth
+
 
 class DML:
     """Class for implementation of commands based on
@@ -56,12 +36,9 @@ class DML:
         if authenticate is True:
             # initialize connection with MySQL server and cursor object for execution of commands
             self.connection = mc.connect(
-                host = "localhost",
-                user = self.uname,
-                password = self.passw,
-                autocommit = True
+                host="localhost", user=self.uname, password=self.passw, autocommit=True
             )
-            self.cursor = self.connection.cursor(buffered = True)
+            self.cursor = self.connection.cursor(buffered=True)
 
         else:
             raise exceptions.AuthenticationError()
@@ -103,9 +80,7 @@ class DML:
                     # provides column names in the input table
                     table_columns = self.cursor.column_names
                     result = tabulate.tabulate(
-                        select_result,
-                        headers = list(table_columns),
-                        tablefmt = "psql"
+                        select_result, headers=list(table_columns), tablefmt="psql"
                     )
                     return result
 
@@ -114,7 +89,13 @@ class DML:
                         columns = "*"
                     query = None
                     # if query has an aggregrate command
-                    if "sum" in args or "min" in args or "max" in args or "avg" in args or "count" in args:
+                    if (
+                        "sum" in args
+                        or "min" in args
+                        or "max" in args
+                        or "avg" in args
+                        or "count" in args
+                    ):
                         query = f"select {columns} from {table} having {args}"
                     # if the query has order by/ group by clause
                     elif args.startswith("group by") or args.startswith("order by"):
@@ -128,9 +109,7 @@ class DML:
                     # provides column names in the input table
                     table_columns = self.cursor.column_names
                     result = tabulate.tabulate(
-                        select_result,
-                        headers = list(table_columns),
-                        tablefmt = "psql"
+                        select_result, headers=list(table_columns), tablefmt="psql"
                     )
                     return result
 
@@ -302,7 +281,7 @@ class DML:
         -------
         bool
             True if data is deleted else False
-        """        
+        """
         # authenticate whether the table exists or not
         authenticate = self._auth.auth_table(db, table)
         try:
