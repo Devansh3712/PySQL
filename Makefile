@@ -1,10 +1,10 @@
-PWD = $(shell pwd)
+PY = venv/Scripts/python
+
+run:
+    $(PY) -m pysql.main
+
+run_c:
+    $(PY) -m pysql.main_c
 
 clean:
-    rm -rf $(PWD)/build $(PWD)/dist $(PWD)/mvt.egg-info
-
-dist:
-    python3 setup.py sdist bdist_wheel
-
-upload:
-    python3 -m twine upload dist/*
+    $(PY) -m pyclean .
