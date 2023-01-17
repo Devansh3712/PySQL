@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-mysql-connector-python = "^8.0.27"
+mysql-connector-python = "^8.0.32"
 tabulate = "^0.8.9"
 colorama = "^0.4.4"
 stdiomask = "^0.0.6"
